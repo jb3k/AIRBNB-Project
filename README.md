@@ -143,8 +143,8 @@ user's information.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: post
+  * URL: /login
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -216,8 +216,8 @@ Returns all the spots.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: get
+  * URL: /spots
   * Body: none
 
 * Successful Response
@@ -255,8 +255,8 @@ Returns all the spots owned (created) by the current user.
 
 * Require Authentication: true
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: /get
+  * URL: /spots/user/:id
   * Body: none
 
 * Successful Response
@@ -294,8 +294,8 @@ Returns the details of a spot specified by its id.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: get
+  * URL: /spot
   * Body: none
 
 * Successful Response

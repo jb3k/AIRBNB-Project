@@ -6,9 +6,11 @@ const csurf = require('csurf');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const { ValidationError } = require('sequelize');
-
-
+const routes = require('./routes');
 const { environment } = require('./config');
+
+
+//starting as false, because we are in the development environment, until we specify that 'isProduction' = true
 const isProduction = environment === 'production';
 
 const app = express();
@@ -41,7 +43,6 @@ app.use(
     })
 );
 
-const routes = require('./routes');
 
 
 app.use(routes);
