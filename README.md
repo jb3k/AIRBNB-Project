@@ -52,7 +52,7 @@ Returns the information about the current user that is logged in.
 * Require Authentication: true
 * Request
   * Method: get
-  * URL: '/'
+  * URL: '/user/:id'
   * Body: none
 
 * Successful Response
@@ -78,7 +78,7 @@ information.
 * Require Authentication: false
 * Request
   * Method: get
-  * URL: /login
+  * URL: /login/user/:userId
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -144,7 +144,7 @@ user's information.
 * Require Authentication: false
 * Request
   * Method: post
-  * URL: /login
+  * URL: /login/user/:userId
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -256,7 +256,7 @@ Returns all the spots owned (created) by the current user.
 * Require Authentication: true
 * Request
   * Method: /get
-  * URL: /spots/user/:id
+  * URL: /spots/user/:userId
   * Body: none
 
 * Successful Response
