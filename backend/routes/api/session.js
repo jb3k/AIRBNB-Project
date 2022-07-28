@@ -4,7 +4,25 @@ const { User } = require('../../db/models');
 const router = express.Router();
 
 
-//
+//return session user as JSON under key of user
+router.get(
+    '/',
+    //connect to restoreUser
+    restoreUser,
+    (req, res) => {
+        const { user } = req;
+        if (user) {
+            return res.json({
+                user: user.toSafeObject()
+            });
+            //if there is no session, it will return nothing
+        } else return res.json({});
+    }
+);
+
+
+
+//post
 router.post(
     '/',
     //aysnc route handler
