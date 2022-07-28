@@ -1,12 +1,16 @@
 const router = require('express').Router();
-//with get-set-token route
-const { setTokenCookie } = require('../../utils/auth.js');
-const { User } = require('../../db/models');
-//with get/restore-user route
-const { restoreUser } = require('../../utils/auth.js');
+const sessionRouter = require('./session.js');
+const usersRouter = require('./users.js');
+const { restoreUser } = require("../../utils/auth.js");
 
 
 router.use(restoreUser);
+
+router.use('/session', sessionRouter);
+
+router.use('/users', usersRouter);
+
+
 
 //test 1
 //this is settng the token key to the cookies in browser
