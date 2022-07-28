@@ -32,7 +32,7 @@ router.post(
     }
 );
 
-
+//this deletes the token in the cookie
 router.delete(
     '/',
     (_req, res) => {
