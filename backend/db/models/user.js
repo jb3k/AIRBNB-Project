@@ -12,20 +12,17 @@ module.exports = (sequelize, DataTypes) => {
       return { id, username, email }
     }
 
-
     //accepts a password string 
     validatePassword(password) {
       //return true if there is a match when comparing User Instance's hashedPassword
       return bcrypt.compareSync(password, this.hashedPassword.toString());
     }
 
-
     //accepts an id and uses the currentUser scope
     static getCurrentUserById(id) {
       //return a User with that id
       return User.scope("currentUser").findByPk(id);
     }
-
 
     //accept an objeect w/ credentials and password keys. This method will search for a username || email
     static async login({ credential, password }) {
@@ -45,7 +42,6 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
 
-
     // accepts an object with the 3 params (user,email,pass)
     static async signup({ username, email, password }) {
       //hashes the password with bcyrpt method
@@ -63,6 +59,9 @@ module.exports = (sequelize, DataTypes) => {
     //associations between models
     static associate(models) {
       // define association here
+
+
+      
     }
   };
 
