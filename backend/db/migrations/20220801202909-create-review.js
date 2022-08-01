@@ -8,14 +8,14 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      spotId: {
+      review: {
+        type: Sequelize.STRING(500),
+        allowNull: true
+      },
+      stars: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'Spots',
-          key: 'id',
-        },
-        onDelete: 'cascade'
+        allowNull: true
+
       },
       userId: {
         type: Sequelize.INTEGER,
@@ -25,16 +25,15 @@ module.exports = {
           key: 'id',
         },
         onDelete: 'cascade'
-
       },
-      review: {
-        type: Sequelize.STRING(500),
-        allowNull: true
-      },
-      stars: {
+      spotId: {
         type: Sequelize.INTEGER,
-        allowNull: true
-
+        allowNull: false,
+        references: {
+          model: 'Spots',
+          key: 'id',
+        },
+        onDelete: 'cascade'
       },
       createdAt: {
         allowNull: false,
