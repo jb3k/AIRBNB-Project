@@ -62,9 +62,7 @@ router.post(
         //if theres a user from login method, call setTokenCookie method
         await setTokenCookie(res, user);
         //and return res w/ user info
-        return res.json({
-            user
-        });
+        return res.json(user);
     }
 );
 
