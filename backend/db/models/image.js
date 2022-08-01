@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     previewImage: {
-      type: DataTypes.BOOALEAN,
+      type: DataTypes.BOOLEAN,
       allowNull: false
     },
     spotId: {
