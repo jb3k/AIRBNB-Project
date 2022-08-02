@@ -7,8 +7,8 @@ module.exports = {
      *
      * Example:
      */
-    await queryInterface.addColumn('users', 'firstName', { id: Sequelize.STRING }),
-      await queryInterface.addColumn('users', 'lastName', { id: Sequelize.STRING })
+    await queryInterface.addColumn('Users', 'firstName', { type: Sequelize.STRING });
+    await queryInterface.addColumn('Users', 'lastName', { type: Sequelize.STRING })
   },
 
   async down(queryInterface, Sequelize) {
@@ -17,7 +17,7 @@ module.exports = {
      *
      * Example:
      */
-    await queryInterface.removeColumn('users', 'firstName', { id: Sequelize.STRING }),
-      await queryInterface.removeColumn('users', 'lastName', { id: Sequelize.STRING })
+    await queryInterface.removeColumn('Users', 'firstName', { type: Sequelize.STRING }),
+      await queryInterface.removeColumn('Users', 'lastName', { type: Sequelize.STRING })
   }
 };
