@@ -40,6 +40,14 @@ router.post(
         //signup method to sign up for site
         const user = await User.signup({ email, username, password });
 
+        if (!user) {
+            const err = new Error('User Already Exists');
+            err.status = 403;
+            err.errors = {
+                "email": "User with that email already exists"
+              }
+            return next(err);
+        }
         //once user successfully created, set token cookie 
         await setTokenCookie(res, user);
 
@@ -49,5 +57,17 @@ router.post(
 );
 
 
+// const name = (email) => {
+//     let val = email.split('.')
+
+// }
+
+//get user
+router.get('/current', async (req, res, next) => {
+    const id = req.user.dataValues.id
+
+    const currUser = await User.findByPk(id)
+    res.json(currUser)
+})
 
 module.exports = router;

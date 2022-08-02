@@ -53,14 +53,18 @@ router.post(
         //if user doesn't exist, throw this error below
         if (!user) {
             const err = new Error('Login failed');
-            err.status = 401;
-            err.title = 'Login failed';
-            err.errors = ['The provided credentials were invalid.'];
+            err.status = 400;
+            err.errors = {
+                "credential": "Email or username is required",
+                "password": "Password is required"
+              };
             return next(err);
         }
 
         //if theres a user from login method, call setTokenCookie method
-        await setTokenCookie(res, user);
+        const token = await setTokenCookie(res, user);
+        console.log(token)
+        user.token = token
         //and return res w/ user info
         return res.json(user);
     }
@@ -74,6 +78,9 @@ router.delete(
         return res.json({ message: 'success' });
     }
 );
+
+
+
 
 
 
