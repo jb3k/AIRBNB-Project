@@ -31,7 +31,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true,
       validate: {
-        len: [1, 99]
+        len: [1, 99],
+        isUrl: true
       }
     },
     previewImage: {
