@@ -2,7 +2,7 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    return queryInterface.bulkInsert('Users', [
+    return queryInterface.bulkInsert('Spots', [
       {
         ownerId: 1,
         address: '123 Main Street',
@@ -127,7 +127,7 @@ module.exports = {
   },
   async down(queryInterface, Sequelize) {
     const Op = Sequelize.Op;
-    return queryInterface.bulkDelete('Users', {
+    return queryInterface.bulkDelete('Spots', {
       address: { [Op.in]: ['123 Main Street', '23 Main Street', '12 Main Street', '13 Main Street', '132 Main Street', '312 Main Street', '321 Main Street', '32 Main Street', '31 Main Street', '21 Main Street'] }
     }, {});
   }
