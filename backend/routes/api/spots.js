@@ -239,7 +239,7 @@ router.post('/:spotId/images', async (req, res, next) => {
 
 
 })
-
+//tester comment
 
 // edit a spot
 router.put('/:spotId', async (req, res, next) => {
