@@ -243,6 +243,7 @@ router.put('/:spotId', async (req, res, next) => {
                 price
             }
         )
+        await newSpot.save()
         res.json(newSpot)
     } else {
         res.status(404);
