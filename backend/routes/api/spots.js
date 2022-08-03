@@ -55,7 +55,7 @@ router.get('/', async (req, res, next) => {
 // Get all Spots owned by Current User
 router.get('/current', async (req, res, next) => {
     //find current user?
-    const id = req.user.dataValues.id
+    const id = req.user.id
     // const id = 4 (testing because the newly signed up user doesnt have data)
 
     //find all spots owned by user
