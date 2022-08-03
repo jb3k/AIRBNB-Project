@@ -61,7 +61,7 @@ router.get('/current', async (req, res, next) => {
     res.json(currUser)
 })
 
-//Get Details of a  spot from an ID
+//Get Details of a spot from an ID
 router.get('/:spotId', async (req, res, next) => {
     const spotId = req.params.spotId;
     //seeing if the spot Id exists (for the if statement)
@@ -71,25 +71,11 @@ router.get('/:spotId', async (req, res, next) => {
         where: { spotId }
     })
 
-    const userInfo = await User.findAll({
-        where: { id: spotId }
-    })
-    let data = userInfo.user.dataValues
-    //owner property 
-    const owner = {}
-    //create key value pairs from User
-    owner.id = data.id;
-    owner.firstName = data.firstName;
-    owner.lastName = data.lastName;
-
-    console.log(owner)
-
-    const userSpots = await Spot.findAll({
+    const userInfo = await Spot.findOne({
         attributes: {
             include: [
                 //numReviews key value pair
-                [sequelize.fn("COUNT", reviews),
-                    "numReviews"],
+                [sequelize.fn("COUNT", reviews), "numReviews"],
                 [
                     sequelize.fn("AVG", sequelize.col("Reviews.stars")),
                     "avgRating"
@@ -98,22 +84,22 @@ router.get('/:spotId', async (req, res, next) => {
         },
         include: [
             { model: Review, attributes: [] },
-            {
-                model: Image, attributes: []
-            },
+            { model: Image, attributes: [] },
             //owner property should be created
-            { owner }
+            // { owner }
         ],
+        raw: true, // makes the output of findOne,findAll,findByPk a JS object
         where: { id: spotId }
     })
 
+    
     if (!findSpots) {
         res.json({
             "message": "Spot couldn't be found",
             "statusCode": 404
         })
     }
-    res.json(userSpots)
+    res.json(userInfo)
 })
 
 //create a post

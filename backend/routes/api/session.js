@@ -48,7 +48,7 @@ router.post(
         const { credential, password } = req.body;
 
         //calling the login static method
-        const user = await User.login({ credential, password });
+        let user = await User.login({ credential, password });
 
         //if user doesn't exist, throw this error below
         if (!user) {
@@ -57,16 +57,16 @@ router.post(
             err.errors = {
                 "credential": "Email or username is required",
                 "password": "Password is required"
-              };
+            };
             return next(err);
         }
 
         //if theres a user from login method, call setTokenCookie method
         const token = await setTokenCookie(res, user);
-        console.log(token)
+        user = user.toJSON()
         user.token = token
         //and return res w/ user info
-        return res.json(user);
+        return res.json(user)
     }
 );
 
