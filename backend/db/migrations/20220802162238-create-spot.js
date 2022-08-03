@@ -11,7 +11,6 @@ module.exports = {
       ownerId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        unique: true,
         references: {
           model: 'Users',
           key: 'id',
@@ -37,19 +36,17 @@ module.exports = {
       lat: {
         type: Sequelize.DECIMAL,
         allowNull: false,
-        unique: true
       },
       lng: {
         type: Sequelize.DECIMAL,
         allowNull: false,
-        unique: true
       },
       name: {
         type: Sequelize.STRING(256),
         allowNull: false,
       },
       description: {
-        type: Sequelize.STRING(500),
+        type: Sequelize.STRING(2000),
         allowNull: false,
       },
       price: {

@@ -36,10 +36,18 @@ router.post(
     validateSignup,
     //aynsc func
     async (req, res) => {
-        const { email, password, username } = req.body;
+        const { firstName, lastName, email, password, username } = req.body;
         //signup method to sign up for site
-        const user = await User.signup({ email, username, password });
+        let user = await User.signup({ firstName, lastName, email, username, password });
 
+        if (!user) {
+            const err = new Error('User Already Exists');
+            err.status = 403;
+            err.errors = {
+                "email": "User with that email already exists"
+            }
+            return next(err);
+        }
         //once user successfully created, set token cookie 
         await setTokenCookie(res, user);
 
@@ -49,5 +57,14 @@ router.post(
 );
 
 
+//get user
+router.get('/current', async (req, res, next) => {
+    const id = req.user.dataValues.id
+
+    const currUser = await User.findByPk(id)
+    console.log(currUser)
+
+    res.json()
+})
 
 module.exports = router;

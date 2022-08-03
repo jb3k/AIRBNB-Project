@@ -32,7 +32,7 @@ router.get(
                 user: user.toSafeObject()
             });
             //if there is no session, it will return nothing
-        } else return res.json({});
+        } else return res.json();
     }
 );
 
@@ -48,21 +48,25 @@ router.post(
         const { credential, password } = req.body;
 
         //calling the login static method
-        const user = await User.login({ credential, password });
+        let user = await User.login({ credential, password });
 
         //if user doesn't exist, throw this error below
         if (!user) {
             const err = new Error('Login failed');
-            err.status = 401;
-            err.title = 'Login failed';
-            err.errors = ['The provided credentials were invalid.'];
+            err.status = 400;
+            err.errors = {
+                "credential": "Email or username is required",
+                "password": "Password is required"
+            };
             return next(err);
         }
 
         //if theres a user from login method, call setTokenCookie method
-        await setTokenCookie(res, user);
+        const token = await setTokenCookie(res, user);
+        user = user.toJSON()
+        user.token = token
         //and return res w/ user info
-        return res.json(user);
+        return res.json(user)
     }
 );
 
@@ -74,6 +78,9 @@ router.delete(
         return res.json({ message: 'success' });
     }
 );
+
+
+
 
 
 

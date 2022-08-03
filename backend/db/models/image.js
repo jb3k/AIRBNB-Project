@@ -29,28 +29,26 @@ module.exports = (sequelize, DataTypes) => {
     url: {
       type: DataTypes.STRING(99),
       allowNull: false,
-      unique: true,
       validate: {
-        len: [1, 99]
+        len: [1, 99],
+        isUrl: true
       }
     },
     previewImage: {
       type: DataTypes.BOOLEAN,
-      allowNull: false
+      allowNull: true
     },
     spotId: {
       type: DataTypes.INTEGER,
-      allowNull: false
-
+      allowNull: true
     },
     reviewId: {
       type: DataTypes.INTEGER,
-      allowNull: false
-
+      allowNull: true
     },
     userId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true
     }
   }, {
     sequelize,

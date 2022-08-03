@@ -10,16 +10,15 @@ module.exports = {
       },
       url: {
         type: Sequelize.STRING(99),
-        allowNull: false,
-        unique: true
+        allowNull: false
       },
       previewImage: {
         type: Sequelize.BOOLEAN,
-        allowNull: false
+        allowNull: true
       },
       spotId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: 'Spots',
           key: 'id',
@@ -28,7 +27,7 @@ module.exports = {
       },
       reviewId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: 'Reviews',
           key: 'id',
@@ -37,7 +36,7 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: 'Users',
           key: 'id',

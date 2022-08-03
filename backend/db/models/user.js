@@ -8,8 +8,8 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     //this method will return an object with only the User instance info that is safe to save in JWT (ex: id, username, email)
     toSafeObject() {
-      const { id, username, email } = this; // context will be the User instance
-      return { id, username, email }
+      const { firstName, lastName, id, username, email } = this; // context will be the User instance
+      return { firstName, lastName, id, username, email }
     }
 
     //accepts a password string 
@@ -43,15 +43,18 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     // accepts an object with the 3 params (user,email,pass)
-    static async signup({ username, email, password }) {
+    static async signup({ firstName, lastName, username, email, password }) {
       //hashes the password with bcyrpt method
       const hashedPassword = bcrypt.hashSync(password);
-      //creates a user with 3 username, email, password
+      //creates a user with firstName, lastName, username, email, password
       const user = await User.create({
+        firstName,
+        lastName,
         username,
         email,
         hashedPassword
       });
+      console.log(user)
       //returns creaeted user using the currentUser scope
       return await User.scope('currentUser').findByPk(user.id);
     }
@@ -81,6 +84,14 @@ module.exports = (sequelize, DataTypes) => {
 
   User.init(
     {
+      firstName: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      lastName: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -114,12 +125,12 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "User",
       defaultScope: {
         attributes: {
-          exclude: ["hashedPassword", "email", "createdAt", "updatedAt"]
+          exclude: ["hashedPassword", "createdAt", "updatedAt"]
         }
       },
       scopes: {
         currentUser: {
-          attributes: { exclude: ["hashedPassword"] }
+          attributes: { exclude: ["hashedPassword", "createdAt", "updatedAt"] }
         },
         loginUser: {
           attributes: {}
