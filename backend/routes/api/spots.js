@@ -62,7 +62,7 @@ router.get('/current', async (req, res, next) => {
     const currUser = await Spot.findAll({
         attributes: { include: [[sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]] },
         include: [{ model: Review, attributes: [] }],
-        where: { userId: id },
+        where: { ownerId: id },
         raw: true
     })
 
