@@ -28,7 +28,7 @@ const setTokenCookie = (res, user) => {
     return token;
 };
 
-//restore session use based on the conteents of  the JWT cookie
+//restore session user based on the conteents of the JWT cookie
 const restoreUser = (req, res, next) => {
     // token parsed from cookies
     const { token } = req.cookies;

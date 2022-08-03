@@ -29,7 +29,6 @@ module.exports = (sequelize, DataTypes) => {
     url: {
       type: DataTypes.STRING(99),
       allowNull: false,
-      unique: true,
       validate: {
         len: [1, 99],
         isUrl: true
@@ -37,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     previewImage: {
       type: DataTypes.BOOLEAN,
-      allowNull: true 
+      allowNull: true
     },
     spotId: {
       type: DataTypes.INTEGER,
@@ -49,7 +48,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     userId: {
       type: DataTypes.INTEGER,
-      allowNull: true    }
+      allowNull: true
+    }
   }, {
     sequelize,
     modelName: 'Image',

@@ -1,6 +1,6 @@
 const express = require('express')
 
-const { setTokenCookie, requireAuth } = require('../../utils/auth');
+const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
 const { Spot, User, Booking, Image, Review, sequelize } = require('../../db/models');
 
 const { check } = require('express-validator');
@@ -93,17 +93,14 @@ router.get('/:spotId', async (req, res, next) => {
     })
 
     //query images
-    const imagesInfo = await Image.findAll({ raw: true })
-    for (let images of imagesInfo) {
-        !images.reviewId ? images = images.spotId : images = images.reviewId
-    }
-
-    let img = {}
-    // let imgData = imagesInfo.dataValues
-    // img.id = imgData.id
-    // //imageableid
-    // img.imageableId = //value from the loop?
-    // img.url = imgData.url
+    const imagesInfo = await Image.findAll({
+        //getting the attributes from images, aliasing spotId to imageableId
+        attributes: ['id', ['spotId', 'imageableId'], 'url'],
+        where: { id: spotId },
+        raw: true
+    })
+    // console.log(imagesInfo)
+    spotInfo.Images = imagesInfo
 
 
     //adding the "Owner property" into the spotInfo
@@ -131,7 +128,8 @@ router.post('/', async (req, res, next) => {
     //deconstructing the body that is given in the req
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
-    console.log(req.user.dataValues.id,)
+    //how do i use the restore user function?
+    // console.log(req)
 
     const newSpot = await Spot.create(
         {
@@ -176,51 +174,106 @@ router.post('/', async (req, res, next) => {
 
 //create an image
 router.post('/:spotId/images', async (req, res, next) => {
-    const spotId: = req.params.spotId;
+    const spotId = req.params.spotId;
 
     const { url } = req.body
 
-    // still dont really know what to put for imageableId????
-    const newImg = await Image.create(
+    const dbImg = await Image.create(
         {
-            id: spotId
-            imageableId: fjhwef,
+            spotId: spotId,
             url
         }
     )
 
-    if (!newImg) {
-        res.status(404),
-            res.json({
-                "message": "Spot couldn't be found",
-                "statusCode": 404
-            })
+    //seeing if the spot Id exists (for the if statement)
+    const findSpots = await Spot.findByPk(spotId)
 
+
+    //finding all images once we create with function above
+    const newImg = await Image.findAll({
+        raw: true
+    })
+
+    // console.log(newImg[newImg.length-1])
+    //get the last image (the image you just created)
+    let lastImg = newImg[newImg.length - 1]
+
+    //create an object to send the response
+    const object = {}
+    object.id = lastImg.id
+    object.imageableId = spotId
+    object.url = lastImg.url
+
+    if (findSpots) {
+        res.status(200)
+        res.json(object)
+    } else {
+        res.status(404)
+        res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": 404
+        })
     }
 
 
-    res.status(200)
-    res.json(newImg)
-
-
 })
 
 
-//edit a spot
+// edit a spot
 router.put('/:spotId', async (req, res, next) => {
-    const spotId: = req.params.spotId;
+    const spotId = req.params.spotId;
 
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
+    let updatedSpot = await Spot.findByPk(spotId)
 
+
+    if (spotId) {
+        const newSpot = await updatedSpot.set(
+            {
+                ownerId: req.user.dataValues.id,
+                address,
+                city,
+                state,
+                country,
+                lat,
+                lng,
+                name,
+                description,
+                price
+            }
+        )
+        res.json(newSpot)
+    } else {
+        res.status(404);
+        res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": 404
+        })
+    }
 
 })
 
 
 
-//delete a spot
+// //delete a spot
 router.delete('/:spotId', async (req, res, next) => {
-    const spotId: = req.params.spotId;
+    const spotId = req.params.spotId;
+
+    let destroySpot = await Spot.findByPk(spotId);
+
+    if (destroySpot) {
+        await destroySpot.destroy();
+        res.json({
+            message: "Successfully deleted"
+        })
+    } else {
+        res.status(404);
+        res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": 404
+        })
+    }
 
 })
 

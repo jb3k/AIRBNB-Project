@@ -10,8 +10,7 @@ module.exports = {
       },
       url: {
         type: Sequelize.STRING(99),
-        allowNull: false,
-        unique: true
+        allowNull: false
       },
       previewImage: {
         type: Sequelize.BOOLEAN,
