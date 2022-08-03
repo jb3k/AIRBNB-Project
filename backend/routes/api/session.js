@@ -32,7 +32,7 @@ router.get(
                 user: user.toSafeObject()
             });
             //if there is no session, it will return nothing
-        } else return res.json({});
+        } else return res.json();
     }
 );
 

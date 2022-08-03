@@ -62,9 +62,9 @@ router.get('/current', async (req, res, next) => {
     const id = req.user.dataValues.id
 
     const currUser = await User.findByPk(id)
+    console.log(currUser)
 
-
-    res.json(currUser)
+    res.json()
 })
 
 module.exports = router;

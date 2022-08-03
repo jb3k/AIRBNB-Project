@@ -15,23 +15,37 @@ router.get('/', async (req, res, next) => {
         attributes: {
             include: [
                 //adding in a column of avgRating using a built in sequelize function in the column stars
-                [
-                    sequelize.fn("AVG", sequelize.col("Reviews.stars")),
-                    "avgRating"
-                ],
-                //adding the key pair of previewImage: with the value from colum url (in images table)
-                [sequelize.literal('Images.url'), 'previewImage']
+                [sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]
             ]
         },
         //giving access to these models thru the associations created
         include: [
-            { model: Review, attributes: [] },
-            { model: Image, attributes: [] }
+            { model: Review, attributes: [] }
         ],
         //making sure to find All Spots
-        group: ['Spot.id']
+        group: ['Spot.id'],
+        raw: true
     })
+    // console.log(Spots) arr of obj
 
+    //because spot is referencing Spots, I dont have to add it into Spots
+    for (let spot of Spots) { //spot is checking every single spot in Spots table
+        const img = await Image.findOne({
+            attributes: ['url'],
+            where: {
+                previewImage: true,
+                spotId: spot.id
+            },
+            raw: true
+        })
+
+        // console.log(img) returning an object : { url: 'www.home8.com' } || null depending on the value of previewImage
+        if (img) {
+            spot.previewImage = img.url
+        } else {
+            spot.previewImage = null
+        }
+    }
 
     res.json({ Spots })
 })
@@ -46,21 +60,32 @@ router.get('/current', async (req, res, next) => {
 
     //find all spots owned by user
     const currUser = await Spot.findAll({
-        attributes: {
-            include: [
-                [
-                    sequelize.fn("AVG", sequelize.col("Reviews.stars")),
-                    "avgRating"
-                ],
-                [sequelize.literal('Images.url'), 'previewImage']
-            ]
-        },
-        include: [
-            { model: Review, attributes: [] },
-            { model: Image, attributes: [] }
-        ],
-        where: { id }
+        attributes: { include: [[sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]] },
+        include: [{ model: Review, attributes: [] }],
+        where: { id },
+        raw: true
     })
+
+    for (let spot of currUser) { //spot is checking every single spot in Spots table
+        const img = await Image.findOne({
+            attributes: ['url'],
+            where: {
+                previewImage: true,
+                spotId: spot.id
+            },
+            raw: true
+        })
+        // console.log(img) returning an object : { url: 'www.home8.com' } || null depending on the value of previewImage
+        // img ? spot.previewImage = img.url : null
+        if (img) {
+            spot.previewImage = img.url
+        } else {
+            spot.previewImage = null
+        }
+    }
+
+
+
     res.json(currUser)
 })
 
@@ -96,10 +121,10 @@ router.get('/:spotId', async (req, res, next) => {
     const imagesInfo = await Image.findAll({
         //getting the attributes from images, aliasing spotId to imageableId
         attributes: ['id', ['spotId', 'imageableId'], 'url'],
-        where: { id: spotId },
+        where: { spotId },
         raw: true
     })
-    // console.log(imagesInfo)
+    // console.log(imagesInfo) // return an object of images at the specified spotId
     spotInfo.Images = imagesInfo
 
 
@@ -127,10 +152,6 @@ router.get('/:spotId', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
     //deconstructing the body that is given in the req
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
-
-    //how do i use the restore user function?
-    // console.log(req)
-
     const newSpot = await Spot.create(
         {
             ownerId: req.user.dataValues.id,
@@ -176,12 +197,13 @@ router.post('/', async (req, res, next) => {
 router.post('/:spotId/images', async (req, res, next) => {
     const spotId = req.params.spotId;
 
-    const { url } = req.body
+    const { url, previewImage } = req.body
 
     const dbImg = await Image.create(
         {
-            spotId: spotId,
-            url
+            url,
+            previewImage,
+            spotId
         }
     )
 
@@ -193,7 +215,7 @@ router.post('/:spotId/images', async (req, res, next) => {
     const newImg = await Image.findAll({
         raw: true
     })
-
+    console.log(newImg)
     // console.log(newImg[newImg.length-1])
     //get the last image (the image you just created)
     let lastImg = newImg[newImg.length - 1]
