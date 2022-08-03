@@ -58,33 +58,51 @@ router.get('/current', async (req, res, next) => {
         ],
         where: { id }
     })
-
     res.json(currUser)
-
 })
-
-
 
 //Get Details of a  spot from an ID
 router.get('/:spotId', async (req, res, next) => {
     const spotId = req.params.spotId;
-
+    //seeing if the spot Id exists (for the if statement)
     const findSpots = await Spot.findByPk(spotId)
+    //number of reviews
+    const reviews = await Review.count({
+        where: { spotId }
+    })
+
+    const userInfo = await User.findAll({
+        where: { id: spotId }
+    })
+    let data = userInfo.user.dataValues
+    //owner property 
+    const owner = {}
+    //create key value pairs from User
+    owner.id = data.id;
+    owner.firstName = data.firstName;
+    owner.lastName = data.lastName;
+
+    console.log(owner)
 
     const userSpots = await Spot.findAll({
         attributes: {
             include: [
+                //numReviews key value pair
+                [sequelize.fn("COUNT", reviews),
+                    "numReviews"],
                 [
                     sequelize.fn("AVG", sequelize.col("Reviews.stars")),
                     "avgRating"
-                ],
-                [sequelize.literal('Images.url'), 'previewImage']
+                ]
             ]
         },
         include: [
             { model: Review, attributes: [] },
-            { model: Image, attributes: ['id', 'previewImage', 'url'] },
-            { model: User, attributes: ['id', 'firstName', 'lastName'] }
+            {
+                model: Image, attributes: []
+            },
+            //owner property should be created
+            { owner }
         ],
         where: { id: spotId }
     })
@@ -95,12 +113,17 @@ router.get('/:spotId', async (req, res, next) => {
             "statusCode": 404
         })
     }
-
     res.json(userSpots)
-
 })
 
+//create a post
+router.post('/', async (req, res, next) => {
+    //deconstructing the body that is given in the req
+    const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
+    //
+
+})
 
 
 

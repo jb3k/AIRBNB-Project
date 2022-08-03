@@ -37,22 +37,18 @@ module.exports = (sequelize, DataTypes) => {
     },
     previewImage: {
       type: DataTypes.BOOLEAN,
-      allowNull: false
-    },
+      allowNull: true    },
     spotId: {
       type: DataTypes.INTEGER,
-      allowNull: false
-
+      allowNull: true
     },
     reviewId: {
       type: DataTypes.INTEGER,
-      allowNull: false
-
+      allowNull: true
     },
     userId: {
       type: DataTypes.INTEGER,
-      allowNull: false
-    }
+      allowNull: true    }
   }, {
     sequelize,
     modelName: 'Image',
