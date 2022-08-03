@@ -115,7 +115,8 @@ router.get('/:spotId', async (req, res, next) => {
             { model: Image, attributes: [] },
         ],
         raw: true, // makes the output of findOne,findAll,findByPk a JS object
-        where: { id: spotId }
+        where: { id: spotId },
+        group: ['Spot.id']
     })
 
     //query images
