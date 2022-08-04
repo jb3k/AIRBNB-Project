@@ -26,7 +26,7 @@ router.get('/', async (req, res, next) => {
         group: ['Spot.id'],
         raw: true
     })
-    // console.log(Spots) arr of obj
+    // console.log(Spots) returns an arr of obj
 
     //because spot is referencing Spots, I dont have to add it into Spots
     for (let spot of Spots) { //spot is checking every single spot in Spots table
@@ -215,9 +215,7 @@ router.post('/:spotId/images', async (req, res, next) => {
     const newImg = await Image.findAll({
         raw: true
     })
-    console.log(newImg)
-    // console.log(newImg[newImg.length-1])
-    //get the last image (the image you just created)
+
     let lastImg = newImg[newImg.length - 1]
 
     //create an object to send the response
@@ -304,8 +302,6 @@ router.delete('/:spotId', async (req, res, next) => {
 
 
 
-
-
 //get all reviews by a spot's id
 router.get('/:spotId/reviews', restoreUser, async (req, res, next) => {
     const { user } = req
@@ -354,11 +350,51 @@ router.get('/:spotId/reviews', restoreUser, async (req, res, next) => {
 
 })
 
-
+//create a review for a spot based on the Spot's id
 router.post('/:spotId/reviews', restoreUser, async (req, res, next) => {
     const { user } = req
-    let id = req.params.spotId
+    let spotId = req.params.spotId
+    const findSpots = await Spot.findByPk(spotId)
 
+    let id = parseInt(spotId)
+    const { review, stars } = req.body
+
+    //creating the new review in the review db
+    let newReview = await Review.create(
+        {
+            userId: user.dataValues.id,
+            spotId: id,
+            review,
+            stars
+        }
+    )
+
+    if (findSpots) {
+        res.status(201)
+        res.json(newReview)
+    }  else if (!findSpots) {
+         //if you're getting the foreign key constaint, the validations is stopping vs the if statement
+        res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": 404
+        })
+        
+    } else if (user) {
+        //make sure there is no review at this spot with this user ID
+        res.json({
+            "message": "User already has a review for this spot",
+            "statusCode": 403
+        })
+    } else {  //want validations to catch this error
+        res.json({
+            "message": "Validation error",
+            "statusCode": 400,
+            "errors": {
+                "review": "Review text is required",
+                "stars": "Stars must be an integer from 1 to 5",
+            }
+        })
+    }
 
 })
 
