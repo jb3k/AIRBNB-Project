@@ -405,14 +405,20 @@ router.get('/:spotId/bookings', restoreUser, async (req, res, next) => {
     }
     //if the logged in user is owner of the spot
     else if (currOwner[0].ownerId === currentUser) {
-        const userBooking = await Booking.findAll({ where: { spotId }, raw: true })
-        for (let user of userBooking) {
-            console.log(user)
-            const currUser = await User.findOne({ where: { id: user.userId }, raw: true })
+        //lazyLoading
+        // const userBooking = await Booking.findAll({ where: { spotId }, raw: true })
+        // for (let user of userBooking) {
+        //     console.log(user)
+        //     const currUser = await User.findOne({ where: { id: user.userId }, raw: true })
 
-            currUser ? user.User = currUser : null
-        }
-        return res.status(200).json(userBooking)
+        //     currUser ? user.User = currUser : null
+        // }
+
+        //eageLoading
+        const userBooked = await Booking.findAll({ include: { model: User, where: { id: user.dataValues.id } } })
+
+        return res.status(200).json(userBooked)
+        // return res.status(200).json(userBooking)
     }
 
 })
@@ -426,6 +432,46 @@ router.post('/:spotId/bookings', restoreUser, async (req, res, next) => {
     const { user } = req;
     if (!user) return res.status(401).json({ "message": "You're not logged in", "statusCode": 401 })
 
+
+    const { startDate, endDate } = req.body
+    //check if the startDate overlaps with any other date
+    const spotBookedDates = await Booking.findAll({ include: [{ model: Spot, where: { id: spotId } }], raw: true })
+    console.log(spotBookedDates)
+
+    for (let dates of spotBookedDates) {
+        let start = dates.startDate
+        let end = dates.endDate
+        if (startDate === start || endDate === start || startDate === end || endDate === end) {
+            return res.status(403).json({
+                "message": "Sorry, this spot is already booked for the specified dates",
+                "statusCode": 403,
+                "errors": {
+                    "startDate": "Start date conflicts with an existing booking",
+                    "endDate": "End date conflicts with an existing booking"
+                }
+            })
+        }
+    }
+
+    if (endDate < startDate) {
+        return res.status(400).json({
+            "message": "Validation error",
+            "statusCode": 400,
+            "errors": {
+                "endDate": "endDate cannot be on or before startDate"
+            }
+        })
+    }
+    //create the booking at the current spot I am at
+    const newBooking = Booking.create(
+        {
+            spotId,
+            userId: user.dataValues.id,
+            startDate,
+            endDate
+        }
+    )
+    res.status(201).json(newBooking)
 
 
 })

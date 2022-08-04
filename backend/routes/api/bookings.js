@@ -13,13 +13,24 @@ const router = express.Router();
 router.get('/current', restoreUser, async (req, res, next) => {
     const { user } = req
     if (!user) return res.status(401).json({ "message": "You're not logged in", "statusCode": 401 })
-
+    //lazyloading
     const tester = 3
     const currUser = user.dataValues.id
     const allBookings = await Booking.findAll({
         where: { id: currUser }, raw: true
     })
-
+    for (let image of allBookings) {
+        console.log(image)
+        const img = await Image.findOne({
+            attributes: ['url'],
+            where: {
+                previewImage: true,
+                spotId: image.id
+            },
+            raw: true
+        })
+        img ? image.previewImage = img.url : null
+    }
     for (let spot of allBookings) {
         console.log(spot)
         const spotInfo = await Spot.findOne({
@@ -28,8 +39,45 @@ router.get('/current', restoreUser, async (req, res, next) => {
         spotInfo ? spot.Spot = spotInfo : null
     }
 
-    res.json(allBookings)
+
+    // const previewImg = await Spot.findAll({ raw: true })
+    // for (let image of previewImg) {
+    //     console.log(image)
+    //     const img = await Image.findOne({
+    //         attributes: ['url'],
+    //         where: {
+    //             previewImage: true,
+    //             spotId: image.id
+    //         },
+    //         raw: true
+    //     })
+    //     img ? image.previewImage = img.url : null
+    // }
+
+    // const obj = {}
+    // obj.Bookings = allBookings
+    // for (let img of obj.Bookings) {
+    // const spotPreviewImage = await Spot.findAll({ raw: true })
+    // for (let image of spotPreviewImage) {
+    //     console.log(image)
+    //     const img = await Image.findOne({
+    //         attributes: ['url'],
+    //         where: {
+    //             previewImage: true,
+    //             spotId: image.id
+    //         },
+    //         raw: true
+    //     })
+    //     img ? allBookings.Spot.previewImage = img.url : null
+    // }
+    // img.Spot.previewImage = previewImg.previewImage
+    // console.log(img.Spot)
+
+
+    res.json({ allBookings })
 })
+
+
 
 //edit a booking
 router.put('/:reviewId', restoreUser, async (req, res, next) => {
