@@ -55,15 +55,14 @@ router.get('/', async (req, res, next) => {
 // Get all Spots owned by Current User
 router.get('/current', async (req, res, next) => {
     //find current user?
-    const id = req.user.id
+    const id = req.user.dataValues.id
     // const id = 4 (testing because the newly signed up user doesnt have data)
 
     //find all spots owned by user
     const currUser = await Spot.findAll({
         attributes: { include: [[sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]] },
         include: [{ model: Review, attributes: [] }],
-        where: { ownerId: id },        
-        group: ['Spot.id'],
+        where: { id },
         raw: true
     })
 
@@ -115,8 +114,7 @@ router.get('/:spotId', async (req, res, next) => {
             { model: Image, attributes: [] },
         ],
         raw: true, // makes the output of findOne,findAll,findByPk a JS object
-        where: { id: spotId },
-        group: ['Spot.id']
+        where: { id: spotId }
     })
 
     //query images
@@ -131,12 +129,15 @@ router.get('/:spotId', async (req, res, next) => {
 
 
     //adding the "Owner property" into the spotInfo
-    let owner = await User.findOne({
-        attributes: ['id', 'firstName', 'lastName'],
-        where: { id: findSpots.ownerId }
-    })
-
+    let owner = {}
+    let userInfo = await User.findByPk(spotId)
+    let data = userInfo.dataValues
+    owner.id = data.id;
+    owner.firstName = data.firstName;
+    owner.lastName = data.lastName;
+    //I can do this because of the raw:true which maked the result of query an object
     spotInfo.Owner = owner
+
 
     if (!findSpots) {
         res.json({
@@ -238,7 +239,7 @@ router.post('/:spotId/images', async (req, res, next) => {
 
 
 })
-//tester comment
+
 
 // edit a spot
 router.put('/:spotId', async (req, res, next) => {
@@ -296,6 +297,68 @@ router.delete('/:spotId', async (req, res, next) => {
             "statusCode": 404
         })
     }
+
+})
+
+
+
+
+
+
+
+//get all reviews by a spot's id
+router.get('/:spotId/reviews', restoreUser, async (req, res, next) => {
+    const { user } = req
+    let id = req.params.spotId
+
+    const findSpot = await Spot.findByPk(id)
+
+    const tester = 3
+    const currUser = user.dataValues.id;
+    //return all reviews that belong to a spot
+    const review = await Review.findAll({
+        // include: { model: User, attributes: ['id', 'firstName', 'lastName'] },
+        where: { spotId: tester }, raw: true
+    })
+    // adding the user section into the reviews search
+    for (let userId of review) {
+        const user = await User.findOne({
+            attributes: ['id', 'firstName', 'lastName'],
+            where: { id: currUser },
+            raw: true
+        })
+        user ? userId.User = user : null
+    }
+    //what are the images referring to? 
+    for (let images of review) {
+        const img = await Image.findOne({
+            attributes: ['id', ['reviewId', 'imageableId'], 'url'],
+            where: { spotId: tester }, raw: true
+        })
+        img ? images.Images = [img] : null
+    }
+
+    let obj = {}
+    obj.Reviews = review
+
+    if (findSpot) {
+        res.status(200)
+        res.json(obj)
+    } else {
+        res.status(404)
+        res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": 404
+        })
+    }
+
+})
+
+
+router.post('/:spotId/reviews', restoreUser, async (req, res, next) => {
+    const { user } = req
+    let id = req.params.spotId
+
 
 })
 
