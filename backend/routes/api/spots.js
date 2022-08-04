@@ -62,7 +62,7 @@ router.get('/current', async (req, res, next) => {
     const currUser = await Spot.findAll({
         attributes: { include: [[sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]] },
         include: [{ model: Review, attributes: [] }],
-        where: { userId: id },
+        where: { ownerId: id },
         raw: true
     })
 
@@ -129,15 +129,12 @@ router.get('/:spotId', async (req, res, next) => {
 
 
     //adding the "Owner property" into the spotInfo
-    let owner = {}
-    let userInfo = await User.findByPk(spotId)
-    let data = userInfo.dataValues
-    owner.id = data.id;
-    owner.firstName = data.firstName;
-    owner.lastName = data.lastName;
-    //I can do this because of the raw:true which maked the result of query an object
-    spotInfo.Owner = owner
+    let owner = await User.findOne({
+        attributes: ['id', 'firstName', 'lastName'],
+        where: { id: findSpots.ownerId }
+    })
 
+    spotInfo.Owner = owner
 
     if (!findSpots) {
         res.json({
