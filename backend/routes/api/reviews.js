@@ -11,43 +11,46 @@ const router = express.Router();
 
 //Get all reviews of the Current User
 router.get('/current', restoreUser, async (req, res, next) => {
-    let { user } = req
+    const { user } = req
     let totalReviews = {}
 
-    const tester = 3
+    // const tester = 3
     const currUser = user.dataValues.id;
+    // console.log(currUser)
     //find the reviews written by the user
     const review = await Review.findAll({
         // include: { model: User, attributes: ['id', 'firstName', 'lastName'] },
-        where: { userId: tester }, raw: true
+        where: { userId: currUser }, raw: true
     })
     //adding the user section into the reviews search
     for (let userId of review) {
         const user = await User.findOne({
             attributes: ['id', 'firstName', 'lastName'],
-            where: { id: tester },
+            where: { id: currUser },
             raw: true
         })
         user ? userId.User = user : null
+
     }
     //find the spot the user reviewed
     for (let spot of review) {
-        const spotInfo = await Spot.findAll({
+        const spotInfo = await Spot.findOne({
             attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price'],
-            where: { ownerId: tester }, raw: true
+            where: { id: spot.spotId }, raw: true
         })
         spotInfo ? spot.Spot = spotInfo : null
-
     }
-
+    console.log(review)
     //find images of that review
     for (let images of review) {
-        const img = await Image.findAll({
+        console.log(images)
+        const img = await Image.findOne({
             attributes: ['id', ['reviewId', 'imageableId'], 'url'],
-            where: { userId: tester }, raw: true
+            where: { reviewId: images.id }, raw: true
         })
         img ? images.Images = img : null
     }
+
 
     //problem I am having is getting the Spot and the Images in the in the Reviews array... if i add them separately into an object, the spot and the image arent in the arr
     totalReviews.Reviews = review
@@ -55,47 +58,37 @@ router.get('/current', restoreUser, async (req, res, next) => {
 })
 
 
-// add an image to a review based on the reviews id
+// create an image to a review based on the reviews id
 router.post('/:reviewId/images', restoreUser, async (req, res, next) => {
     const id = req.params.reviewId;
     const { user } = req
+    if (!user) return res.status(401).json({ "message": "You're not logged in", "statusCode": 401 })
+
     const { url, previewImage } = req.body;
 
     //finding the review
     const findReview = await Review.findByPk(id)
+    if (!findReview) return res.status(404).json({ "message": "Review couldn't be found", "statusCode": 404 })
 
     //creating a new img in the db
     let newImg = await Image.create(
         {
             url,
             previewImage,
-            spotId: false,
-            userId: user.dataValues.id,
+            userId: user.id,
             reviewId: id
         }
     )
 
     //create an obj for the response
     const obj = {}
-    //query thru all the images
-    const img = await Image.findAll({ raw: true })
-    //get last image (which should be the image we just created)
-    const lastImg = img[img.length - 1]
     //create wanted responses in the obj
-    obj.id = lastImg.id;
-    obj.imageableId = lastImg.reviewId
-    obj.url = lastImg.url
+    obj.id = newImg.id;
+    obj.imageableId = parseInt(newImg.reviewId)
+    obj.url = newImg.url
 
-
-    //find the spot that you want to edit the review about
-    // const spotInfo = await Review.findOne({where: {spotId:}})
-
-    if (!findReview) {
-        res.json({
-            "message": "Review couldn't be found",
-            "statusCode": 404
-        })
-    } else if (!url || !previewImage) {
+    //come back to this
+    if (!url || previewImage) {
         res.json({
             "message": "Validation error",
             "statusCode": 400,
@@ -104,58 +97,50 @@ router.post('/:reviewId/images', restoreUser, async (req, res, next) => {
                 "stars": "Stars must be an integer from 1 to 5",
             }
         })
-    } else {
-        res.status(200)
-        res.json(obj)
     }
 
+    res.status(200).json(obj)
 
 })
 
 
 //edit a review, make sure the user is allowd to edit
 router.put('/:reviewId', restoreUser, async (req, res, next) => {
-    
     const id = req.params.reviewId;
     const { user } = req
+    if (!user) return res.status(401).json({ "message": "You're not logged in", "statusCode": 401 })
+
     const { review, stars } = req.body;
 
     let updatedReview = await Review.findByPk(id)
+    if (!updatedReview) return res.status(404).json({ "message": "Review couldn't be found", "statusCode": 404 })
+
+    let reviewInfo = await Review.findOne({ where: { id }, raw: true })
+    // console.log(updatedReview)
 
 
     if (id) {
         const newReview = await updatedReview.set(
             {
                 userId: user.dataValues.id,
-                spotId: false,
+                spotId: reviewInfo.spotId,
                 review,
                 stars
             }
         )
         await newReview.save()
         res.json(newReview)
-    } else if (!id) {
-        res.json({
-            "message": "Review couldn't be found",
-            "statusCode": 404
-        })
-    } else {
-        res.json({
-            "message": "Validation error",
-            "statusCode": 400,
-            "errors": {
-                "review": "Review text is required",
-                "stars": "Stars must be an integer from 1 to 5",
-            }
-        })
+
     }
 
 
 })
 
 
-router.delete('/reviewId', async (req, res, next) => {
-    const reviewId = req.params.spotId;
+router.delete('/:reviewId', restoreUser, async (req, res, next) => {
+    const reviewId = req.params.reviewId;
+    const { user } = req
+    if (!user) return res.status(401).json({ "message": "You're not logged in", "statusCode": 401 })
 
     let destroyReview = await Review.findByPk(reviewId);
 
@@ -167,7 +152,7 @@ router.delete('/reviewId', async (req, res, next) => {
     } else {
         res.status(404);
         res.json({
-            "message": "Spot couldn't be found",
+            "message": "Review couldn't be found",
             "statusCode": 404
         })
     }

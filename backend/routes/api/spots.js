@@ -40,11 +40,7 @@ router.get('/', async (req, res, next) => {
         })
 
         // console.log(img) returning an object : { url: 'www.home8.com' } || null depending on the value of previewImage
-        if (img) {
-            spot.previewImage = img.url
-        } else {
-            spot.previewImage = null
-        }
+        img ? spot.previewImage = img.url : null
     }
 
     res.json({ Spots })
@@ -94,8 +90,7 @@ router.get('/current', async (req, res, next) => {
 //Get Details of a spot from an ID
 router.get('/:spotId', async (req, res, next) => {
     const spotId = req.params.spotId;
-    //seeing if the spot Id exists (for the if statement)
-    const findSpots = await Spot.findByPk(spotId)
+
     //number of reviews
     const reviews = await Review.count({
         where: { spotId }
@@ -105,17 +100,17 @@ router.get('/:spotId', async (req, res, next) => {
         attributes: {
             include: [
                 //numReviews key value pair
-                [sequelize.fn("COUNT", reviews), "numReviews"],
                 [sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]
             ]
         },
         include: [
             { model: Review, attributes: [] },
-            { model: Image, attributes: [] },
         ],
         raw: true, // makes the output of findOne,findAll,findByPk a JS object
         where: { id: spotId }
     })
+    if (!spotInfo) return res.status(404).json({ "message": "Spot couldn't be found", "statusCode": 404 })
+
 
     //query images
     const imagesInfo = await Image.findAll({
@@ -125,26 +120,17 @@ router.get('/:spotId', async (req, res, next) => {
         raw: true
     })
     // console.log(imagesInfo) // return an object of images at the specified spotId
+    spotInfo.NumReviews = reviews
     spotInfo.Images = imagesInfo
+    console.log(spotInfo)
 
-
-    //adding the "Owner property" into the spotInfo
-    let owner = {}
-    let userInfo = await User.findByPk(spotId)
-    let data = userInfo.dataValues
-    owner.id = data.id;
-    owner.firstName = data.firstName;
-    owner.lastName = data.lastName;
+    let owner = await User.findOne({
+        where: { id: spotInfo.ownerId },
+        attributes: ['id', 'firstName', 'lastName'],
+        raw: true
+    })
     //I can do this because of the raw:true which maked the result of query an object
     spotInfo.Owner = owner
-
-
-    if (!findSpots) {
-        res.json({
-            "message": "Spot couldn't be found",
-            "statusCode": 404
-        })
-    }
     res.json(spotInfo)
 })
 
@@ -194,46 +180,39 @@ router.post('/', async (req, res, next) => {
 
 
 //create an image
-router.post('/:spotId/images', async (req, res, next) => {
+router.post('/:spotId/images', restoreUser, async (req, res, next) => {
     const spotId = req.params.spotId;
+    const { user } = req
+    if (!user) return res.status(401).json({ "message": "You're not logged in", "statusCode": 401 })
 
     const { url, previewImage } = req.body
+
+    //seeing if the spot Id exists
+    const findSpots = await Spot.findByPk(spotId)
+    if (!findSpots) {
+        res.status(404)
+        return res.json({
+            "message": "Spot couldn't be found",
+            "statusCode": 404
+        })
+    }
 
     const dbImg = await Image.create(
         {
             url,
             previewImage,
-            spotId
+            spotId,
+            userId: user.id
         }
     )
 
-    //seeing if the spot Id exists (for the if statement)
-    const findSpots = await Spot.findByPk(spotId)
-
-
-    //finding all images once we create with function above
-    const newImg = await Image.findAll({
-        raw: true
-    })
-
-    let lastImg = newImg[newImg.length - 1]
-
     //create an object to send the response
     const object = {}
-    object.id = lastImg.id
-    object.imageableId = spotId
-    object.url = lastImg.url
+    object.id = dbImg.id
+    object.imageableId = parseInt(spotId)
+    object.url = dbImg.url
 
-    if (findSpots) {
-        res.status(200)
-        res.json(object)
-    } else {
-        res.status(404)
-        res.json({
-            "message": "Spot couldn't be found",
-            "statusCode": 404
-        })
-    }
+    res.status(200).json(object)
 
 
 })
@@ -309,12 +288,12 @@ router.get('/:spotId/reviews', restoreUser, async (req, res, next) => {
 
     const findSpot = await Spot.findByPk(id)
 
-    const tester = 3
+    // const tester = 3
     const currUser = user.dataValues.id;
     //return all reviews that belong to a spot
     const review = await Review.findAll({
         // include: { model: User, attributes: ['id', 'firstName', 'lastName'] },
-        where: { spotId: tester }, raw: true
+        where: { spotId: id }, raw: true
     })
     // adding the user section into the reviews search
     for (let userId of review) {
@@ -329,7 +308,7 @@ router.get('/:spotId/reviews', restoreUser, async (req, res, next) => {
     for (let images of review) {
         const img = await Image.findOne({
             attributes: ['id', ['reviewId', 'imageableId'], 'url'],
-            where: { spotId: tester }, raw: true
+            where: { spotId: currUser }, raw: true
         })
         img ? images.Images = [img] : null
     }
@@ -353,6 +332,7 @@ router.get('/:spotId/reviews', restoreUser, async (req, res, next) => {
 //create a review for a spot based on the Spot's id
 router.post('/:spotId/reviews', restoreUser, async (req, res, next) => {
     const { user } = req
+    if (!user) return res.status(401).json({ "message": "You're not logged in", "statusCode": 401 })
     let spotId = req.params.spotId
     const findSpots = await Spot.findByPk(spotId)
 
@@ -372,13 +352,13 @@ router.post('/:spotId/reviews', restoreUser, async (req, res, next) => {
     if (findSpots) {
         res.status(201)
         res.json(newReview)
-    }  else if (!findSpots) {
-         //if you're getting the foreign key constaint, the validations is stopping vs the if statement
+    } else if (!findSpots) {
+        //if you're getting the foreign key constaint, the validations is stopping vs the if statement
         res.json({
             "message": "Spot couldn't be found",
             "statusCode": 404
         })
-        
+
     } else if (user) {
         //make sure there is no review at this spot with this user ID
         res.json({
