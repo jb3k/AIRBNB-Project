@@ -62,7 +62,8 @@ router.get('/current', async (req, res, next) => {
     const currUser = await Spot.findAll({
         attributes: { include: [[sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]] },
         include: [{ model: Review, attributes: [] }],
-        where: { ownerId: id },
+        where: { ownerId: id },        
+        group: ['Spot.id'],
         raw: true
     })
 
@@ -114,7 +115,8 @@ router.get('/:spotId', async (req, res, next) => {
             { model: Image, attributes: [] },
         ],
         raw: true, // makes the output of findOne,findAll,findByPk a JS object
-        where: { id: spotId }
+        where: { id: spotId },
+        group: ['Spot.id']
     })
 
     //query images
