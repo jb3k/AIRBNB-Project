@@ -74,12 +74,7 @@ router.get('/current', async (req, res, next) => {
             raw: true
         })
         // console.log(img) returning an object : { url: 'www.home8.com' } || null depending on the value of previewImage
-        // img ? spot.previewImage = img.url : null
-        if (img) {
-            spot.previewImage = img.url
-        } else {
-            spot.previewImage = null
-        }
+        img ? spot.previewImage = img.url : null
     }
 
 
