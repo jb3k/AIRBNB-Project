@@ -62,7 +62,7 @@ router.get('/current', async (req, res, next) => {
         where: { id },
         raw: true
     })
-    console.log(currUser)
+    // console.log(currUser)
 
     for (let spot of currUser) { //spot is checking every single spot in Spots table
         const img = await Image.findOne({
@@ -93,7 +93,7 @@ router.get('/:spotId', async (req, res, next) => {
         where: { spotId }
     })
 
-    const spotInfo = await Spot.findOne({
+    const spotInfo = await Spot.findAll({
         attributes: {
             include: [
                 //numReviews key value pair
@@ -340,12 +340,18 @@ router.get('/:spotId/reviews', restoreUser, async (req, res, next) => {
 //create a review for a spot based on the Spot's id
 router.post('/:spotId/reviews', restoreUser, async (req, res, next) => {
     const { user } = req
+    const currUser = user.dataValues.id
+
     if (!user) return res.status(401).json({ "message": "You're not logged in", "statusCode": 401 })
     let spotId = req.params.spotId
 
-
+    //spots error
     const findSpots = await Spot.findByPk(spotId)
     if (!findSpots) return res.status(404).json({ "message": "Spot couldn't be found", "statusCode": 404 })
+
+    // if the current user already has a review at this spot... user overlap error
+    const findReviews = await Review.findAll({ where: { spotId }, raw: true })
+    if (currUser === findReviews[0].userId) return res.status(403).json({ "message": "User already has a review for this spot", "statusCode": 403 })
 
 
     let id = parseInt(spotId)
@@ -361,25 +367,11 @@ router.post('/:spotId/reviews', restoreUser, async (req, res, next) => {
         }
     )
 
-    if (findSpots) {
-        res.status(201)
-        res.json(newReview)
-    } else if (user) {
-        //make sure there is no review at this spot with this user ID
-        res.json({
-            "message": "User already has a review for this spot",
-            "statusCode": 403
-        })
-    } else {  //want validations to catch this error
-        res.json({
-            "message": "Validation error",
-            "statusCode": 400,
-            "errors": {
-                "review": "Review text is required",
-                "stars": "Stars must be an integer from 1 to 5",
-            }
-        })
-    }
+
+
+
+    res.status(201)
+    res.json(newReview)
 
 })
 
@@ -460,15 +452,9 @@ router.post('/:spotId/bookings', restoreUser, async (req, res, next) => {
         }
     }
 
-    if (endDate < startDate) {
-        return res.status(400).json({
-            "message": "Validation error",
-            "statusCode": 400,
-            "errors": {
-                "endDate": "endDate cannot be on or before startDate"
-            }
-        })
-    }
+    //end date cannot be before start date
+    if (endDate < startDate) return res.status(400).json({ "message": "Validation error", "statusCode": 400, "errors": { "endDate": "endDate cannot be on or before startDate" } })
+
     //create the booking at the current spot I am atc  
     const newBooking = await Booking.create(
         {
