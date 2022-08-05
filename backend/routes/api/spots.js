@@ -344,15 +344,16 @@ router.post('/:spotId/reviews', restoreUser, async (req, res, next) => {
     const currUser = user.dataValues.id
 
     if (!user) return res.status(401).json({ "message": "You're not logged in", "statusCode": 401 })
-    let spotId = req.params.spotId
-
+    
     //spots error
+    let spotId = req.params.spotId
     const findSpots = await Spot.findByPk(spotId)
     if (!findSpots) return res.status(404).json({ "message": "Spot couldn't be found", "statusCode": 404 })
 
     // if the current user already has a review at this spot... user overlap error
-    const findReviews = await Review.findAll({ where: { spotId }, raw: true })
-    if (currUser === findReviews[0].userId) return res.status(403).json({ "message": "User already has a review for this spot", "statusCode": 403 })
+    const findReviews = await Review.findOne({ where: { spotId, userId: currUser }, raw: true })
+    console.log(findReviews)
+    if (findReviews) return res.status(403).json({ "message": "User already has a review for this spot", "statusCode": 403 })
 
 
     let id = parseInt(spotId)
