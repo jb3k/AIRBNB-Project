@@ -57,14 +57,14 @@ router.post(
 );
 
 
-//get user
-router.get('/current', async (req, res, next) => {
-    const id = req.user.dataValues.id
+// //get user
+// router.get('/current', async (req, res, next) => {
+//     const id = req.user.dataValues.id
 
-    const currUser = await User.findByPk(id)
-    console.log(currUser)
+//     const currUser = await User.findByPk(id)
+//     console.log(currUser)
 
-    res.json()
-})
+//     res.json()
+// })
 
 module.exports = router;

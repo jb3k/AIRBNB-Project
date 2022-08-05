@@ -21,19 +21,13 @@ const validateLogin = [
 
 
 //return session user as JSON under key of user
-router.get(
-    '/',
-    //connect to restoreUser
-    restoreUser,
-    (req, res) => {
-        const { user } = req;
-        if (user) {
-            return res.json({
-                user: user.toSafeObject()
-            });
-            //if there is no session, it will return nothing
-        } else return res.json();
-    }
+router.get('/', restoreUser, (req, res) => {
+    const { user } = req;
+    if (user) {
+        return res.json(user.toSafeObject());
+        //if there is no session, it will return nothing
+    } else return res.json();
+}
 );
 
 
