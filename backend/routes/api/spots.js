@@ -448,7 +448,7 @@ router.get('/:spotId/bookings', restoreUser, async (req, res, next) => {
 router.post('/:spotId/bookings', restoreUser, async (req, res, next) => {
     const spotId = req.params.spotId
     const findSpot = await Spot.findByPk(spotId)
-    if (!findSpot) return res.status(404).json({ "message": "Booking couldn't be found", "statusCode": 404 })
+    if (!findSpot) return res.status(404).json({ "message": "Spot couldn't be found", "statusCode": 404 })
 
     const { user } = req;
     if (!user) return res.status(401).json({ "message": "You're not logged in", "statusCode": 401 })
