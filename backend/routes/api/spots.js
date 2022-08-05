@@ -93,7 +93,7 @@ router.get('/:spotId', async (req, res, next) => {
         where: { spotId }
     })
 
-    const spotInfo = await Spot.findAll({
+    const spotInfo = await Spot.findOne({
         attributes: {
             include: [
                 //numReviews key value pair
