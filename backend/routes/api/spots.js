@@ -342,7 +342,11 @@ router.post('/:spotId/reviews', restoreUser, async (req, res, next) => {
     const { user } = req
     if (!user) return res.status(401).json({ "message": "You're not logged in", "statusCode": 401 })
     let spotId = req.params.spotId
+
+    
     const findSpots = await Spot.findByPk(spotId)
+    if (!findSpots) return resstatus(404).json({ "message": "Spot couldn't be found", "statusCode": 404 })
+
 
     let id = parseInt(spotId)
     const { review, stars } = req.body
@@ -360,13 +364,6 @@ router.post('/:spotId/reviews', restoreUser, async (req, res, next) => {
     if (findSpots) {
         res.status(201)
         res.json(newReview)
-    } else if (!findSpots) {
-        //if you're getting the foreign key constaint, the validations is stopping vs the if statement
-        res.json({
-            "message": "Spot couldn't be found",
-            "statusCode": 404
-        })
-
     } else if (user) {
         //make sure there is no review at this spot with this user ID
         res.json({
