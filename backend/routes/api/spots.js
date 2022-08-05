@@ -59,6 +59,7 @@ router.get('/current', async (req, res, next) => {
         attributes: { include: [[sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]] },
         include: [{ model: Review, attributes: [] }],
         where: { id },
+        
         raw: true
     })
 
@@ -415,7 +416,7 @@ router.get('/:spotId/bookings', restoreUser, async (req, res, next) => {
         // }
 
         //eageLoading
-        const userBooked = await Booking.findAll({ include: { model: User, where: { id: user.dataValues.id } } })
+        const userBooked = await Booking.findAll({ include: { model: User, where: { id: user.dataValues.id }, attributes: ['id', 'firstName', 'lastName'] } })
 
         return res.status(200).json(userBooked)
         // return res.status(200).json(userBooking)

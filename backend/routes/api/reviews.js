@@ -87,15 +87,13 @@ router.post('/:reviewId/images', restoreUser, async (req, res, next) => {
     obj.imageableId = parseInt(newImg.reviewId)
     obj.url = newImg.url
 
-    //come back to this
-    if (!url || previewImage) {
-        res.json({
-            "message": "Validation error",
-            "statusCode": 400,
-            "errors": {
-                "review": "Review text is required",
-                "stars": "Stars must be an integer from 1 to 5",
-            }
+
+    //add error handler that requires max of 10 images per review
+    const imgNum = await Image.count({})
+    if (imgNum > 10) {
+        res.status(403), json({
+            "message": "Maximum number of images for this resource was reached",
+            "statusCode": 403
         })
     }
 
