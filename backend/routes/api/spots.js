@@ -339,6 +339,7 @@ router.get('/:spotId/reviews', restoreUser, async (req, res, next) => {
 
 //create a review for a spot based on the Spot's id
 router.post('/:spotId/reviews', restoreUser, async (req, res, next) => {
+
     const { user } = req
     const currUser = user.dataValues.id
 
