@@ -80,33 +80,72 @@ router.get('/current', restoreUser, async (req, res, next) => {
 
 
 //edit a booking
-router.put('/:reviewId', restoreUser, async (req, res, next) => {
-    const id = req.params.reviewId;
+router.put('/:bookingId', restoreUser, async (req, res, next) => {
+    const bookingId = req.params.bookingId;
     const { user } = req
     if (!user) return res.status(401).json({ "message": "You're not logged in", "statusCode": 401 })
 
-    const { review, stars } = req.body;
+    const { startDate, endDate } = req.body;
 
-    let updatedReview = await Review.findByPk(id)
-    if (!updatedReview) return res.status(404).json({ "message": "Review couldn't be found", "statusCode": 404 })
+    //couldnt find a booking with a specified ID
+    let currentBooking = await Booking.findOne({ where: { id: bookingId } })
+    if (!currentBooking) return res.status(404).json({ "message": "Booking couldn't be found", "statusCode": 404 })
 
-    let reviewInfo = await Review.findOne({ where: { id }, raw: true })
-    // console.log(updatedReview)
-
-
-    if (id) {
-        const newReview = await updatedReview.set(
-            {
-                userId: user.dataValues.id,
-                spotId: reviewInfo.spotId,
-                review,
-                stars
-            }
-        )
-        await newReview.save()
-        res.json(newReview)
-
+    let checkBooking = currentBooking.toJSON()
+    //user owns the booking
+    if (checkBooking.userId !== user.dataValues.id) {
+        return res.status(403).json({
+            "message": "Forbidden",
+            "statusCode": 403
+        })
     }
+
+    //end date is not before the start date
+    if (endDate < startDate) {
+        return res.status(400).json({
+            "message": "Validation error",
+            "statusCode": 400,
+            "errors": { "endDate": "endDate cannot be on or before startDate" }
+        })
+    }
+
+    //doesnt conflict with any other booking
+    const spotBookedDates = await Booking.findAll({ where: { spotId: checkBooking.spotId }, raw: true })
+    for (let dates of spotBookedDates) {
+        let start = dates.startDate
+        let end = dates.endDate
+
+        if (startDate >= start && startDate <= end || endDate <= end && endDate >= start || startDate <= end && endDate >= start) {
+            return res.status(403).json({
+                "message": "Sorry, this spot is already booked for the specified dates",
+                "statusCode": 403,
+                "errors": {
+                    "startDate": "Start date conflicts with an existing booking",
+                    "endDate": "End date conflicts with an existing booking"
+                }
+            })
+        }
+    }
+
+    // cant modify past booking
+    if (checkBooking.startDate <= new Date()) {
+        return res.status(403).json({
+            "message": "Past bookings can't be modified",
+            "statusCode": 403
+        })
+    }
+
+
+    const newBooking = await currentBooking.set(
+        {
+            id: user.dataValues.id,
+            spotId: currentBooking.spotId,
+            startDate,
+            endDate
+        }
+    )
+    await newBooking.save()
+    res.json(newBooking)
 
 
 })
@@ -115,26 +154,40 @@ router.put('/:reviewId', restoreUser, async (req, res, next) => {
 router.delete('/:bookingId', restoreUser, async (req, res, next) => {
     const bookingId = req.params.bookingId;
     const { user } = req
-    const findUser = await Booking.findOne({ where: { userId: user.dataValues.id, id: bookingId } })
-    if (!findUser) return res.status(401).json({ "message": "Authentication required", "statusCode": 401 })
+    //authorization
+    if (!user) return res.status(401).json({ "message": "Authentication required", "statusCode": 401 })
 
-    const findBooking = await Spot.findByPk(bookingId)
-    if (!findBooking) return res.status(404).json({ "message": "Spot couldn't be found", "statusCode": 404 })
+    //couldnt find a booking with a specified ID
+    let currentBooking = await Booking.findOne({ where: { id: bookingId } })
+    if (!currentBooking) return res.status(404).json({ "message": "Booking couldn't be found", "statusCode": 404 })
+    let checkBooking = currentBooking.toJSON()
 
-    let destroyBooking = await Review.findByPk(bookingId);
 
-    if (destroyBooking) {
-        await destroyBooking.destroy();
-        res.json({
-            message: "Successfully deleted"
-        })
-    } else {
-        res.status(404);
-        res.json({
-            "message": "Booking couldn't be found",
-            "statusCode": 404
+    let spot = await Spot.findOne({ where: { id: checkBooking.spotId }, raw: true })
+    let spotOwner = spot.ownerId
+    // check if the user is the owner of the spot or the owner of the booking
+    if (checkBooking.userId !== user.dataValues.id && spotOwner !== user.dataValues.id) {
+        return res.status(403).json({
+            "message": "Forbidden",
+            "statusCode": 403
         })
     }
+
+    //bookings that have been started cant be deleted
+    if (checkBooking.startDate <= new Date()) {
+        return res.status(403).json({
+            "message": "Bookings that have been started can't be deleted",
+            "statusCode": 403
+        })
+    }
+
+
+    await currentBooking.destroy();
+    res.json({
+        message: "Successfully deleted",
+        statusCode: 200
+    })
+
 
 })
 
