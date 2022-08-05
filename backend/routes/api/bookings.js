@@ -16,10 +16,10 @@ router.get('/current', restoreUser, async (req, res, next) => {
     //lazyloading
     const tester = 3
     const currUser = user.dataValues.id
-    const allBookings = await Booking.findAll({
+    const Bookings = await Booking.findAll({
         where: { id: currUser }, raw: true
     })
-    for (let image of allBookings) {
+    for (let image of Bookings) {
         console.log(image)
         const img = await Image.findOne({
             attributes: ['url'],
@@ -31,7 +31,7 @@ router.get('/current', restoreUser, async (req, res, next) => {
         })
         img ? image.previewImage = img.url : null
     }
-    for (let spot of allBookings) {
+    for (let spot of Bookings) {
         console.log(spot)
         const spotInfo = await Spot.findOne({
             where: { id: spot.spotId }, raw: true
@@ -55,7 +55,7 @@ router.get('/current', restoreUser, async (req, res, next) => {
     // }
 
     // const obj = {}
-    // obj.Bookings = allBookings
+    // obj.Bookings = Bookings
     // for (let img of obj.Bookings) {
     // const spotPreviewImage = await Spot.findAll({ raw: true })
     // for (let image of spotPreviewImage) {
@@ -68,13 +68,13 @@ router.get('/current', restoreUser, async (req, res, next) => {
     //         },
     //         raw: true
     //     })
-    //     img ? allBookings.Spot.previewImage = img.url : null
+    //     img ? Bookings.Spot.previewImage = img.url : null
     // }
     // img.Spot.previewImage = previewImg.previewImage
     // console.log(img.Spot)
 
 
-    res.json({ allBookings })
+    res.json({ Bookings })
 })
 
 
