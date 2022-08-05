@@ -115,7 +115,11 @@ router.put('/:reviewId', restoreUser, async (req, res, next) => {
 router.delete('/:bookingId', restoreUser, async (req, res, next) => {
     const bookingId = req.params.bookingId;
     const { user } = req
-    if (!user) return res.status(401).json({ "message": "You're not logged in", "statusCode": 401 })
+    const findUser = await Booking.findOne({ where: { userId: user.dataValues.id, id: bookingId } })
+    if (!findUser) return res.status(401).json({ "message": "Authentication required", "statusCode": 401 })
+
+    const findBooking = await Spot.findByPk(bookingId)
+    if (!findBooking) return res.status(404).json({ "message": "Spot couldn't be found", "statusCode": 404 })
 
     let destroyBooking = await Review.findByPk(bookingId);
 

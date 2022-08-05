@@ -435,13 +435,14 @@ router.post('/:spotId/bookings', restoreUser, async (req, res, next) => {
 
     const { startDate, endDate } = req.body
     //check if the startDate overlaps with any other date
-    const spotBookedDates = await Booking.findAll({ include: [{ model: Spot, where: { id: spotId } }], raw: true })
+    const spotBookedDates = await Booking.findAll({ where: { spotId }, raw: true })
     console.log(spotBookedDates)
 
     for (let dates of spotBookedDates) {
         let start = dates.startDate
         let end = dates.endDate
-        if (startDate === start || endDate === start || startDate === end || endDate === end) {
+
+        if (startDate >= start && startDate <= end || endDate <= end && endDate >= start) {
             return res.status(403).json({
                 "message": "Sorry, this spot is already booked for the specified dates",
                 "statusCode": 403,
@@ -462,8 +463,8 @@ router.post('/:spotId/bookings', restoreUser, async (req, res, next) => {
             }
         })
     }
-    //create the booking at the current spot I am at
-    const newBooking = Booking.create(
+    //create the booking at the current spot I am atc  
+    const newBooking = await Booking.create(
         {
             spotId,
             userId: user.dataValues.id,
