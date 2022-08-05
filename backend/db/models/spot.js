@@ -64,18 +64,18 @@ module.exports = (sequelize, DataTypes) => {
     lat: {
       type: DataTypes.DECIMAL,
       allowNull: false,
-      
+
     },
     lng: {
       type: DataTypes.DECIMAL,
       allowNull: false,
-      
+
     },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [1, 256]
+        len: [1, 50]
       }
     },
     description: {

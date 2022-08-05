@@ -223,7 +223,7 @@ router.put('/:spotId', async (req, res, next) => {
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
     let updatedSpot = await Spot.findByPk(spotId)
-
+    if (!updatedSpot) return res.status(404).json({ "message": "Spot couldn't be found", "statusCode": 404 })
 
     if (updatedSpot) {
         const newSpot = await updatedSpot.set(
