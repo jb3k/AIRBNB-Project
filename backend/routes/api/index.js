@@ -5,6 +5,8 @@ const usersRouter = require('./users.js');
 const spotRouter = require('./spots.js');
 //added reviewsRouter
 const reviewRouter = require('./reviews.js')
+//added bookingRouter
+const bookingRouter = require('./bookings.js')
 
 const { restoreUser } = require("../../utils/auth.js");
 
@@ -15,6 +17,7 @@ router.use('/session', sessionRouter);
 router.use('/users', usersRouter);
 router.use('/spots', spotRouter);
 router.use('/reviews', reviewRouter);
+router.use('/bookings', bookingRouter)
 
 
 //test 1

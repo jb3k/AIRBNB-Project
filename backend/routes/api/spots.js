@@ -378,5 +378,105 @@ router.post('/:spotId/reviews', restoreUser, async (req, res, next) => {
 
 })
 
+//get booking for a spot based on the Spot's Id
+router.get('/:spotId/bookings', restoreUser, async (req, res, next) => {
+    const spotId = req.params.spotId
+    const findSpot = await Spot.findByPk(spotId)
+    if (!findSpot) return res.status(404).json({ "message": "Spot couldn't be found", "statusCode": 404 })
+
+    const { user } = req;
+    if (!user) return res.status(401).json({ "message": "You're not logged in", "statusCode": 401 })
+    //find the owner of the spot
+    const currOwner = await Spot.findAll({ attributes: ['ownerId'], where: { id: spotId }, raw: true })
+    // console.log(currOwner[0].ownerId)
+
+    const currentUser = user.dataValues.id
+
+    //if logged in user does not own the spot
+    if (currOwner[0].ownerId !== currentUser) {
+        const obj = {}
+        const nonOwnerBooking = await Booking.findAll({
+            attributes: ['spotId', 'startDate', 'endDate'],
+            where: { spotId },
+            raw: true
+        })
+        obj.Bookings = nonOwnerBooking
+        return res.status(200).json(obj)
+    }
+    //if the logged in user is owner of the spot
+    else if (currOwner[0].ownerId === currentUser) {
+        //lazyLoading
+        // const userBooking = await Booking.findAll({ where: { spotId }, raw: true })
+        // for (let user of userBooking) {
+        //     console.log(user)
+        //     const currUser = await User.findOne({ where: { id: user.userId }, raw: true })
+
+        //     currUser ? user.User = currUser : null
+        // }
+
+        //eageLoading
+        const userBooked = await Booking.findAll({ include: { model: User, where: { id: user.dataValues.id } } })
+
+        return res.status(200).json(userBooked)
+        // return res.status(200).json(userBooking)
+    }
+
+})
+
+//create a booking from a spot based on the Spot's id
+router.post('/:spotId/bookings', restoreUser, async (req, res, next) => {
+    const spotId = req.params.spotId
+    const findSpot = await Spot.findByPk(spotId)
+    if (!findSpot) return res.status(404).json({ "message": "Spot couldn't be found", "statusCode": 404 })
+
+    const { user } = req;
+    if (!user) return res.status(401).json({ "message": "You're not logged in", "statusCode": 401 })
+
+
+    const { startDate, endDate } = req.body
+    //check if the startDate overlaps with any other date
+    const spotBookedDates = await Booking.findAll({ where: { spotId }, raw: true })
+    console.log(spotBookedDates)
+
+    for (let dates of spotBookedDates) {
+        let start = dates.startDate
+        let end = dates.endDate
+
+        if (startDate >= start && startDate <= end || endDate <= end && endDate >= start) {
+            return res.status(403).json({
+                "message": "Sorry, this spot is already booked for the specified dates",
+                "statusCode": 403,
+                "errors": {
+                    "startDate": "Start date conflicts with an existing booking",
+                    "endDate": "End date conflicts with an existing booking"
+                }
+            })
+        }
+    }
+
+    if (endDate < startDate) {
+        return res.status(400).json({
+            "message": "Validation error",
+            "statusCode": 400,
+            "errors": {
+                "endDate": "endDate cannot be on or before startDate"
+            }
+        })
+    }
+    //create the booking at the current spot I am atc  
+    const newBooking = await Booking.create(
+        {
+            spotId,
+            userId: user.dataValues.id,
+            startDate,
+            endDate
+        }
+    )
+    res.status(201).json(newBooking)
+
+
+})
+
+
 
 module.exports = router;
