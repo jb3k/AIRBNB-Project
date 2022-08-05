@@ -64,7 +64,8 @@ router.get('/', async (req, res, next) => {
         img ? spot.previewImage = img.url : spot.previewImage = null
     }
 
-    res.json({ Spots })
+
+    res.json({ Spots, page, size })
 })
 
 
