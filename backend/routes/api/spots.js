@@ -59,7 +59,7 @@ router.get('/current', async (req, res, next) => {
         attributes: { include: [[sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]] },
         include: [{ model: Review, attributes: [] }],
         group: ['Spot.id'],
-        where: { id },
+        where: { ownerId: id },
         raw: true
     })
     // console.log(currUser)
