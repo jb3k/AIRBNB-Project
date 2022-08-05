@@ -343,9 +343,9 @@ router.post('/:spotId/reviews', restoreUser, async (req, res, next) => {
     if (!user) return res.status(401).json({ "message": "You're not logged in", "statusCode": 401 })
     let spotId = req.params.spotId
 
-    
+
     const findSpots = await Spot.findByPk(spotId)
-    if (!findSpots) return resstatus(404).json({ "message": "Spot couldn't be found", "statusCode": 404 })
+    if (!findSpots) return res.status(404).json({ "message": "Spot couldn't be found", "statusCode": 404 })
 
 
     let id = parseInt(spotId)
