@@ -91,7 +91,7 @@ router.post('/:reviewId/images', restoreUser, async (req, res, next) => {
     //add error handler that requires max of 10 images per review
     const imgNum = await Image.count({})
     if (imgNum > 10) {
-        res.status(403), json({
+        res.status(403).json({
             "message": "Maximum number of images for this resource was reached",
             "statusCode": 403
         })
