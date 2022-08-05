@@ -225,7 +225,7 @@ router.put('/:spotId', async (req, res, next) => {
     let updatedSpot = await Spot.findByPk(spotId)
 
 
-    if (spotId) {
+    if (updatedSpot) {
         const newSpot = await updatedSpot.set(
             {
                 ownerId: req.user.dataValues.id,
@@ -243,10 +243,20 @@ router.put('/:spotId', async (req, res, next) => {
         await newSpot.save()
         res.json(newSpot)
     } else {
-        res.status(404);
-        res.json({
-            "message": "Spot couldn't be found",
-            "statusCode": 404
+        res.status(400).json({
+            "message": "Validation Error",
+            "statusCode": 400,
+            "errors": {
+                "address": "Street address is required",
+                "city": "City is required",
+                "state": "State is required",
+                "country": "Country is required",
+                "lat": "Latitude is not valid",
+                "lng": "Longitude is not valid",
+                "name": "Name must be less than 50 characters",
+                "description": "Description is required",
+                "price": "Price per day is required"
+            }
         })
     }
 
