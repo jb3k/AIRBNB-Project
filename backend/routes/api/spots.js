@@ -50,7 +50,7 @@ router.get('/', async (req, res, next) => {
 
 // Get all Spots owned by Current User
 router.get('/current', async (req, res, next) => {
-    //find current user?
+    //find current user
     const id = req.user.dataValues.id
     // const id = 4 (testing because the newly signed up user doesnt have data)
 
@@ -58,10 +58,11 @@ router.get('/current', async (req, res, next) => {
     const currUser = await Spot.findAll({
         attributes: { include: [[sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]] },
         include: [{ model: Review, attributes: [] }],
+        group: ['Spot.id'],
         where: { id },
-
         raw: true
     })
+    console.log(currUser)
 
     for (let spot of currUser) { //spot is checking every single spot in Spots table
         const img = await Image.findOne({
