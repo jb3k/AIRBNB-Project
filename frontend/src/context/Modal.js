@@ -30,9 +30,18 @@ export function Modal({ onClose, children }) {
     <div id="modal">
       <div id="modal-background" onClick={onClose} />
       <div id="modal-content">
-        {children}
+        <div className='header'>
+          <button id='x-button'> X </button>
+          <h3 > Login</h3>
+        </div>
+        <div className='middlepart'>
+          <h2> Welcome to FairBnB</h2>
+        </div>
+        <div className='entry-boxes'>
+          {children}
+        </div>
       </div>
-    </div>,
+    </div >,
     modalNode
   );
 }
