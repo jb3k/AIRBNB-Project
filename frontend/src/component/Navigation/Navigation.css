@@ -1,0 +1,26 @@
+.nav-container {
+    display: flex;
+    height: 40px;
+    justify-content: space-between;
+    margin: auto;
+    padding: 10px;
+    width: 80%;
+
+}
+
+.search-bar {
+    
+}
+
+#search-icon {
+    margin: auto
+}
+
+.bar {
+    height: 35px;
+    width: 300px;
+    text-align: center;
+    border-radius: 20px;
+
+}
+

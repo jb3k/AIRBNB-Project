@@ -23,12 +23,26 @@ function Navigation({ isLoaded }) {
   }
 
   return (
-    <ul>
-      <li>
-        <NavLink exact to="/">Home</NavLink>
+    <div className='nav-container'>
+      <div className='co-icon'>
+        <NavLink exact to="/">FairBnB</NavLink>
+      </div>
+
+      <label className='search-bar'>
+        <input
+          className='bar'
+          type="text"
+          placeholder="Anywhere | Any week | Add guests "
+        />
+        <i class="fa fa-search" id='search-icon'></i>
+      </label>
+      <div className='menu-bar'>
+        <i class="fa fa-bars"></i>
+        <i class="fa-solid fa-user"></i>
         {isLoaded && sessionLinks}
-      </li>
-    </ul>
+      </div>
+    </div>
+
   );
 }
 
