@@ -1,3 +1,8 @@
+.topNav-container {
+    border-bottom: solid lightgrey;
+    padding-bottom: 8px;
+}
+
 .nav-container {
     display: flex;
     height: 40px;
@@ -8,7 +13,10 @@
 
 }
 
-
+.company {
+    font-size: 28px;
+    color: red;
+}
 
 #search-icon {
     color: white;
@@ -23,10 +31,28 @@
 }
 
 .bar {
-    height: 35px;
+    height: 40px;
     width: 300px;
     text-align: center;
     border-radius: 20px;
     border-color: lightgrey;
-    
+
+}
+
+.menu-bttn {
+    border-radius: 20px;
+    background-color: white;
+    height: 40px;
+    width: 90px;
+    border-color: rgb(233, 232, 232);
+    padding: 5px;
+
+}
+
+.signup-icon {
+    height: 50px;
+    background-color: grey;
+    border-radius: 50%;
+    color: white;
+    margin-left: 15px
 }

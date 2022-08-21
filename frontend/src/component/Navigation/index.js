@@ -17,29 +17,32 @@ function Navigation({ isLoaded }) {
     sessionLinks = (
       <>
         <LoginFormModal />
-        <NavLink to="/signup">Sign Up</NavLink>
+        <NavLink to="/signup" className={'signup-icon'}>
+          <i class="fa-solid fa-user"> </i>
+        </NavLink>
       </>
     );
   }
 
   return (
-    <div className='nav-container'>
-      <div className='co-icon'>
-        <NavLink exact to="/">FairBnB</NavLink>
-      </div>
-
-      <label className='search-bar'>
-        <input
-          className='bar'
-          type="text"
-          placeholder="Anywhere | Any week | Add guests "
-        />
-        <i class="fa fa-search" id='search-icon'></i>
-      </label>
-      <div className='menu-bar'>
-        <i class="fa fa-bars"></i>
-        <i class="fa-solid fa-user"></i>
-        {isLoaded && sessionLinks}
+    <div className='topNav-container'>
+      <div className='nav-container'>
+        <NavLink exact to="/" className={'company'}>
+          <i class="fa-solid fa-handshake"></i> FairBnB
+        </NavLink>
+        <label className='search-bar'>
+          <input
+            className='bar'
+            type="text"
+            placeholder="Anywhere | Any week | Add guests "
+          />
+          <i class="fa fa-search" id='search-icon'></i>
+        </label>
+        <div className='menu-bar'>
+          <button className='menu-bttn'>
+            {isLoaded && sessionLinks}
+          </button>
+        </div>
       </div>
     </div>
 
