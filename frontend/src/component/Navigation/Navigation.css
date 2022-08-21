@@ -44,7 +44,7 @@
     background-color: white;
     height: 45px;
     width: 90px;
-    border-color: rgb(233, 232, 232);
+    border-color: lightgray;
     padding: 5px;
 
 }
@@ -55,4 +55,25 @@
     border-radius: 50%;
     color: white;
     margin-left: 9px
+}
+
+
+.dropdown {
+    position: relative;
+
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 20px);
+    background-color: white;
+    padding: 10px;
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
+    /* opacity: 0; */
+    transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
+}
+
+.dropdown > .link:focus + .dropdown-menu {
+    opacity: 1;
 }
