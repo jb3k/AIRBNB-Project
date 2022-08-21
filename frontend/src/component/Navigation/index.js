@@ -18,7 +18,7 @@ function Navigation({ isLoaded }) {
       <>
         <LoginFormModal />
         <NavLink to="/signup" className={'signup-icon'}>
-          <i class="fa-solid fa-user"> </i>
+          <i class="fa-solid fa-user" > </i>
         </NavLink>
       </>
     );

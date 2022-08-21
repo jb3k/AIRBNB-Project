@@ -42,7 +42,7 @@
 .menu-bttn {
     border-radius: 20px;
     background-color: white;
-    height: 40px;
+    height: 45px;
     width: 90px;
     border-color: rgb(233, 232, 232);
     padding: 5px;
@@ -50,9 +50,9 @@
 }
 
 .signup-icon {
-    height: 50px;
+    padding: 5px 6px;
     background-color: grey;
     border-radius: 50%;
     color: white;
-    margin-left: 15px
+    margin-left: 9px
 }
