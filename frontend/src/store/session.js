@@ -4,7 +4,6 @@ import { csrfFetch } from './csrf';
 //type
 const SET_USER = 'session/setUser'
 const REMOVE_USER = 'session/removeUser'
-const GET_SPOT = 'session/findSpot'
 
 
 //actions
@@ -14,19 +13,12 @@ export const setUser = user => {
         payload: user
     }
 }
-export const removeUser = user => {
+export const removeUser = () => {
     return {
         type: REMOVE_USER,
-        payload: user
     }
 }
-//find the spot
-export const getSpot = (allSpots) => {
-    return {
-        type: GET_SPOT,
-        payload: allSpots
-    }
-}
+
 
 
 //thunk
@@ -40,7 +32,7 @@ export const login = (user) => async (dispatch) => {
         }),
     });
     const data = await response.json();
-    dispatch(setUser(data.user));
+    dispatch(setUser(data));
     return response;
 };
 
@@ -66,7 +58,7 @@ export const signup = (user) => async (dispatch) => {
         }),
     });
     const data = await response.json();
-    dispatch(setUser(data.user));
+    dispatch(setUser(data));
     return response;
 };
 
@@ -78,19 +70,6 @@ export const logout = () => async (dispatch) => {
     dispatch(removeUser());
     return response;
 };
-
-
-// export const spot = () => async (dispatch) => {
-//     const response = await fetch('/api/spots')
-//     console.log(response)
-//     if (response.ok) {
-//         const spots = response.json()
-//         dispatch(getSpot(spots));
-//         return spots
-//     }
-
-// }
-
 
 
 //reducer
@@ -107,8 +86,6 @@ const sessionReducer = (state = initialState, action) => {
             newState = Object.assign({}, state);
             newState.user = null;
             return newState;
-        // case GET_SPOT:
-        //     return { ...action.payload }
         default:
             return state;
     }

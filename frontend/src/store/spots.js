@@ -1,42 +1,42 @@
-
-
 //type
-const GET_SPOT = 'session/findSpot'
+const LOAD_SPOT = 'session/findSpot'
 
 
 //actions
 //find the spot
 export const getSpot = (allSpots) => {
     return {
-        type: GET_SPOT,
-        payload: allSpots
+        type: LOAD_SPOT,
+        allSpots
     }
 }
-
 
 
 //thunk
 export const spot = () => async (dispatch) => {
     const response = await fetch('/api/spots')
-    console.log(response)
+
     if (response.ok) {
-        const spots = response.json()
+        const spots = await response.json()
         dispatch(getSpot(spots));
         return spots
     }
-
 }
-
 
 
 //reducer
 const initialState = {};
 
 const spotsReducer = (state = initialState, action) => {
-    let newState;
     switch (action.type) {
-        case GET_SPOT:
-            return { ...action.payload }
+        case LOAD_SPOT:
+            const allProperties = {};
+            action.allSpots.Spots.forEach(spot => {
+                allProperties[spot.id] = spot;
+            })
+            return {
+                ...allProperties
+            }
         default:
             return state;
     }

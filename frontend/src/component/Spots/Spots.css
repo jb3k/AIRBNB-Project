@@ -1,6 +1,32 @@
-.all-spots {
+.allSpot-container {
+    margin-top: 30px;
+}
+
+.spot-whole-container {
     display: flex;
-    padding-left: 10px;
-    padding-right: 10px;
-    
+    flex-wrap: wrap;
+    margin-left: 100px;
+
+}
+
+.location-container {
+    border: solid;
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    width: 300px;
+
+}
+
+.location-image {
+    border-bottom: solid;
+    height: 200px;
+}
+
+.location-details {
+    height: 100px;
+}
+
+.location {
+    font-weight: bold;
 }

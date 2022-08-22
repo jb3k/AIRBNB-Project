@@ -64,14 +64,14 @@ import './LoginForm.css'
 
 function LoginForm() {
   const dispatch = useDispatch();
-  const sessionUser = useSelector(state => state.session.user);
+  // const sessionUser = useSelector(state => state.session.user);
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
 
-  if (sessionUser) return (
-    <Redirect to="/" />
-  );
+  // if (sessionUser) return (
+  //   <Redirect to="/" />
+  // );
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -101,7 +101,6 @@ function LoginForm() {
             required
             placeholder="Username or Email"
             className="modal-input"
-          // style={{ width: '400px', height: '50px'}}
           />
         </label>
         <label>
@@ -112,23 +111,19 @@ function LoginForm() {
             required
             placeholder="Password"
             className="modal-input"
-          // style={{ width: '400px', height: '50px' }}
           />
         </label>
         <button type="submit"
-          onSubmit={handleSubmit}
           className='modal-continue-bttn'
-        // style={{
-        //   backgroundColor: 'red', color: 'white',
-        //   border: 'none', width: '410px', height: '50px',
-        // }}
         >
-          Continue</button>
+          Continue
+        </button>
         <div>
           or
         </div>
         <button type="submit"
-        className="demo-bttn"
+          className="demo-bttn"
+          onClick={() => { setPassword('password'); setCredential('JimBob') }}
         >
           Demo-User Login
         </button>

@@ -4,7 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import SignupFormPage from "./component/SignupFormPage/index"
 import * as sessionActions from "./store/session";
 import Navigation from "./component/Navigation/index"
-// import Spots from './component/Spots/index'
+import DisplaySpots from './component/Spots/index'
 
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
   return isLoaded && (
     <>
       <Navigation isLoaded={isLoaded} />
-      {/* <Spots /> */}
+      <DisplaySpots />
       {isLoaded && (
         <Switch>
           <Route path="/signup">
