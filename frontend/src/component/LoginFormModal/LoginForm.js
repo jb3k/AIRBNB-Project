@@ -58,14 +58,20 @@
 
 import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from 'react-router-dom';
 import './LoginForm.css'
 
 function LoginForm() {
   const dispatch = useDispatch();
+  const sessionUser = useSelector(state => state.session.user);
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
+
+  if (sessionUser) return (
+    <Redirect to="/" />
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -79,13 +85,14 @@ function LoginForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <ul>
-        {errors.map((error, idx) => (
-          <li key={idx}>{error}</li>
-        ))}
-      </ul>
-      <div className="entry-boxes">
+    <div className="entry-boxes">
+      <form onSubmit={handleSubmit} className='form'>
+        <ul>
+          {errors.map((error, idx) => (
+            <li key={idx}>{error}</li>
+          ))}
+        </ul>
+
         <label>
           <input
             type="text"
@@ -93,7 +100,8 @@ function LoginForm() {
             onChange={(e) => setCredential(e.target.value)}
             required
             placeholder="Username or Email"
-            style={{ width: '400px', height: '50px'}}
+            className="modal-input"
+          // style={{ width: '400px', height: '50px'}}
           />
         </label>
         <label>
@@ -102,19 +110,30 @@ function LoginForm() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            placeholder="Username or Email"
-            style={{ width: '400px', height: '50px' }}
+            placeholder="Password"
+            className="modal-input"
+          // style={{ width: '400px', height: '50px' }}
           />
         </label>
         <button type="submit"
-          style={{
-            backgroundColor: 'red', color: 'white',
-            border: 'none', width: '410px', height: '50px',
-          }}>
+          onSubmit={handleSubmit}
+          className='modal-continue-bttn'
+        // style={{
+        //   backgroundColor: 'red', color: 'white',
+        //   border: 'none', width: '410px', height: '50px',
+        // }}
+        >
           Continue</button>
-      </div>
-
-    </form>
+        <div>
+          or
+        </div>
+        <button type="submit"
+        className="demo-bttn"
+        >
+          Demo-User Login
+        </button>
+      </form>
+    </div>
   );
 }
 

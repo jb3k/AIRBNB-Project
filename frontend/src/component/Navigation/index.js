@@ -4,9 +4,14 @@ import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import LoginFormModal from '../LoginFormModal/index';
 import './Navigation.css';
+import { useState, useEffect } from 'react'
+
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
+
+  const [click, setClick] = useState(false)
+  const handleClick = () => setClick(!click)
 
   let sessionLinks;
   if (sessionUser) {
@@ -16,30 +21,52 @@ function Navigation({ isLoaded }) {
   } else {
     sessionLinks = (
       <>
+
+        <NavLink to="/signup"
+          style={{ textDecoration: 'none', color: 'black' }} >
+          Sign up
+        </NavLink>
         <LoginFormModal />
-        <NavLink to="/signup">Sign Up</NavLink>
       </>
     );
   }
 
   return (
-    <div className='nav-container'>
-      <div className='co-icon'>
-        <NavLink exact to="/">FairBnB</NavLink>
-      </div>
+    <div className='topNav-container'>
+      <div className='nav-container'>
+        <div>
+          <NavLink exact to="/" className={'company'}
+            style={{ textDecoration: 'none' }}>
+            <i class="fa-solid fa-handshake"></i> | FairBnB
+          </NavLink>
 
-      <label className='search-bar'>
-        <input
-          className='bar'
-          type="text"
-          placeholder="Anywhere | Any week | Add guests "
-        />
-        <i class="fa fa-search" id='search-icon'></i>
-      </label>
-      <div className='menu-bar'>
-        <i class="fa fa-bars"></i>
-        <i class="fa-solid fa-user"></i>
-        {isLoaded && sessionLinks}
+        </div>
+
+        <div>
+          <label className='search-bar'>
+            <input
+              className='bar'
+              type="text"
+              placeholder="Anywhere | Any week | Add guests "
+            />
+            <i class="fa fa-search" id='search-icon'></i>
+          </label>
+        </div>
+
+        <div className='dropdown'>
+          <button className='menu-bttn'>
+            <div className='login-icon'>
+              <i class="fa fa-bars fa-lg"></i>
+            </div>
+            <div className={'signup-icon'}>
+              <i class="fa-solid fa-user"> </i>
+            </div>
+          </button>
+
+          <div className='dropdown-menu'>
+            {isLoaded && sessionLinks}
+          </div>
+        </div>
       </div>
     </div>
 
