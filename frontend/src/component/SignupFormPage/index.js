@@ -21,8 +21,6 @@ function SignupFormPage() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        debugger
-        spot()
 
         if (password === confirmPassword) {
             setErrors([]);

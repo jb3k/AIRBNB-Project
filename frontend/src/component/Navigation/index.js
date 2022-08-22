@@ -6,6 +6,7 @@ import LoginFormModal from '../LoginFormModal/index';
 import './Navigation.css';
 import { useState, useEffect } from 'react'
 
+
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
 
@@ -20,17 +21,15 @@ function Navigation({ isLoaded }) {
   } else {
     sessionLinks = (
       <>
-        <LoginFormModal />
+
         <NavLink to="/signup"
-          style={{ textDecoration: 'none' }} >
+          style={{ textDecoration: 'none', color: 'black' }} >
           Sign up
         </NavLink>
+        <LoginFormModal />
       </>
     );
   }
-
-
-
 
   return (
     <div className='topNav-container'>
@@ -40,6 +39,7 @@ function Navigation({ isLoaded }) {
             style={{ textDecoration: 'none' }}>
             <i class="fa-solid fa-handshake"></i> | FairBnB
           </NavLink>
+
         </div>
 
         <div>

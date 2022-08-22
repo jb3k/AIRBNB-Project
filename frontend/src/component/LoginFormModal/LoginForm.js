@@ -58,14 +58,20 @@
 
 import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from 'react-router-dom';
 import './LoginForm.css'
 
 function LoginForm() {
   const dispatch = useDispatch();
+  const sessionUser = useSelector(state => state.session.user);
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
+
+  if (sessionUser) return (
+    <Redirect to="/" />
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -93,7 +99,7 @@ function LoginForm() {
             onChange={(e) => setCredential(e.target.value)}
             required
             placeholder="Username or Email"
-            style={{ width: '400px', height: '50px'}}
+          // style={{ width: '400px', height: '50px'}}
           />
         </label>
         <label>
@@ -102,15 +108,16 @@ function LoginForm() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            placeholder="Username or Email"
-            style={{ width: '400px', height: '50px' }}
+            placeholder="Password"
+          // style={{ width: '400px', height: '50px' }}
           />
         </label>
         <button type="submit"
-          style={{
-            backgroundColor: 'red', color: 'white',
-            border: 'none', width: '410px', height: '50px',
-          }}>
+        // style={{
+        //   backgroundColor: 'red', color: 'white',
+        //   border: 'none', width: '410px', height: '50px',
+        // }}
+        >
           Continue</button>
       </div>
 

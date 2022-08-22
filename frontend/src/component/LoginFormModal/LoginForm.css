@@ -1,5 +1,6 @@
 .menuBar-bttn {
     background-color: white;
     border: none;
-    
+    font-family:  sans-serif;
+    font-size: 20px;
 }

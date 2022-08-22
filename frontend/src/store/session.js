@@ -80,16 +80,16 @@ export const logout = () => async (dispatch) => {
 };
 
 
-export const spot = () => async (dispatch) => {
-    const response = await fetch('/api/spots')
-    console.log(response)
-    if (response.ok) {
-        const spots = response.json()
-        dispatch(getSpot(spots));
-        return spots
-    }
+// export const spot = () => async (dispatch) => {
+//     const response = await fetch('/api/spots')
+//     console.log(response)
+//     if (response.ok) {
+//         const spots = response.json()
+//         dispatch(getSpot(spots));
+//         return spots
+//     }
 
-}
+// }
 
 
 
@@ -107,8 +107,8 @@ const sessionReducer = (state = initialState, action) => {
             newState = Object.assign({}, state);
             newState.user = null;
             return newState;
-        case GET_SPOT:
-            return { ...action.payload }
+        // case GET_SPOT:
+        //     return { ...action.payload }
         default:
             return state;
     }
