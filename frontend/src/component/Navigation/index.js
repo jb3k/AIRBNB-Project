@@ -21,19 +21,27 @@ function Navigation({ isLoaded }) {
     sessionLinks = (
       <>
         <LoginFormModal />
-        <NavLink to="/signup" className={'signup-icon'}>
-          <i class="fa-solid fa-user" > </i>
+        <NavLink to="/signup"
+          style={{ textDecoration: 'none' }} >
+          Sign up
         </NavLink>
       </>
     );
   }
 
+
+
+
   return (
     <div className='topNav-container'>
       <div className='nav-container'>
-        <NavLink exact to="/" className={'company'}>
-          <i class="fa-solid fa-handshake"></i> FairBnB
-        </NavLink>
+        <div>
+          <NavLink exact to="/" className={'company'}
+            style={{ textDecoration: 'none' }}>
+            <i class="fa-solid fa-handshake"></i> | FairBnB
+          </NavLink>
+        </div>
+
         <div>
           <label className='search-bar'>
             <input
@@ -44,14 +52,19 @@ function Navigation({ isLoaded }) {
             <i class="fa fa-search" id='search-icon'></i>
           </label>
         </div>
+
         <div className='dropdown'>
           <button className='menu-bttn'>
-
-            {isLoaded && sessionLinks}
+            <div className='login-icon'>
+              <i class="fa fa-bars fa-lg"></i>
+            </div>
+            <div className={'signup-icon'}>
+              <i class="fa-solid fa-user"> </i>
+            </div>
           </button>
-          <div className='dropdown-menu'>
-            {sessionLinks}
 
+          <div className='dropdown-menu'>
+            {isLoaded && sessionLinks}
           </div>
         </div>
       </div>

@@ -40,6 +40,8 @@
 }
 
 .menu-bttn {
+    display: flex;
+    align-items: center;
     border-radius: 20px;
     background-color: white;
     height: 45px;
@@ -49,12 +51,21 @@
 
 }
 
+
+.login-icon {
+    padding-right: 20px;
+    padding-left: 9px;
+}
+
 .signup-icon {
     padding: 5px 6px;
     background-color: grey;
     border-radius: 50%;
+    align-items: center;
+    height: 18px;
+    width: 18px;
     color: white;
-    margin-left: 9px
+
 }
 
 
@@ -74,6 +85,6 @@
     transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
 }
 
-.dropdown > .link:focus + .dropdown-menu {
+.dropdown>.link:focus+.dropdown-menu {
     opacity: 1;
 }
