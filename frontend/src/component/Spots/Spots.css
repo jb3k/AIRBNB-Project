@@ -1,6 +1,11 @@
-.all-spots {
+.spot-container {
+    margin-top: 30px;
     display: flex;
-    padding-left: 10px;
-    padding-right: 10px;
+    
+}
+
+.location {
+    border: solid;
+    display: flex;
     
 }

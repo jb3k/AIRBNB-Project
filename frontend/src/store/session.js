@@ -4,7 +4,6 @@ import { csrfFetch } from './csrf';
 //type
 const SET_USER = 'session/setUser'
 const REMOVE_USER = 'session/removeUser'
-const GET_SPOT = 'session/findSpot'
 
 
 //actions
@@ -20,13 +19,7 @@ export const removeUser = user => {
         payload: user
     }
 }
-//find the spot
-export const getSpot = (allSpots) => {
-    return {
-        type: GET_SPOT,
-        payload: allSpots
-    }
-}
+
 
 
 //thunk
@@ -107,8 +100,6 @@ const sessionReducer = (state = initialState, action) => {
             newState = Object.assign({}, state);
             newState.user = null;
             return newState;
-        // case GET_SPOT:
-        //     return { ...action.payload }
         default:
             return state;
     }
