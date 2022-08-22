@@ -13,10 +13,9 @@ export const setUser = user => {
         payload: user
     }
 }
-export const removeUser = user => {
+export const removeUser = () => {
     return {
         type: REMOVE_USER,
-        payload: user
     }
 }
 
@@ -33,7 +32,7 @@ export const login = (user) => async (dispatch) => {
         }),
     });
     const data = await response.json();
-    dispatch(setUser(data.user));
+    dispatch(setUser(data));
     return response;
 };
 
@@ -59,7 +58,7 @@ export const signup = (user) => async (dispatch) => {
         }),
     });
     const data = await response.json();
-    dispatch(setUser(data.user));
+    dispatch(setUser(data));
     return response;
 };
 
@@ -71,19 +70,6 @@ export const logout = () => async (dispatch) => {
     dispatch(removeUser());
     return response;
 };
-
-
-// export const spot = () => async (dispatch) => {
-//     const response = await fetch('/api/spots')
-//     console.log(response)
-//     if (response.ok) {
-//         const spots = response.json()
-//         dispatch(getSpot(spots));
-//         return spots
-//     }
-
-// }
-
 
 
 //reducer
