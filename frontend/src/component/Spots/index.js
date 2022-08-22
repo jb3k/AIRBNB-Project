@@ -19,10 +19,25 @@ function DisplaySpots() {
     if (!properties) return null
 
     return (
-        <div className='spot-container'>
-            {properties.map(({ id, city, price, state, }) => (
-                <div key={id} className='location'> {`${city}, ${state} $${Math.floor(price)} night`}</div>
-            ))}
+        <div className='allSpot-container'>
+            <div className='spot-whole-container'>
+                {properties.map(({ id, city, price, state, }) => (
+                    <div className='location-container'>
+                        <h1 className='location-image'>Image here</h1>
+
+                        <div className='location-details'>
+                            <div key={id} className='location'>
+                                {`${city}, ${state}`}
+                            </div>
+                            <div key={id} className='location-price'>
+                                {`$${Math.floor(price)} night`}
+                            </div>
+
+                        </div>
+                    </div>
+                ))}
+            </div>
+
         </div>
 
     )
