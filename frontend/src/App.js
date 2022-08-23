@@ -19,11 +19,16 @@ function App() {
   return isLoaded && (
     <>
       <Navigation isLoaded={isLoaded} />
-      <DisplaySpots />
       {isLoaded && (
         <Switch>
+          <Route path="/spots/spotId">
+            {/* <SpotId /> */}
+          </Route>
           <Route path="/signup">
             <SignupFormPage />
+          </Route>
+          <Route path="/">
+            <DisplaySpots />
           </Route>
         </Switch>
       )}

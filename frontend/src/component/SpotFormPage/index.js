@@ -5,22 +5,24 @@ import * as sessionActions from "../../store/session";
 import './SignupForm.css';
 import { spot } from "../../store/session";
 
-function SignupFormPage() {
+function SpotFormPage() {
     const dispatch = useDispatch();
     const sessionUser = useSelector((state) => state.session.user);
-    const [firstName, setFirstName] = useState("")
-    const [lastName, setLastName] = useState("")
-    const [email, setEmail] = useState("");
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [errors, setErrors] = useState([]);
+    const [ownerId, setOwnerId] = useState()
+    const [address, setAddress] = useState("")
+    const [city, setCity] = useState("")
+    const [state, setState] = useState("");
+    const [country, setCountry] = useState("");
+    const [lat, setLat] = useState("");
+    const [lng, setLng] = useState("");
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
+    const [price, setPrice] = useState(0);
 
-    if (sessionUser) return <Redirect to="/" />;
+    if (!sessionUser) return <Redirect to="/" />;
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
 
         if (password === confirmPassword) {
             setErrors([]);
@@ -40,11 +42,11 @@ function SignupFormPage() {
                     {errors.map((error, idx) => <li key={idx}>{error}</li>)}
                 </ul>
                 <label>
-                    First Name
+                    Name
                     <input
                         type="text"
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                         required
                     />
                 </label>
@@ -99,4 +101,4 @@ function SignupFormPage() {
     );
 }
 
-export default SignupFormPage;
+export default SpotFormPage;

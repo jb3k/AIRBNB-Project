@@ -41,8 +41,12 @@ function Navigation({ isLoaded }) {
           </NavLink>
 
         </div>
-
-        <div>
+        <div className='become-host'>
+          <button className='host-button'>
+            Become a host
+          </button>
+        </div>
+        {/* <div>
           <label className='search-bar'>
             <input
               className='bar'
@@ -51,7 +55,7 @@ function Navigation({ isLoaded }) {
             />
             <i class="fa fa-search" id='search-icon'></i>
           </label>
-        </div>
+        </div> */}
 
         <div className='dropdown'>
           <button className='menu-bttn'>
