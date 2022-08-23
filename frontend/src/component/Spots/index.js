@@ -1,17 +1,20 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
 import { spot } from '../../store/spots'
 import './Spots.css'
 
 function DisplaySpots() {
 
     const dispatch = useDispatch()
+    const { spotId } = useParams()
+
     const properties = useSelector(state =>
         // console.log(state.spotsReducer)
         Object.values(state.spotsReducer)
     )
-    console.log(properties)
+    // console.log(properties)
+
     useEffect(() => {
         dispatch(spot())
     }, [dispatch])
@@ -21,13 +24,15 @@ function DisplaySpots() {
     return (
         <div className='allSpot-container'>
             <div className='spot-whole-container'>
-                {properties.map(({ id, city, price, state, }) => (
+                {properties.map(({ id, city, price, state, avgRating, previewImage }) => (
                     <div className='location-container'>
-                        <h1 className='location-image'>Image here</h1>
-
+                        {/* <NavLink to={''}></NavLink> */}
+                        <h1 className='location-image'>{previewImage}</h1>
+                        {/* <img src={previewImage} >Image here</img> */}
                         <div className='location-details'>
                             <div key={id} className='location'>
                                 {`${city}, ${state}`}
+                                {Math.round(avgRating * 100) / 100}
                             </div>
                             <div key={id} className='location-price'>
                                 {`$${Math.floor(price)} night`}
