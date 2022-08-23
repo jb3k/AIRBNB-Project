@@ -14,14 +14,9 @@ function SpotId() {
         // console.log(state.spotsReducer)
         Object.values(state.spotsReducer)
     )
-    console.log(properties)
 
     //giving me the list of IDs of each property in an array
-    const propertyId = properties.find((ele) => {
-        //want to find where this === spotId
-        console.log(ele.id)
-    })
-
+    const propertyId = properties.find((ele) => ele.id === spotId )
     console.log(propertyId)
 
 
@@ -32,8 +27,8 @@ function SpotId() {
     if (!properties) return null
 
     return (
-        <div>
-
+        <div className='whole-page'>
+            <h1>Home</h1>
         </div>
     )
 

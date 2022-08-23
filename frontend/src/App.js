@@ -6,7 +6,7 @@ import * as sessionActions from "./store/session";
 import Navigation from "./component/Navigation/index"
 import DisplaySpots from './component/Spots/index'
 import SpotFormPage from "./component/SpotFormPage";
-// import SpotId from "./component/Spots/SpotsId";
+import SpotId from "./component/SpotById/index";
 
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
             <SpotFormPage />
           </Route>
           <Route path="/spots/:spotId">
-            {/* <SpotId /> */}
+            <SpotId />
           </Route>
           <Route path="/signup">
             <SignupFormPage />

@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as sessionActions from "../../store/session";
 import './SpotFormPage.css';
 import LoginFormModal from "../LoginFormModal";
+import spotsReducer from "../../store/spots";
+import { spot } from '../../store/spots'
+import { addSpots } from "../../store/spots";
+
 
 function SpotFormPage() {
 
@@ -11,8 +14,18 @@ function SpotFormPage() {
     }
 
     const dispatch = useDispatch();
-    const sessionUser = useSelector((state) => state.session.user);
-    // const [ownerId, setOwnerId] = useState()
+    const sessionUser = useSelector((state) =>
+        state.session.user
+    );
+
+    useEffect(() => {
+        dispatch(spot())
+    }, [dispatch])
+
+
+    //i want to get the owner id from the session 
+
+    const [ownerId, setOwnerId] = useState()
     const [address, setAddress] = useState("")
     const [city, setCity] = useState("")
     const [state, setState] = useState("");
@@ -24,22 +37,49 @@ function SpotFormPage() {
     const [price, setPrice] = useState(1);
     const [errors, setErrors] = useState([]);
 
+
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (!sessionUser) {
+        if (address.length < 1) errors.push('Need valid address')
+        if (city.length < 1) errors.push('Need valid city')
+        if (state.length < 1) errors.push('Need valid state')
+        if (country.length < 1) errors.push('Need valid country')
+        if (name.length < 1) errors.push('Need valid title')
+        if (description.length < 1) errors.push('Need valid description')
+        if (price < 1) errors.push('Need valid price')
+        setOwnerId(sessionUser.id)
 
-        }
+        alert('Home has been submitted')
+       
+       
+        // reset()
+
+
+        // return setErrors(['Confirm all field are filled in'])
         // if (!sessionUser) {
         //     setErrors([]);
-        //     return dispatch(sessionActions.signup({ firstName, lastName, email, username, password }))
+        //     return dispatch(addSpots({ address, city, state, country, name, description, price }))
         //         .catch(async (res) => {
         //             const data = await res.json();
         //             if (data && data.errors) setErrors(data.errors);
         //         });
         // }
-        // return setErrors(['Confirm Password field must be the same as the Password field']);
+        // return setErrors(['Confirm all field are filled in']);
+
     };
+
+    const reset = () => {
+        setAddress('')
+        setCity('')
+        setState('')
+        setCountry('')
+        setName('')
+        setDescription('')
+        setPrice(1)
+    }
 
     return (
         <div className="whole-form">
@@ -102,7 +142,7 @@ function SpotFormPage() {
                     />
                 </label>
                 <label>
-                    Name
+                    Title
                     <input
                         type="text"
                         value={name}
