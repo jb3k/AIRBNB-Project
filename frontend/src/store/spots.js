@@ -80,16 +80,16 @@ export const spotId = (id) => async (dispatch) => {
 
 //create thunk
 export const addSpots = (spot) => async (dispatch) => {
-    const { address, city, state, country, lat, lng, name, description, price } = spot;
+    const { address, city, state, lat, lng, country, name, description, price } = spot;
     const response = await csrfFetch('/api/spots', {
         method: 'POST',
         body: JSON.stringify({
             address,
             city,
             state,
-            country,
             lat,
             lng,
+            country,
             name,
             description,
             price
@@ -162,7 +162,7 @@ const spotsReducer = (state = initialState, action) => {
         //         ...allProperties,
         //     }
         case CREATE_SPOT:
-            newState = {...state}
+            newState = { ...state }
             newState.allSpots.Spots = action.addSpot
             return newState
         // case UPDATE_SPOT:

@@ -9,6 +9,8 @@ import { addSpots } from "../../store/spots";
 
 function SpotFormPage() {
 
+
+
     const randomNum = () => {
         return Math.floor(Math.random() * 100);
     }
@@ -30,13 +32,13 @@ function SpotFormPage() {
     const [city, setCity] = useState("")
     const [state, setState] = useState("");
     const [country, setCountry] = useState("");
-    const [lat, setLat] = useState(randomNum);
-    const [lng, setLng] = useState(randomNum);
+    const [lat, setLat] = useState(`${randomNum}`);
+    const [lng, setLng] = useState(`${randomNum}`);
     const [name, setName] = useState("");
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState(1);
     const [errors, setErrors] = useState([]);
-
+    const [submitted, setSubmitted] = useState(false)
 
 
 
@@ -47,30 +49,32 @@ function SpotFormPage() {
         if (city.length < 1) errors.push('Need valid city')
         if (state.length < 1) errors.push('Need valid state')
         if (country.length < 1) errors.push('Need valid country')
+        if (lat < 1) errors.push('Need valid lat')
+        if (lng < 1) errors.push('Need valid lng')
         if (name.length < 1) errors.push('Need valid title')
         if (description.length < 1) errors.push('Need valid description')
         if (price < 1) errors.push('Need valid price')
         setOwnerId(sessionUser.id)
 
         if (!errors.length) {
-            dispatch(addSpots({ address, city, state, country, name, description, price }))
+            dispatch(addSpots({ address, city, state, country, lat, lng, name, description, price }))
         } else {
             setErrors(errors)
         }
-
+        setSubmitted(true)
         alert('Home has been submitted')
         // reset()
     };
 
-    const reset = () => {
-        setAddress('')
-        setCity('')
-        setState('')
-        setCountry('')
-        setName('')
-        setDescription('')
-        setPrice(1)
-    }
+    // const reset = () => {
+    //     setAddress('')
+    //     setCity('')
+    //     setState('')
+    //     setCountry('')
+    //     setName('')
+    //     setDescription('')
+    //     setPrice(1)
+    // }
 
     return (
         <div className="whole-form">
@@ -159,7 +163,7 @@ function SpotFormPage() {
                         required
                     />
                 </label>
-                <button type="submit">Submit Home</button>
+                <button type="submit" >Submit Home</button>
             </form>
         </div>
     );
