@@ -1,3 +1,6 @@
+import { csrfFetch } from "./csrf"
+
+
 //type
 const LOAD_SPOT = 'session/findSpot'
 const ID_SPOT = 'session/findSpotId'
@@ -35,7 +38,7 @@ export const createSpot = (addSpot) => {
 
 //get all
 export const spot = () => async (dispatch) => {
-    const response = await fetch('/api/spots')
+    const response = await csrfFetch('/api/spots')
 
     if (response.ok) {
         const spots = await response.json()
@@ -57,11 +60,10 @@ export const spot = () => async (dispatch) => {
 
 //create
 export const addSpots = (spot) => async (dispatch) => {
-    const { ownerId, address, city, state, country, lat, lng, name, description, price } = spot;
-    const response = await fetch('/api/spots', {
+    // const { ownerId, address, city, state, country, lat, lng, name, description, price } = spot;
+    const response = await csrfFetch('/api/spots', {
         method: 'POST',
         body: JSON.stringify({
-            ownerId,
             address,
             city,
             state,
