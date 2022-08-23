@@ -9,12 +9,6 @@ import { addSpots } from "../../store/spots";
 
 function SpotFormPage() {
 
-
-
-    const randomNum = () => {
-        return Math.floor(Math.random() * 100);
-    }
-
     const dispatch = useDispatch();
     const sessionUser = useSelector((state) =>
         state.session.user
@@ -32,8 +26,8 @@ function SpotFormPage() {
     const [city, setCity] = useState("")
     const [state, setState] = useState("");
     const [country, setCountry] = useState("");
-    const [lat, setLat] = useState(`${randomNum}`);
-    const [lng, setLng] = useState(`${randomNum}`);
+    const [lat, setLat] = useState(2);
+    const [lng, setLng] = useState(2);
     const [name, setName] = useState("");
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState(1);
@@ -63,18 +57,18 @@ function SpotFormPage() {
         }
         setSubmitted(true)
         alert('Home has been submitted')
-        // reset()
+        reset()
     };
 
-    // const reset = () => {
-    //     setAddress('')
-    //     setCity('')
-    //     setState('')
-    //     setCountry('')
-    //     setName('')
-    //     setDescription('')
-    //     setPrice(1)
-    // }
+    const reset = () => {
+        setAddress('')
+        setCity('')
+        setState('')
+        setCountry('')
+        setName('')
+        setDescription('')
+        setPrice(1)
+    }
 
     return (
         <div className="whole-form">
