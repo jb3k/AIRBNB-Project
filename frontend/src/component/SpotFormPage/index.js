@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
 import * as sessionActions from "../../store/session";
-import './SignupForm.css';
-import { spot } from "../../store/session";
+import './SpotFormPage.css';
+import LoginFormModal from "../LoginFormModal";
 
 function SpotFormPage() {
     const dispatch = useDispatch();
     const sessionUser = useSelector((state) => state.session.user);
-    const [ownerId, setOwnerId] = useState()
+    // const [ownerId, setOwnerId] = useState()
     const [address, setAddress] = useState("")
     const [city, setCity] = useState("")
     const [state, setState] = useState("");
@@ -18,21 +17,23 @@ function SpotFormPage() {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState(0);
-
-    if (!sessionUser) return <Redirect to="/" />;
+    const [errors, setErrors] = useState([]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (password === confirmPassword) {
-            setErrors([]);
-            return dispatch(sessionActions.signup({ firstName, lastName, email, username, password }))
-                .catch(async (res) => {
-                    const data = await res.json();
-                    if (data && data.errors) setErrors(data.errors);
-                });
+        if (!sessionUser) {
+
         }
-        return setErrors(['Confirm Password field must be the same as the Password field']);
+        // if (!sessionUser) {
+        //     setErrors([]);
+        //     return dispatch(sessionActions.signup({ firstName, lastName, email, username, password }))
+        //         .catch(async (res) => {
+        //             const data = await res.json();
+        //             if (data && data.errors) setErrors(data.errors);
+        //         });
+        // }
+        // return setErrors(['Confirm Password field must be the same as the Password field']);
     };
 
     return (
@@ -41,6 +42,60 @@ function SpotFormPage() {
                 <ul>
                     {errors.map((error, idx) => <li key={idx}>{error}</li>)}
                 </ul>
+                <label>
+                    Address
+                    <input
+                        type="text"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                        required
+                    />
+                </label>
+                <label>
+                    City
+                    <input
+                        type="text"
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                        required
+                    />
+                </label>
+                <label>
+                    State
+                    <input
+                        type="text"
+                        value={state}
+                        onChange={(e) => setState(e.target.value)}
+                        required
+                    />
+                </label>
+                <label>
+                    Country
+                    <input
+                        type="text"
+                        value={country}
+                        onChange={(e) => setCountry(e.target.value)}
+                        required
+                    />
+                </label>
+                <label>
+                    Lattitude
+                    <input
+                        type="integer"
+                        value={lat}
+                        onChange={(e) => setLat(e.target.value)}
+                        required
+                    />
+                </label>
+                <label>
+                    Longitude
+                    <input
+                        type="integer"
+                        value={lng}
+                        onChange={(e) => setLng(e.target.value)}
+                        required
+                    />
+                </label>
                 <label>
                     Name
                     <input
@@ -51,51 +106,24 @@ function SpotFormPage() {
                     />
                 </label>
                 <label>
-                    Last Name
+                    Description
                     <input
                         type="text"
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
                         required
                     />
                 </label>
                 <label>
-                    Email
+                    price
                     <input
-                        type="text"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        type="integer"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
                         required
                     />
                 </label>
-                <label>
-                    Username
-                    <input
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                    />
-                </label>
-                <label>
-                    Password
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </label>
-                <label>
-                    Confirm Password
-                    <input
-                        type="password"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        required
-                    />
-                </label>
-                <button type="submit">Sign Up</button>
+                <button type="submit">Submit Home</button>
             </form>
         </div>
     );

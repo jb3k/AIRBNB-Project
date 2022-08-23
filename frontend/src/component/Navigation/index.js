@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import LoginFormModal from '../LoginFormModal/index';
@@ -13,6 +13,7 @@ function Navigation({ isLoaded }) {
   const [click, setClick] = useState(false)
   const handleClick = () => setClick(!click)
 
+
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
@@ -21,7 +22,6 @@ function Navigation({ isLoaded }) {
   } else {
     sessionLinks = (
       <>
-
         <NavLink to="/signup"
           style={{ textDecoration: 'none', color: 'black' }} >
           Sign up
@@ -42,9 +42,9 @@ function Navigation({ isLoaded }) {
 
         </div>
         <div className='become-host'>
-          <button className='host-button'>
-            Become a host
-          </button>
+          <NavLink to='/spots/form'>
+            <button className='host-button'> Become a host</button>
+          </NavLink>
         </div>
         {/* <div>
           <label className='search-bar'>
