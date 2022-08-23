@@ -31,6 +31,18 @@ function Navigation({ isLoaded }) {
     );
   }
 
+
+  const loginAlert = () => {
+    let login = false;
+    if (!sessionUser) {
+      alert('Need to login to become a host');
+
+    } else {
+      login = true
+    }
+    return login
+  }
+
   return (
     <div className='topNav-container'>
       <div className='nav-container'>
@@ -42,9 +54,8 @@ function Navigation({ isLoaded }) {
 
         </div>
         <div className='become-host'>
-          <NavLink to='/spots/form'>
-            <button className='host-button'> Become a host</button>
-          </NavLink>
+          <button className='host-button' onClick={loginAlert ? <NavLink to='/spots/form'></NavLink> : alert('Need to login to become a host')}> Become a host</button>
+
         </div>
         {/* <div>
           <label className='search-bar'>
