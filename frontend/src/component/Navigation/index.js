@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, Redirect } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import LoginFormModal from '../LoginFormModal/index';
@@ -13,7 +13,7 @@ function Navigation({ isLoaded }) {
   const [click, setClick] = useState(false)
   const handleClick = () => setClick(!click)
 
-
+  const history = useHistory()
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
@@ -36,9 +36,10 @@ function Navigation({ isLoaded }) {
     let login = false;
     if (!sessionUser) {
       alert('Need to login to become a host');
-
+      history.push('/')
     } else {
-      login = true
+      login = true;
+      history.push('/spots/form')
     }
     return login
   }
@@ -54,8 +55,7 @@ function Navigation({ isLoaded }) {
 
         </div>
         <div className='become-host'>
-          <button className='host-button' onClick={loginAlert ? <NavLink to='/spots/form'></NavLink> : alert('Need to login to become a host')}> Become a host</button>
-
+          <button className='host-button' onClick={loginAlert}> Become a host</button>
         </div>
         {/* <div>
           <label className='search-bar'>

@@ -55,6 +55,8 @@ function SpotFormPage() {
         } else {
             setErrors(errors)
         }
+
+        
         setSubmitted(true)
         alert('Home has been submitted')
         reset()
