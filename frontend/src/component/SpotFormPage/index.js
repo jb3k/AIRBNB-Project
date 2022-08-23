@@ -5,6 +5,11 @@ import './SpotFormPage.css';
 import LoginFormModal from "../LoginFormModal";
 
 function SpotFormPage() {
+
+    const randomNum = () => {
+        return Math.floor(Math.random() * 100);
+    }
+
     const dispatch = useDispatch();
     const sessionUser = useSelector((state) => state.session.user);
     // const [ownerId, setOwnerId] = useState()
@@ -12,11 +17,11 @@ function SpotFormPage() {
     const [city, setCity] = useState("")
     const [state, setState] = useState("");
     const [country, setCountry] = useState("");
-    const [lat, setLat] = useState("");
-    const [lng, setLng] = useState("");
-    const [name, setName] = useState('');
+    const [lat, setLat] = useState(randomNum);
+    const [lng, setLng] = useState(randomNum);
+    const [name, setName] = useState("");
     const [description, setDescription] = useState('');
-    const [price, setPrice] = useState(0);
+    const [price, setPrice] = useState(1);
     const [errors, setErrors] = useState([]);
 
     const handleSubmit = (e) => {
