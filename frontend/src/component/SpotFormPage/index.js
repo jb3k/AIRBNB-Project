@@ -52,18 +52,14 @@ function SpotFormPage() {
         if (price < 1) errors.push('Need valid price')
         setOwnerId(sessionUser.id)
 
-        alert('Home has been submitted')
-
-
-        // reset()
-
         if (!errors.length) {
             dispatch(addSpots({ address, city, state, country, name, description, price }))
         } else {
             setErrors(errors)
         }
-        return setErrors(['Confirm all field are filled in']);
 
+        alert('Home has been submitted')
+        // reset()
     };
 
     const reset = () => {
