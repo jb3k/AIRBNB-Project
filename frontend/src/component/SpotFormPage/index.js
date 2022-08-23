@@ -53,21 +53,16 @@ function SpotFormPage() {
         setOwnerId(sessionUser.id)
 
         alert('Home has been submitted')
-       
-       
+
+
         // reset()
 
-
-        // return setErrors(['Confirm all field are filled in'])
-        // if (!sessionUser) {
-        //     setErrors([]);
-        //     return dispatch(addSpots({ address, city, state, country, name, description, price }))
-        //         .catch(async (res) => {
-        //             const data = await res.json();
-        //             if (data && data.errors) setErrors(data.errors);
-        //         });
-        // }
-        // return setErrors(['Confirm all field are filled in']);
+        if (!errors.length) {
+            dispatch(addSpots({ address, city, state, country, name, description, price }))
+        } else {
+            setErrors(errors)
+        }
+        return setErrors(['Confirm all field are filled in']);
 
     };
 
