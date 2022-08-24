@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useParams } from 'react-router-dom'
-import { getSpotId } from '../../store/spots'
+import { getSpotId, spot } from '../../store/spots'
 
 
 function SpotId() {
@@ -9,13 +9,14 @@ function SpotId() {
     const dispatch = useDispatch()
     const { spotId } = useParams()
 
-    // an array of all the spots
-    const properties = useSelector((state) => state.spots)
-    console.log(properties)
-    // console.log(state.spots)
-    // Object.values(state.spotsReducer)
+    // take a look at state and return something from it from the reducer
+    const allSpots = useSelector((state) => state.spotsReducer)
+    
+    // return value of the reducer
+    const oneSpot = allSpots[spotId]
+    console.log(oneSpot)
 
-    // console.log(properties)
+    
     //giving me the list of IDs of each property in an array
     // const propertyIdObj = properties.find((ele) => ele.id == spotId)
     let arr = []
@@ -25,11 +26,11 @@ function SpotId() {
     // console.log(propertyId)
 
     useEffect(() => {
-        dispatch(getSpotId())
+        dispatch(getSpotId(spotId))
     }, [dispatch])
 
 
-    if (!properties) return null
+    if (!allSpots) return null
 
     return (
         <div className='whole-page'>
