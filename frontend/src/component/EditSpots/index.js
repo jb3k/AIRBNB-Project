@@ -13,7 +13,7 @@ function EditSpot() {
 
     const {spotId} = useParams()
     
-
+    // ghouh
     useEffect(() => {
         dispatch(updateLocation(spotId))
     }, [dispatch])
