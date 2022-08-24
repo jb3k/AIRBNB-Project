@@ -11,7 +11,7 @@ function DisplaySpots() {
 
     const properties = useSelector(state =>
         // console.log(state.spotsReducer)
-        Object.values(state.spotsReducer)
+        Object.values(state.spots)
     )
     console.log(properties)
 
