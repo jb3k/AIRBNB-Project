@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useParams } from 'react-router-dom'
-import { getSpotId, spot } from '../../store/spots'
+import { deleteSpot, getSpotId, spot } from '../../store/spots'
 
 
 function SpotId() {
@@ -18,13 +18,12 @@ function SpotId() {
 
     useEffect(() => {
         dispatch(getSpotId(spotId))
-    }, [dispatch])
+    }, [dispatch, spotId])
 
     if (!oneSpot) return null
     if (!oneSpot.Images) return null
 
     const spotImage = oneSpot.Images[0].url
-
     // console.log(spotImage)
 
 
@@ -46,9 +45,12 @@ function SpotId() {
                         </div>
                     </div>
                 </div>
+                <div>
                 <NavLink to={`/spots/${oneSpot?.id}/edit`}>
                     <button >Edit</button>
                 </NavLink>
+                <button onClick={dispatch(deleteSpot(spotId))}>Delete</button>
+                </div>
             </div>
 
         </div>

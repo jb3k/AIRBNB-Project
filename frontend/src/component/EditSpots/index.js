@@ -1,39 +1,52 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { updateLocation } from "../../store/spots";
+import { useParams, useHistory } from "react-router-dom";
+import { getSpotId, spot, updateLocation } from "../../store/spots";
 
 
 function EditSpot() {
+
 
     const dispatch = useDispatch();
     const sessionUser = useSelector((state) =>
         state.session.user
     );
+    const history = useHistory()
+    const { spotId } = useParams()
 
-    const {spotId} = useParams()
-    
+    const currentSpotObj = useSelector((state) => state.spots)
+
 
     useEffect(() => {
-        dispatch(updateLocation(spotId))
-    }, [dispatch])
+        dispatch(getSpotId(spotId))
+    }, [dispatch, spotId])
 
 
-    //i want to get the owner id from the session 
-
-    const [ownerId, setOwnerId] = useState()
-    const [address, setAddress] = useState("")
-    const [city, setCity] = useState("")
-    const [state, setState] = useState("");
-    const [country, setCountry] = useState("");
+    const [address, setAddress] = useState(currentSpotObj[spotId]?.address || '')
+    const [city, setCity] = useState(currentSpotObj[spotId]?.city || '')
+    const [state, setState] = useState(currentSpotObj[spotId]?.state || '');
+    const [country, setCountry] = useState(currentSpotObj[spotId]?.country || '');
     const [lat, setLat] = useState(2);
     const [lng, setLng] = useState(2);
-    const [name, setName] = useState("");
-    const [description, setDescription] = useState('');
-    const [price, setPrice] = useState(1);
+    const [name, setName] = useState(currentSpotObj[spotId]?.name || '');
+    const [description, setDescription] = useState(currentSpotObj[spotId]?.description || '');
+    const [price, setPrice] = useState(currentSpotObj[spotId]?.price || '');
     const [errors, setErrors] = useState([]);
     const [submitted, setSubmitted] = useState(false)
 
+
+    useEffect(() => {
+        if (currentSpotObj[spotId]) {
+            const currentSpot = currentSpotObj[spotId]
+            setAddress(currentSpot.address)
+            setCity(currentSpot.city)
+            setState(currentSpot.state)
+            setCountry(currentSpot.country)
+            setName(currentSpot.name)
+            setDescription(currentSpot.description)
+            setPrice(currentSpot.price)
+        }
+    }, [currentSpotObj])
 
 
     const handleSubmit = (e) => {
@@ -48,18 +61,18 @@ function EditSpot() {
         if (name.length < 1) errors.push('Need valid title')
         if (description.length < 1) errors.push('Need valid description')
         if (price < 1) errors.push('Need valid price')
-        // setOwnerId(sessionUser.id)
 
-        // if (!errors.length) {
-        //     dispatch(updateLocation({ address, city, state, country, lat, lng, name, description, price }))
-        // } else {
-        //     setErrors(errors)
-        // }
+        if (!errors.length) {
+            dispatch(updateLocation(spotId, { address, city, state, country, lat, lng, name, description, price }))
+        } else {
+            setErrors(errors)
+        }
 
 
         setSubmitted(true)
         alert('Home has been submitted')
         reset()
+        history.push(`/spots/${spotId}`)
     };
 
 
@@ -74,7 +87,8 @@ function EditSpot() {
     }
 
     return (
-        <div className="whole-form">
+        { sessionUser } &&
+        (<div className="whole-form">
             <form onSubmit={handleSubmit}>
                 <ul>
                     {errors.map((error, idx) => <li key={idx}>{error}</li>)}
@@ -160,10 +174,10 @@ function EditSpot() {
                         required
                     />
                 </label>
-                <button type="submit" >Submit Home</button>
+                <button type="submit" >Submit Edit</button>
             </form>
         </div>
-    );
+        ));
 }
 
 export default EditSpot;

@@ -36,7 +36,7 @@ export const createSpot = (addSpot) => {
 }
 
 //update a spot
-export const updateSpot = (updateCurrentSpot) => {
+export const updateSpot = (id, updateCurrentSpot) => {
     return {
         type: UPDATE_SPOT,
         updateCurrentSpot
@@ -108,8 +108,8 @@ export const addSpots = (addSpot) => async (dispatch) => {
 
 
 //update thunk
-export const updateLocation = (spotId) => async (dispatch) => {
-    const { address, city, state, country, lat, lng, name, description, price } = spotId;
+export const updateLocation = (spotId, spotData) => async (dispatch) => {
+    const { address, city, state, country, lat, lng, name, description, price } = spotData;
     const response = await csrfFetch(`/api/spots/${spotId}`, {
         method: 'PUT',
         headers: {
@@ -136,15 +136,13 @@ export const updateLocation = (spotId) => async (dispatch) => {
 }
 
 //delete thunk
-export const deleteLocation = (deleteCurrentSpot) => async (dispatch) => {
-    const response = await csrfFetch(`/api/spots/${deleteCurrentSpot.id}`, {
+export const deleteLocation = (id) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${id}`, {
         method: 'DELETE'
     })
 
     if (response.ok) {
-        // const { id: deletedItemId } = await response.json();
-        // dispatch(deleteSpot(spot.id));
-        // return deletedItemId;
+        dispatch(deleteSpot(id));
     }
 
 }
@@ -174,13 +172,12 @@ const spotsReducer = (state = initialState, action) => {
             return newState
         case UPDATE_SPOT:
             newState = { ...state }
-            console.log(state, action)
+            newState.allSpots = action.updateCurrentSpot
             return newState
         case DELETE_SPOT:
-            // const newState = { ...state };
-            // need to find out what it returns spots
-            // delete newState[action.spot.id];
-            return newState;
+        // const newState = { ...state };
+        // delete newState[action.deleteCurrentSpot];
+        // return newState;
         default:
             return state;
     }
