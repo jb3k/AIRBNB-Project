@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import './SpotFormPage.css';
-import LoginFormModal from "../LoginFormModal";
-import spotsReducer from "../../store/spots";
+import spotsReducer, { updateLocation } from "../../store/spots";
 import { spot } from '../../store/spots'
 import { addSpots } from "../../store/spots";
 
 
-function SpotFormPage() {
+function EditSpot() {
 
     const dispatch = useDispatch();
     const sessionUser = useSelector((state) =>
@@ -51,12 +49,12 @@ function SpotFormPage() {
         // setOwnerId(sessionUser.id)
 
         if (!errors.length) {
-            dispatch(addSpots({ address, city, state, country, lat, lng, name, description, price }))
+            dispatch(updateLocation({ address, city, state, country, lat, lng, name, description, price }))
         } else {
             setErrors(errors)
         }
 
-        
+
         setSubmitted(true)
         alert('Home has been submitted')
         reset()
@@ -165,4 +163,4 @@ function SpotFormPage() {
     );
 }
 
-export default SpotFormPage;
+export default EditSpot;

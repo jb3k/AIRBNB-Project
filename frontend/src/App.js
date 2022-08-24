@@ -7,6 +7,7 @@ import Navigation from "./component/Navigation/index"
 import DisplaySpots from './component/Spots/index'
 import SpotFormPage from "./component/SpotFormPage";
 import SpotId from "./component/SpotById/index";
+import EditSpot from "./component/EditSpots";
 
 
 function App() {
@@ -28,6 +29,9 @@ function App() {
           </Route>
           <Route path="/spots/:spotId">
             <SpotId />
+          </Route>
+          <Route path='/spots/:spotId/edit'>
+            <EditSpot />
           </Route>
           <Route path="/signup">
             <SignupFormPage />

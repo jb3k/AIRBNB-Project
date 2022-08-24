@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useParams } from 'react-router-dom'
-import { spot } from '../../store/spots'
+import { getSpotId, spot } from '../../store/spots'
 
 
 function SpotId() {
@@ -9,47 +9,40 @@ function SpotId() {
     const dispatch = useDispatch()
     const { spotId } = useParams()
 
-    // an array of all the spots
-    const properties = useSelector(state =>
-        // console.log(state.spotsReducer)
-        Object.values(state.spotsReducer)
-    )
-    // console.log(properties)
-    //giving me the list of IDs of each property in an array
-    const propertyIdObj = properties.find((ele) => ele.id === Number(spotId))
-    let propertyId = Object.values(propertyIdObj)
+    // take a look at state and return something from it from the reducer
+    const allSpots = useSelector((state) => state.spots)
 
-        console.log(propertyId)
+    // return value of the reducer
+    const oneSpot = allSpots[spotId]
+    // console.log(oneSpot)
 
     useEffect(() => {
-        dispatch(spot())
+        dispatch(getSpotId(spotId))
     }, [dispatch])
 
-    if (!properties) return null
+
+    if (!allSpots) return null
 
     return (
         <div className='whole-page'>
             <h1>Home</h1>
-            {propertyId.map(({ id, city, price, state, avgRating, previewImage }) => (
+            <div className=''>
                 <div className='location-container'>
-
                     <div className='location-image'>
-                        <img src={previewImage} className='image'></img>
+                        <img src={oneSpot.Images[0].url} className='image'></img>
                     </div>
                     <div className='location-details'>
-                        <div key={id} className='location'>
-                            {`${city}, ${state}`}
+                        <div key={oneSpot?.id} className='location'>
+                            {`${oneSpot?.city}, ${oneSpot?.state}`}
                             <i class="fa-solid fa-star"></i>
-                            {Math.round(avgRating * 100) / 100}
                         </div>
-                        <div key={id} className='location-price'>
-                            {`$${Math.floor(price)} night`}
+                        <div key={oneSpot?.id} className='location-price'>
+                            {`$${Math.floor(oneSpot?.price)} night`}
                         </div>
-
                     </div>
-
                 </div>
-            ))}
+            </div>
+
         </div>
     )
 

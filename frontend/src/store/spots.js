@@ -2,14 +2,14 @@ import { csrfFetch } from "./csrf"
 
 
 //type
-const LOAD_SPOT = 'session/findSpot'
-const ID_SPOT = 'session/findSpotId'
-const CREATE_SPOT = 'session/createSpot'
-const UPDATE_SPOT = 'session/updateSpot'
-const DELETE_SPOT = 'session/deleteSpot'
+const LOAD_SPOT = 'spot/findSpot'
+const ID_SPOT = 'spot/findSpotId'
+const CREATE_SPOT = 'spot/createSpot'
+const UPDATE_SPOT = 'spot/updateSpot'
+const DELETE_SPOT = 'spot/deleteSpot'
 
 
-//actions
+//action creators
 //find the spot
 export const getSpot = (allSpots) => {
     return {
@@ -20,10 +20,10 @@ export const getSpot = (allSpots) => {
 
 //get details of a spot from an ID
 
-export const getSpotById = (id) => {
+export const getSpotById = (spotDetails) => {
     return {
         type: ID_SPOT,
-        id
+        spotDetails
     }
 }
 
@@ -36,19 +36,19 @@ export const createSpot = (addSpot) => {
 }
 
 //update a spot
-export const updateSpot = (spot) => {
+export const updateSpot = (updateCurrentSpot) => {
     return {
         type: UPDATE_SPOT,
-        spot
+        updateCurrentSpot
     }
 
 }
 
 //delete a spot
-export const deleteSpot = spot => {
+export const deleteSpot = (deleteCurrentSpot) => {
     return {
         type: DELETE_SPOT,
-        spot
+        deleteCurrentSpot
     }
 }
 
@@ -68,28 +68,31 @@ export const spot = () => async (dispatch) => {
 }
 
 //get by id
-export const spotId = (id) => async (dispatch) => {
-    const response = await fetch(`/api/spots/${id}`)
-
+export const getSpotId = (spotId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spotId}`)
     if (response.ok) {
-        const spots = await response.json()
-        dispatch(getSpotById(spots));
-        return spots
+        const spotDetails = await response.json()
+        dispatch(getSpotById(spotDetails));
+        return spotDetails
     }
+
 }
 
 //create thunk
-export const addSpots = (spot) => async (dispatch) => {
-    const { address, city, state, country, lat, lng, name, description, price } = spot;
+export const addSpots = (addSpot) => async (dispatch) => {
+    const { address, city, state, lat, lng, country, name, description, price } = addSpot;
     const response = await csrfFetch('/api/spots', {
         method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
             address,
             city,
             state,
-            country,
             lat,
             lng,
+            country,
             name,
             description,
             price
@@ -105,10 +108,13 @@ export const addSpots = (spot) => async (dispatch) => {
 
 
 //update thunk
-export const updateLocation = (spot) => async (dispatch) => {
-    const { address, city, state, country, lat, lng, name, description, price } = spot;
-    const response = await csrfFetch(`/api/spots/${spot.id}`, {
+export const updateLocation = (updateCurrentSpot) => async (dispatch) => {
+    const { address, city, state, country, lat, lng, name, description, price } = updateCurrentSpot;
+    const response = await csrfFetch(`/api/spots/${updateCurrentSpot.id}`, {
         method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
             address,
             city,
@@ -130,8 +136,8 @@ export const updateLocation = (spot) => async (dispatch) => {
 }
 
 //delete thunk
-export const deleteLocation = (spot) => async (dispatch) => {
-    const response = await csrfFetch(`/api/spots/${spot.id}`, {
+export const deleteLocation = (deleteCurrentSpot) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${deleteCurrentSpot.id}`, {
         method: 'DELETE'
     })
 
@@ -150,26 +156,29 @@ const spotsReducer = (state = initialState, action) => {
     let newState
     switch (action.type) {
         case LOAD_SPOT:
-            const allProperties = {};
+            newState = {}
             action.allSpots.Spots.forEach(spot => {
-                allProperties[spot.id] = spot;
+                newState[spot.id] = spot;
             })
-            return {
-                ...allProperties
-            }
-        // case ID_SPOT:
-        //     return {
-        //         ...allProperties,
-        //     }
+            return newState
+        case ID_SPOT:
+            newState = { ...state }
+            //first part is normalizing the data by creating the id for each obj
+            // = is reassinging the obj (on the left side)
+            //inside the object we are merging the old and the new and taking all parts combined. merging the overlapping info and taking the info from the 2nd obj
+            newState[action.spotDetails.id] = {...newState[action.spotDetails.id], ...action.spotDetails}
+            return newState
         case CREATE_SPOT:
-            newState = {...state}
+            newState = { ...state }
             newState.allSpots.Spots = action.addSpot
             return newState
         // case UPDATE_SPOT:
-        //  return {
-        //     ...state, 
-        //     [action.spot.id] = action.spot
-        // }
+        //     newState = { ...state }
+        //     return {
+        //         ...state,
+        //         //take the new state and update the old state
+
+        //     }
         // case DELETE_SPOT:
         //     // const newState = { ...state };
         //     // need to find out what it returns spots

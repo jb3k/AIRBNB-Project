@@ -14,9 +14,9 @@ function SpotId() {
         // console.log(state.spotsReducer)
         Object.values(state.spotsReducer)
     )
-
+    console.log(properties)
     //giving me the list of IDs of each property in an array
-    const propertyId = properties.find((ele) => ele.id === spotId )
+    const propertyId = properties.find((ele) => ele.id === spotId)
     console.log(propertyId)
 
 
