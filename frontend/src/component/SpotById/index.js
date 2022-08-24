@@ -10,20 +10,11 @@ function SpotId() {
     const { spotId } = useParams()
 
     // take a look at state and return something from it from the reducer
-    const allSpots = useSelector((state) => state.spotsReducer)
-    
+    const allSpots = useSelector((state) => state.spots)
+
     // return value of the reducer
     const oneSpot = allSpots[spotId]
-    console.log(oneSpot)
-
-    
-    //giving me the list of IDs of each property in an array
-    // const propertyIdObj = properties.find((ele) => ele.id == spotId)
-    let arr = []
-    // arr.push(propertyIdObj)
-    // console.log(arr[0])
-    // let propertyId = Object.values(propertyIdObj)
-    // console.log(propertyId)
+    // console.log(oneSpot)
 
     useEffect(() => {
         dispatch(getSpotId(spotId))
@@ -36,24 +27,20 @@ function SpotId() {
         <div className='whole-page'>
             <h1>Home</h1>
             <div className=''>
-                {arr.map((spot) => {
-                    <div className='location-container'>
-                        <div className='location-image'>
-                            {/* <img src={previewImage} className='image'></img> */}
-                        </div>
-                        <div className='location-details'>
-                            <div key={spot?.id} className='location'>
-                                {`${spot?.city}, ${spot?.state}`}
-                                <i class="fa-solid fa-star"></i>
-                            </div>
-                            <div key={spot?.id} className='location-price'>
-                                {`$${Math.floor(spot?.price)} night`}
-                            </div>
-
-                        </div>
-
+                <div className='location-container'>
+                    <div className='location-image'>
+                        <img src={oneSpot.Images[0].url} className='image'></img>
                     </div>
-                })}
+                    <div className='location-details'>
+                        <div key={oneSpot?.id} className='location'>
+                            {`${oneSpot?.city}, ${oneSpot?.state}`}
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <div key={oneSpot?.id} className='location-price'>
+                            {`$${Math.floor(oneSpot?.price)} night`}
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
