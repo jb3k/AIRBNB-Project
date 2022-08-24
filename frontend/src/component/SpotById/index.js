@@ -14,7 +14,7 @@ function SpotId() {
 
     // return value of the reducer
     const oneSpot = allSpots[spotId]
-    console.log(oneSpot)
+    // console.log(oneSpot)
 
 
 
@@ -29,7 +29,7 @@ function SpotId() {
     if (!oneSpot) return null
 
     const spotImage = oneSpot.Images[0].url
-    console.log(spotImage)
+    // console.log(spotImage)
 
 
     return (
