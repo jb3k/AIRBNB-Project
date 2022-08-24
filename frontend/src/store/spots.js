@@ -20,10 +20,10 @@ export const getSpot = (allSpots) => {
 
 //get details of a spot from an ID
 
-export const getSpotById = (id) => {
+export const getSpotById = (spotId) => {
     return {
         type: ID_SPOT,
-        id
+        spotId
     }
 }
 
@@ -68,14 +68,14 @@ export const spot = () => async (dispatch) => {
 }
 
 //get by id
-export const spotId = (id) => async (dispatch) => {
-    const response = await fetch(`/api/spots/${id}`)
-
+export const getSpotId = (spotId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spotId}`)
     if (response.ok) {
         const spots = await response.json()
         dispatch(getSpotById(spots));
         return spots
     }
+    return response
 }
 
 //create thunk
@@ -83,6 +83,9 @@ export const addSpots = (spot) => async (dispatch) => {
     const { address, city, state, lat, lng, country, name, description, price } = spot;
     const response = await csrfFetch('/api/spots', {
         method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
             address,
             city,
@@ -109,6 +112,9 @@ export const updateLocation = (spot) => async (dispatch) => {
     const { address, city, state, country, lat, lng, name, description, price } = spot;
     const response = await csrfFetch(`/api/spots/${spot.id}`, {
         method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
             address,
             city,
@@ -157,10 +163,10 @@ const spotsReducer = (state = initialState, action) => {
             return {
                 ...allProperties
             }
-        // case ID_SPOT:
-        //     return {
-        //         ...allProperties,
-        //     }
+        case ID_SPOT:
+            newState = { ...state }
+            newState[action.spot.id] = action.spot
+            return newState
         case CREATE_SPOT:
             newState = { ...state }
             newState.allSpots.Spots = action.addSpot

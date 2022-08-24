@@ -48,7 +48,7 @@ function SpotFormPage() {
         if (name.length < 1) errors.push('Need valid title')
         if (description.length < 1) errors.push('Need valid description')
         if (price < 1) errors.push('Need valid price')
-        setOwnerId(sessionUser.id)
+        // setOwnerId(sessionUser.id)
 
         if (!errors.length) {
             dispatch(addSpots({ address, city, state, country, lat, lng, name, description, price }))
