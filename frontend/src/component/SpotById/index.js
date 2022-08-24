@@ -14,14 +14,23 @@ function SpotId() {
 
     // return value of the reducer
     const oneSpot = allSpots[spotId]
-    // console.log(oneSpot)
+    console.log(oneSpot)
+
+
+
+
+
+
 
     useEffect(() => {
         dispatch(getSpotId(spotId))
     }, [dispatch])
 
+    if (!oneSpot) return null
 
-    if (!allSpots) return null
+    const spotImage = oneSpot.Images[0].url
+    console.log(spotImage)
+
 
     return (
         <div className='whole-page'>
@@ -29,7 +38,7 @@ function SpotId() {
             <div className=''>
                 <div className='location-container'>
                     <div className='location-image'>
-                        <img src={oneSpot.Images[0].url} className='image'></img>
+                        <img src={spotImage} className='image'></img>
                     </div>
                     <div className='location-details'>
                         <div key={oneSpot?.id} className='location'>
