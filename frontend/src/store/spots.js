@@ -140,7 +140,7 @@ export const deleteLocation = (id) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${id}`, {
         method: 'DELETE'
     })
-
+    
     if (response.ok) {
         dispatch(deleteSpot(id));
     }
@@ -175,9 +175,9 @@ const spotsReducer = (state = initialState, action) => {
             newState.allSpots = action.updateCurrentSpot
             return newState
         case DELETE_SPOT:
-        // const newState = { ...state };
-        // delete newState[action.deleteCurrentSpot];
-        // return newState;
+        newState = { ...state };
+        delete newState[action.deleteCurrentSpot];
+        return newState;
         default:
             return state;
     }

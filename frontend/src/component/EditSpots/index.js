@@ -61,6 +61,7 @@ function EditSpot() {
         if (name.length < 1) errors.push('Need valid title')
         if (description.length < 1) errors.push('Need valid description')
         if (price < 1) errors.push('Need valid price')
+        if (price > 500) errors.push('This is too expensive')
 
         if (!errors.length) {
             dispatch(updateLocation(spotId, { address, city, state, country, lat, lng, name, description, price }))
