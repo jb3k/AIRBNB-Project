@@ -108,9 +108,9 @@ export const addSpots = (addSpot) => async (dispatch) => {
 
 
 //update thunk
-export const updateLocation = (updateCurrentSpot) => async (dispatch) => {
-    const { address, city, state, country, lat, lng, name, description, price } = updateCurrentSpot;
-    const response = await csrfFetch(`/api/spots/${updateCurrentSpot.id}`, {
+export const updateLocation = (spotId) => async (dispatch) => {
+    const { address, city, state, country, lat, lng, name, description, price } = spotId;
+    const response = await csrfFetch(`/api/spots/${spotId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -166,25 +166,21 @@ const spotsReducer = (state = initialState, action) => {
             //first part is normalizing the data by creating the id for each obj
             // = is reassinging the obj (on the left side)
             //inside the object we are merging the old and the new and taking all parts combined. merging the overlapping info and taking the info from the 2nd obj
-            newState[action.spotDetails.id] = {...newState[action.spotDetails.id], ...action.spotDetails}
+            newState[action.spotDetails.id] = { ...newState[action.spotDetails.id], ...action.spotDetails }
             return newState
         case CREATE_SPOT:
             newState = { ...state }
             newState.allSpots.Spots = action.addSpot
             return newState
-        // case UPDATE_SPOT:
-        //     newState = { ...state }
-        //     return {
-        //         ...state,
-        //         //take the new state and update the old state
-
-        //     }
-        // case DELETE_SPOT:
-        //     // const newState = { ...state };
-        //     // need to find out what it returns spots
-        //     // delete newState[action.spot.id];
-        //     return newState;
-
+        case UPDATE_SPOT:
+            newState = { ...state }
+            console.log(state, action)
+            return newState
+        case DELETE_SPOT:
+            // const newState = { ...state };
+            // need to find out what it returns spots
+            // delete newState[action.spot.id];
+            return newState;
         default:
             return state;
     }

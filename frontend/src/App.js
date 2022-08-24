@@ -27,7 +27,7 @@ function App() {
           <Route path='/spots/form'>
             <SpotFormPage />
           </Route>
-          <Route path="/spots/:spotId">
+          <Route exact path="/spots/:spotId">
             <SpotId />
           </Route>
           <Route path='/spots/:spotId/edit'>

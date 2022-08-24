@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import spotsReducer, { updateLocation } from "../../store/spots";
-import { spot } from '../../store/spots'
-import { addSpots } from "../../store/spots";
+import { useParams } from "react-router-dom";
+import { updateLocation } from "../../store/spots";
 
 
 function EditSpot() {
@@ -12,8 +11,11 @@ function EditSpot() {
         state.session.user
     );
 
+    const {spotId} = useParams()
+    
+
     useEffect(() => {
-        dispatch(spot())
+        dispatch(updateLocation(spotId))
     }, [dispatch])
 
 
@@ -48,17 +50,18 @@ function EditSpot() {
         if (price < 1) errors.push('Need valid price')
         // setOwnerId(sessionUser.id)
 
-        if (!errors.length) {
-            dispatch(updateLocation({ address, city, state, country, lat, lng, name, description, price }))
-        } else {
-            setErrors(errors)
-        }
+        // if (!errors.length) {
+        //     dispatch(updateLocation({ address, city, state, country, lat, lng, name, description, price }))
+        // } else {
+        //     setErrors(errors)
+        // }
 
 
         setSubmitted(true)
         alert('Home has been submitted')
         reset()
     };
+
 
     const reset = () => {
         setAddress('')

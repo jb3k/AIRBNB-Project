@@ -16,19 +16,15 @@ function SpotId() {
     const oneSpot = allSpots[spotId]
     // console.log(oneSpot)
 
-
-
-
-
-
-
     useEffect(() => {
         dispatch(getSpotId(spotId))
     }, [dispatch])
 
     if (!oneSpot) return null
+    if (!oneSpot.Images) return null
 
     const spotImage = oneSpot.Images[0].url
+
     // console.log(spotImage)
 
 
@@ -50,6 +46,9 @@ function SpotId() {
                         </div>
                     </div>
                 </div>
+                <NavLink to={`/spots/${oneSpot?.id}/edit`}>
+                    <button >Edit</button>
+                </NavLink>
             </div>
 
         </div>
