@@ -11,7 +11,7 @@ function BecomeHost() {
 
     // take a look at state and return something from it from the reducer
     const userSpots = useSelector((state) => Object.values(state.spots))
-    console.log(userSpots)
+    // console.log(userSpots)
 
     useEffect(() => {
         dispatch(getCurrentUserSpot())

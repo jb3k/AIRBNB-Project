@@ -20,6 +20,7 @@ function CreateReview() {
 
     useEffect(() => {
         dispatch(getSpotId(spotId))
+
     }, [dispatch])
 
 

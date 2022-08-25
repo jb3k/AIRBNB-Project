@@ -32,6 +32,9 @@ function SpotId() {
     const displayReviews = currReviews.map((review) => (
         <div className='user-review'>
             <p>{`${review.User.firstName}`}</p>
+            <div className='actual-review'>
+                <p>{review.review}</p>
+            </div>
         </div>
     ))
 
