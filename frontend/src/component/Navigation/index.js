@@ -39,7 +39,7 @@ function Navigation({ isLoaded }) {
       history.push('/')
     } else {
       login = true;
-      history.push('/spots/form')
+      history.push('/spots/current')
     }
     return login
   }
@@ -55,7 +55,9 @@ function Navigation({ isLoaded }) {
 
         </div>
         <div className='become-host'>
-          <button className='host-button' onClick={loginAlert}> Become a host</button>
+          {/* <NavLink to='/spots/current'> */}
+            <button className='host-button' onClick={loginAlert}> Become a host</button>
+          {/* </NavLink> */}
         </div>
         {/* <div>
           <label className='search-bar'>

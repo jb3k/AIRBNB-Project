@@ -8,6 +8,7 @@ import DisplaySpots from './component/Spots/index'
 import SpotFormPage from "./component/SpotFormPage";
 import SpotId from "./component/SpotById/index";
 import EditSpot from "./component/EditSpots";
+import BecomeHost from "./component/BecomeAHost";
 
 
 function App() {
@@ -24,7 +25,10 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
-          <Route path='/spots/form'>
+          <Route path="/spots/current">
+            <BecomeHost />
+          </Route>
+          <Route path='/spots/create'>
             <SpotFormPage />
           </Route>
           <Route exact path="/spots/:spotId">

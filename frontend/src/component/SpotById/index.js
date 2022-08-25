@@ -23,7 +23,7 @@ function SpotId() {
     if (!oneSpot) return null
     if (!oneSpot.Images) return null
 
-    const spotImage = oneSpot.Images[0].url
+    // const spotImage = oneSpot.Images[0].url
     // console.log(spotImage)
 
 
@@ -33,7 +33,7 @@ function SpotId() {
             <div className=''>
                 <div className='location-container'>
                     <div className='location-image'>
-                        <img src={spotImage} className='image'></img>
+                        {/* <img src={spotImage} className='image'></img> */}
                     </div>
                     <div className='location-details'>
                         <div key={oneSpot?.id} className='location'>
@@ -46,10 +46,10 @@ function SpotId() {
                     </div>
                 </div>
                 <div>
-                <NavLink to={`/spots/${oneSpot?.id}/edit`}>
-                    <button >Edit</button>
-                </NavLink>
-                <button onClick={dispatch(deleteSpot(spotId))}>Delete</button>
+                    {/* <NavLink to={`/spots/${oneSpot?.id}/edit`}>
+                        <button >Edit</button>
+                    </NavLink>
+                    <button onClick={() => { dispatch(deleteSpot(oneSpot.id)) }}>Delete</button> */}
                 </div>
             </div>
 

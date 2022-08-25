@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from 'react-router-dom'
 import './SpotFormPage.css';
 import LoginFormModal from "../LoginFormModal";
 import spotsReducer from "../../store/spots";
@@ -13,7 +14,7 @@ function SpotFormPage() {
     const sessionUser = useSelector((state) =>
         state.session.user
     );
-
+    const history = useHistory()
     useEffect(() => {
         dispatch(spot())
     }, [dispatch])
@@ -56,10 +57,11 @@ function SpotFormPage() {
             setErrors(errors)
         }
 
-        
+
         setSubmitted(true)
         alert('Home has been submitted')
         reset()
+        history.push(`/`)
     };
 
     const reset = () => {
