@@ -3,12 +3,14 @@ import { csrfFetch } from "./csrf"
 //type
 
 const LOAD_REVIEWS = 'review/getReview'
+const CURSPOT_REVIEWS = 'review/currentSpotReview'
 const CREATE_REVIEWS = 'review/createReview'
 const DELETE_REVIEWS = 'review/deleteReview'
 
 
 //action creators
 
+//get all reviews of current user
 export const getReviewAction = (payload) => {
     return {
         type: LOAD_REVIEWS,
@@ -16,6 +18,12 @@ export const getReviewAction = (payload) => {
     }
 }
 
+export const getSpotReviewAction = (payload) => {
+    return {
+        type: CURSPOT_REVIEWS,
+        payload
+    }
+}
 
 export const createReviewAction = (payload) => {
     return {
@@ -37,7 +45,7 @@ export const deleteReviewAction = (payload) => {
 //Get all reviews of current user
 export const getReviewThunk = () => async (dispatch) => {
     const response = await csrfFetch('/api/reviews/current')
-
+    //obj w/ Reviews arr
     if (response.ok) {
         const reviews = await response.json()
         dispatch(getReviewAction(reviews));
@@ -45,9 +53,33 @@ export const getReviewThunk = () => async (dispatch) => {
     }
 }
 
+export const getSpotReviewThunk = (id) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${id}/reviews`)
+    //obj w/ Reviews arr
+    if (response.ok) {
+        const reviews = await response.json()
+        dispatch(getReviewAction(reviews));
+        return reviews
+    }
+
+}
+
+
+
 //create a review for a spot
 export const createReviewThunk = (id) => async (dispatch) => {
-    const response = await csrfFetch(`/api/spots/${id}/reviews`)
+    const { reviews, stars } = id
+    const response = await csrfFetch(`/api/spots/${id}/reviews`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            reviews,
+            stars
+
+        })
+    })
 
     if (response.ok) {
         const reviews = await response.json()
@@ -59,7 +91,9 @@ export const createReviewThunk = (id) => async (dispatch) => {
 
 //delete a review
 export const deleteReviewThunk = (id) => async (dispatch) => {
-    const response = await csrfFetch(`/api/reviews/${id}`)
+    const response = await csrfFetch(`/api/reviews/${id}`, {
+        method: 'DELETE'
+    })
 
     if (response.ok) {
         dispatch(deleteReviewAction(id));
@@ -77,18 +111,26 @@ const reviewsReducer = (state = initialState, action) => {
     switch (action.type) {
         case LOAD_REVIEWS:
             newState = {}
-            // action.payload.Reviews.forEach(review => {
-            //     newState[review.id] = review;
-            // })
+            action.payload.Reviews.forEach(review => {
+                newState[review.id] = review;
+            })
+            return newState
+        case CURSPOT_REVIEWS:
+            newState = {}
+            action.payload.Reviews.forEach(review => {
+                newState[review.id] = review;
+            })
             return newState
         case CREATE_REVIEWS:
             newState = { ...state }
-            // newState.allSpots.Spots = action.addSpot
+            newState.payload.reviews = action.payload
             return newState
         case DELETE_REVIEWS:
             newState = { ...state };
             delete newState[action.payload];
             return newState;
+        default:
+            return state
     }
 
 }

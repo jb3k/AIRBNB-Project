@@ -9,6 +9,7 @@ import SpotFormPage from "./component/SpotFormPage";
 import SpotId from "./component/SpotById/index";
 import EditSpot from "./component/EditSpots";
 import BecomeHost from "./component/BecomeAHost";
+import CreateReview from "./component/ReviewFormPage";
 
 
 function App() {
@@ -25,6 +26,9 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
+          <Route path="/review/create">
+            <CreateReview />
+          </Route>
           <Route path="/spots/current">
             <BecomeHost />
           </Route>

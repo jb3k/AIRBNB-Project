@@ -19,7 +19,7 @@ function EditSpot() {
 
     useEffect(() => {
         dispatch(getSpotId(spotId))
-    }, [dispatch, spotId])
+    }, [dispatch])
 
 
     const [address, setAddress] = useState(currentSpotObj[spotId]?.address || '')

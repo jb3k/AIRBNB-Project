@@ -26,7 +26,7 @@ router.get('/current', restoreUser, async (req, res, next) => {
     for (let userId of review) {
         const user = await User.findOne({
             attributes: ['id', 'firstName', 'lastName'],
-            where: { id: currUser },
+            where: { id: userId.id },
             raw: true
         })
         user ? userId.User = user : null

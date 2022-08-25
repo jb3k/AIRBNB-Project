@@ -31,6 +31,18 @@ function Navigation({ isLoaded }) {
     );
   }
 
+  const wordSwitcher = () => {
+    if (sessionUser) {
+      return "Switch to Hosting"
+    } else {
+      return "Become a host"
+    }
+  }
+
+  useEffect(() => {
+    wordSwitcher()
+  }, [wordSwitcher])
+
 
   const loginAlert = () => {
     let login = false;
@@ -56,7 +68,7 @@ function Navigation({ isLoaded }) {
         </div>
         <div className='become-host'>
           {/* <NavLink to='/spots/current'> */}
-            <button className='host-button' onClick={loginAlert}> Become a host</button>
+          <button className='host-button' onClick={loginAlert}>{wordSwitcher()}</button>
           {/* </NavLink> */}
         </div>
         {/* <div>
