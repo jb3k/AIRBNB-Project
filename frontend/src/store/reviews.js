@@ -92,3 +92,5 @@ const reviewsReducer = (state = initialState, action) => {
     }
 
 }
+
+export default reviewsReducer
