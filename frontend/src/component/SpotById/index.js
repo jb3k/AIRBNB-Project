@@ -46,10 +46,10 @@ function SpotId() {
                     </div>
                 </div>
                 <div>
-                    <NavLink to={`/spots/${oneSpot?.id}/edit`}>
+                    {/* <NavLink to={`/spots/${oneSpot?.id}/edit`}>
                         <button >Edit</button>
                     </NavLink>
-                    <button onClick={() => { dispatch(deleteSpot(oneSpot.id)) }}>Delete</button>
+                    <button onClick={() => { dispatch(deleteSpot(oneSpot.id)) }}>Delete</button> */}
                 </div>
             </div>
 

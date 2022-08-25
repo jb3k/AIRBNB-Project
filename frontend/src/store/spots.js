@@ -4,6 +4,7 @@ import { csrfFetch } from "./csrf"
 //type
 const LOAD_SPOT = 'spot/findSpot'
 const ID_SPOT = 'spot/findSpotId'
+const USER_SPOT = 'spot/findUserSpot'
 const CREATE_SPOT = 'spot/createSpot'
 const UPDATE_SPOT = 'spot/updateSpot'
 const DELETE_SPOT = 'spot/deleteSpot'
@@ -24,6 +25,15 @@ export const getSpotById = (spotDetails) => {
     return {
         type: ID_SPOT,
         spotDetails
+    }
+}
+
+//get spots from current user
+
+export const getSpotByUser = (userSpot) => {
+    return {
+        type: USER_SPOT,
+        userSpot
     }
 }
 
@@ -77,6 +87,19 @@ export const getSpotId = (spotId) => async (dispatch) => {
     }
 
 }
+
+//get spots of current user
+export const getCurrentUserSpot = () => async (dispatch) => {
+    const response = await csrfFetch('/api/spots/current')
+
+    if (response.ok) {
+        const currSpot = await response.json()
+        dispatch(getSpotByUser(currSpot))
+        return currSpot
+    }
+
+}
+
 
 //create thunk
 export const addSpots = (addSpot) => async (dispatch) => {
@@ -140,7 +163,7 @@ export const deleteLocation = (id) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${id}`, {
         method: 'DELETE'
     })
-    
+
     if (response.ok) {
         dispatch(deleteSpot(id));
     }
@@ -166,6 +189,12 @@ const spotsReducer = (state = initialState, action) => {
             //inside the object we are merging the old and the new and taking all parts combined. merging the overlapping info and taking the info from the 2nd obj
             newState[action.spotDetails.id] = { ...newState[action.spotDetails.id], ...action.spotDetails }
             return newState
+        case USER_SPOT:
+            newState = {}
+            action.userSpot.forEach(spot => {
+                newState[spot.id] = spot;
+            })
+            return newState
         case CREATE_SPOT:
             newState = { ...state }
             newState.allSpots.Spots = action.addSpot
@@ -175,9 +204,9 @@ const spotsReducer = (state = initialState, action) => {
             newState.allSpots = action.updateCurrentSpot
             return newState
         case DELETE_SPOT:
-        newState = { ...state };
-        delete newState[action.deleteCurrentSpot];
-        return newState;
+            newState = { ...state };
+            delete newState[action.deleteCurrentSpot];
+            return newState;
         default:
             return state;
     }
