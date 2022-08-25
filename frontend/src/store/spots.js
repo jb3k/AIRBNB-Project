@@ -12,7 +12,7 @@ const DELETE_SPOT = 'spot/deleteSpot'
 
 //action creators
 //find the spot
-export const getSpot = (allSpots) => {
+const getSpot = (allSpots) => {
     return {
         type: LOAD_SPOT,
         allSpots
@@ -21,7 +21,7 @@ export const getSpot = (allSpots) => {
 
 //get details of a spot from an ID
 
-export const getSpotById = (spotDetails) => {
+const getSpotById = (spotDetails) => {
     return {
         type: ID_SPOT,
         spotDetails
@@ -30,7 +30,7 @@ export const getSpotById = (spotDetails) => {
 
 //get spots from current user
 
-export const getSpotByUser = (userSpot) => {
+const getSpotByUser = (userSpot) => {
     return {
         type: USER_SPOT,
         userSpot
@@ -38,7 +38,7 @@ export const getSpotByUser = (userSpot) => {
 }
 
 //create a spot
-export const createSpot = (addSpot) => {
+const createSpot = (addSpot) => {
     return {
         type: CREATE_SPOT,
         addSpot
@@ -46,7 +46,7 @@ export const createSpot = (addSpot) => {
 }
 
 //update a spot
-export const updateSpot = (id, updateCurrentSpot) => {
+const updateSpot = (id, updateCurrentSpot) => {
     return {
         type: UPDATE_SPOT,
         updateCurrentSpot
@@ -55,7 +55,7 @@ export const updateSpot = (id, updateCurrentSpot) => {
 }
 
 //delete a spot
-export const deleteSpot = (deleteCurrentSpot) => {
+const deleteSpot = (deleteCurrentSpot) => {
     return {
         type: DELETE_SPOT,
         deleteCurrentSpot

@@ -25,19 +25,19 @@ function DisplaySpots() {
         <div className='allSpot-container'>
             <div className='spot-whole-container'>
                 {properties.map(({ id, city, price, state, avgRating, previewImage }) => (
-                    <div className='location-container'>
+                    <div key={id} className='location-container'>
                         <NavLink to={`/spots/${id}`}>
                             <div>
                                 <div className='location-image'>
                                     <img src={previewImage} className='image'></img>
                                 </div>
                                 <div className='location-details'>
-                                    <div key={id} className='location'>
+                                    <div  className='location'>
                                         {`${city}, ${state}`}
                                         <i class="fa-solid fa-star"></i>
                                         {Math.round(avgRating * 100) / 100}
                                     </div>
-                                    <div key={id} className='location-price'>
+                                    <div className='location-price'>
                                         {`$${Math.floor(price)} night`}
                                     </div>
                                 </div>

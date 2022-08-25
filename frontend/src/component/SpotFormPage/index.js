@@ -60,19 +60,19 @@ function SpotFormPage() {
 
         setSubmitted(true)
         alert('Home has been submitted')
-        reset()
         history.push(`/`)
+        // reset()
     };
 
-    const reset = () => {
-        setAddress('')
-        setCity('')
-        setState('')
-        setCountry('')
-        setName('')
-        setDescription('')
-        setPrice(1)
-    }
+    // const reset = () => {
+    //     setAddress('')
+    //     setCity('')
+    //     setState('')
+    //     setCountry('')
+    //     setName('')
+    //     setDescription('')
+    //     setPrice(1)
+    // }
 
     return (
         <div className="whole-form">
