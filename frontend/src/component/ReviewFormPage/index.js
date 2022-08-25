@@ -16,12 +16,9 @@ function CreateReview() {
     const history = useHistory()
     const { spotId } = useParams()
 
-
-
-    useEffect(() => {
-        dispatch(getSpotId(spotId))
-
-    }, [dispatch])
+    // useEffect(() => {
+    //     dispatch((spotId))
+    // }, [dispatch])
 
 
     const [review, setReview] = useState('')
@@ -31,6 +28,9 @@ function CreateReview() {
     const [submitted, setSubmitted] = useState(false)
 
 
+//if(!sessionUser){alert('You must be logged in to write a review!')}
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -38,7 +38,7 @@ function CreateReview() {
         if (stars < 1 || stars > 5) errors.push('Input Valid Star Rating')
 
         if (!errors.length) {
-            dispatch(createReviewThunk(spotId))
+            dispatch(createReviewThunk(spotId, { review, stars }))
                 .then(() => setIsLoaded(true))
 
         } else {

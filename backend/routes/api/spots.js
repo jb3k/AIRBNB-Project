@@ -319,7 +319,6 @@ router.get('/:spotId/reviews', restoreUser, async (req, res, next) => {
     const findSpot = await Spot.findByPk(id)
 
     // const tester = 3
-    const currUser = user.dataValues.id;
     //return all reviews that belong to a spot
     const review = await Review.findAll({
         // include: { model: User, attributes: ['id', 'firstName', 'lastName'] },
@@ -335,13 +334,12 @@ router.get('/:spotId/reviews', restoreUser, async (req, res, next) => {
         user ? userId.User = user : null
     }
     //what are the images referring to? 
-    for (let images of review) {
-        const img = await Image.findOne({
-            attributes: ['id', ['reviewId', 'imageableId'], 'url'],
-            where: { spotId: currUser }, raw: true
-        })
-        img ? images.Images = [img] : null
-    }
+    // for (let images of review) {
+    //     const img = await Image.findOne({
+    //         attributes: ['id', ['reviewId', 'imageableId'], 'url'],
+    //     })
+    //     img ? images.Images = [img] : null
+    // }
 
     let obj = {}
     obj.Reviews = review

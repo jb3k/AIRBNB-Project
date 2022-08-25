@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useParams } from 'react-router-dom'
-import { createReviewThunk, getSpotReviewThunk } from '../../store/reviews'
+import { deleteReviewThunk, getSpotReviewThunk } from '../../store/reviews'
 import { deleteSpot, getSpotId, spot } from '../../store/spots'
 
 
@@ -11,6 +11,7 @@ function SpotId() {
     const { spotId } = useParams()
     const [isLoaded, setIsLoaded] = useState(false)
 
+    const sessionUser = useSelector((state) => state.session.user);
     // take a look at state and return something from it from the reducer
     const allSpots = useSelector((state) => state.spots)
     // console.log(allSpots)
@@ -27,19 +28,32 @@ function SpotId() {
             .then(() => setIsLoaded(true))
     }, [dispatch, spotId])
 
-    if (!currReviews) return null
 
-    const displayReviews = currReviews.map((review) => (
-        <div className='user-review'>
-            <p>{`${review.User.firstName}`}</p>
-            <div className='actual-review'>
-                <p>{review.review}</p>
+
+    const displayReviews = currReviews.map((review) => {
+        const userReview = review.User.id
+        let button
+        if (sessionUser) {
+            if (sessionUser.id === userReview) {
+                { button = <button onClick={() => dispatch(deleteReviewThunk(review.id))}> Delete </button> }
+            }
+        }
+
+        return (
+            <div className='user-review'>
+                <p>{`${review.User.firstName}`}</p>
+                <div className='actual-review'>
+                    <p>{review.review}</p>
+                </div>
+                {button}
             </div>
-        </div>
-    ))
+        )
+    })
+
+
 
     const createReviewBttn = (
-        <NavLink to='/review/create'>
+        <NavLink to={`/spots/${spotId}/review`}>
             <button>
                 New Review
             </button>

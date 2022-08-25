@@ -26,7 +26,7 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
-          <Route path="/review/create">
+          <Route path="/spots/:spotId/review">
             <CreateReview />
           </Route>
           <Route path="/spots/current">
