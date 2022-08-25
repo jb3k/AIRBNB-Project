@@ -39,6 +39,7 @@ function Navigation({ isLoaded }) {
       history.push('/')
     } else {
       login = true;
+      history.push('/spots/current')
     }
     return login
   }
@@ -54,9 +55,9 @@ function Navigation({ isLoaded }) {
 
         </div>
         <div className='become-host'>
-          <NavLink to='/spots/current'>
+          {/* <NavLink to='/spots/current'> */}
             <button className='host-button' onClick={loginAlert}> Become a host</button>
-          </NavLink>
+          {/* </NavLink> */}
         </div>
         {/* <div>
           <label className='search-bar'>
