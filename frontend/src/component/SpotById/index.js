@@ -14,8 +14,8 @@ function SpotId() {
     // take a look at state and return something from it from the reducer
     const allSpots = useSelector((state) => state.spots)
     // console.log(allSpots)
-    const currReviews = useSelector((state) => state.reviews)
-    // console.log(currReviews)
+    const currReviews = useSelector((state) => Object.values(state.reviews))
+    console.log(currReviews)
 
     // return value of the reducer
     const oneSpot = allSpots[spotId]
@@ -29,11 +29,11 @@ function SpotId() {
 
     if (!currReviews) return null
 
-    // const displayReviews = currReviews.map((review) => (
-    //     <div className='user-review'>
-    //         <p>{`${review.User.firstName}`}</p>
-    //     </div>
-    // ))
+    const displayReviews = currReviews.map((review) => (
+        <div className='user-review'>
+            <p>{`${review.User.firstName}`}</p>
+        </div>
+    ))
 
     const createReviewBttn = (
         <NavLink to='/review/create'>
@@ -72,7 +72,7 @@ function SpotId() {
                 </div>
             </div>
             <div className='reviews-container'>
-                {/* {displayReviews} */}
+                {displayReviews}
             </div>
             <div>
                 {createReviewBttn}

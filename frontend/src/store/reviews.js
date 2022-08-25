@@ -51,6 +51,7 @@ export const getReviewThunk = () => async (dispatch) => {
         dispatch(getReviewAction(reviews));
         return reviews
     }
+    return response
 }
 
 export const getSpotReviewThunk = (id) => async (dispatch) => {
@@ -58,9 +59,10 @@ export const getSpotReviewThunk = (id) => async (dispatch) => {
     //obj w/ Reviews arr
     if (response.ok) {
         const reviews = await response.json()
-        dispatch(getReviewAction(reviews));
+        dispatch(getSpotReviewAction(reviews));
         return reviews
     }
+    return response
 
 }
 
@@ -117,6 +119,7 @@ const reviewsReducer = (state = initialState, action) => {
             return newState
         case CURSPOT_REVIEWS:
             newState = {}
+            console.log(action)
             action.payload.Reviews.forEach(review => {
                 newState[review.id] = review;
             })
