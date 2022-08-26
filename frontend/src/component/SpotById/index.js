@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useParams } from 'react-router-dom'
 import { deleteReviewThunk, getSpotReviewThunk } from '../../store/reviews'
 import { deleteSpot, getSpotId, spot } from '../../store/spots'
+import './SpotById.css'
 
 
 function SpotId() {
@@ -14,13 +15,11 @@ function SpotId() {
     const sessionUser = useSelector((state) => state.session.user);
     // take a look at state and return something from it from the reducer
     const allSpots = useSelector((state) => state.spots)
-    // console.log(allSpots)
+
     const currReviews = useSelector((state) => Object.values(state.reviews))
-    console.log(currReviews)
+    // console.log(currReviews)
 
     // return value of the reducer
-    const oneSpot = allSpots[spotId]
-    // console.log(oneSpot)
 
     useEffect(() => {
         dispatch(getSpotId(spotId))
@@ -29,6 +28,46 @@ function SpotId() {
     }, [dispatch, spotId])
 
 
+    const spot = allSpots[spotId]
+    console.log(spot)
+    const displaySpot = () => {
+        const image = spot.Images[0].url
+
+        return (
+            <div className='spot-page'>
+                <div className='spot-header'>
+                    <h1>{spot.name}</h1>
+                </div>
+                <div className='spot-details-header'>
+                    <div>
+                        <i class="fa-solid fa-star"></i>
+                        {Math.round(spot.avgRating * 100) / 100}
+                    </div>
+                    <div className='spot-details-reviews'>
+                        {`${spot.NumReviews} reviews`}
+                    </div>
+                    <div className='spot-details-filler'>
+                        Superhost
+                    </div>
+                    <div className='spot-header-location'>
+                        {`${spot.city}, ${spot.state}, ${spot.country}`}
+                    </div>
+                </div>
+                <div className='spot-image-header'>
+                    <img className={'spot-image-header-image'} src={image}></img>
+                </div>
+                <div className='spot-details-bottom'>
+                    <div>
+                        <h3>{`Entire home hosted by ${spot.Owner.firstName}`}</h3>
+                    </div>
+                    <div>
+                        <p>{spot.description}</p>
+                    </div>
+                </div>
+            </div>
+
+        )
+    }
 
     const displayReviews = currReviews.map((review) => {
         const userReview = review.User.id
@@ -41,7 +80,15 @@ function SpotId() {
 
         return (
             <div className='user-review'>
-                <p>{`${review.User.firstName}`}</p>
+                <div className='profile-icon-container'>
+                    <i className={'profile-icon'} class="fa-solid fa-user"></i>
+                </div>
+                <div className='review-author'>
+                    <h5>{`${review.User.firstName}`}</h5>
+                </div>
+                <div>
+                    <p></p>
+                </div>
                 <div className='actual-review'>
                     <p>{review.review}</p>
                 </div>
@@ -65,28 +112,8 @@ function SpotId() {
 
     return isLoaded && (
         <div className='whole-page'>
-            <h1>Home</h1>
-            <div className=''>
-                <div className='location-container'>
-                    <div className='location-image'>
-                        {/* <img src={spotImage} className='image'></img> */}
-                    </div>
-                    <div className='location-details'>
-                        <div key={oneSpot?.id} className='location'>
-                            {`${oneSpot?.city}, ${oneSpot?.state}`}
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                        <div key={oneSpot?.id} className='location-price'>
-                            {`$${Math.floor(oneSpot?.price)} night`}
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    {/* <NavLink to={`/spots/${oneSpot?.id}/edit`}>
-                        <button >Edit</button>
-                    </NavLink>
-                    <button onClick={() => { dispatch(deleteSpot(oneSpot.id)) }}>Delete</button> */}
-                </div>
+            <div>
+                {displaySpot()}
             </div>
             <div className='reviews-container'>
                 {displayReviews}
@@ -96,6 +123,34 @@ function SpotId() {
             </div>
         </div>
     )
+
+
+
+
+    //     <div className=''>
+    //     <div className='location-container'>
+    //         <div className='location-image'>
+    //             {/* <img src={spotImage} className='image'></img> */}
+    //         </div>
+    //         <div className='location-details'>
+    //             <div key={oneSpot?.id} className='location'>
+    //                 {`${oneSpot?.city}, ${oneSpot?.state}`}
+    //                 <i class="fa-solid fa-star"></i>
+    //             </div>
+    //             <div key={oneSpot?.id} className='location-price'>
+    //                 {`$${Math.floor(oneSpot?.price)} night`}
+    //             </div>
+    //         </div>
+    //     </div>
+    //     <div>
+    //         {/* <NavLink to={`/spots/${oneSpot?.id}/edit`}>
+    //             <button >Edit</button>
+    //         </NavLink>
+    //         <button onClick={() => { dispatch(deleteSpot(oneSpot.id)) }}>Delete</button> */}
+    //     </div>
+    // </div>
+
+
 
 }
 

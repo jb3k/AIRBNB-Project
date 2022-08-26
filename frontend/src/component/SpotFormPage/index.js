@@ -3,9 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom'
 import './SpotFormPage.css';
 import LoginFormModal from "../LoginFormModal";
-import spotsReducer from "../../store/spots";
-import { spot } from '../../store/spots'
-import { addSpots } from "../../store/spots";
+import { spot, addSpots, addImageSpotThunk } from '../../store/spots'
+
 
 
 function SpotFormPage() {
@@ -33,6 +32,7 @@ function SpotFormPage() {
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState(1);
     const [errors, setErrors] = useState([]);
+    const [imageUrl, setImageUrl] = useState('')
     const [submitted, setSubmitted] = useState(false)
 
 
@@ -53,6 +53,7 @@ function SpotFormPage() {
 
         if (!errors.length) {
             dispatch(addSpots({ address, city, state, country, lat, lng, name, description, price }))
+                .then(result => addImageSpotThunk(result.id, imageUrl))
         } else {
             setErrors(errors)
         }
@@ -158,6 +159,15 @@ function SpotFormPage() {
                         type="integer"
                         value={price}
                         onChange={(e) => setPrice(e.target.value)}
+                        required
+                    />
+                </label>
+                <label>
+                    Image Url
+                    <input
+                        type="text"
+                        value={imageUrl}
+                        onChange={(e) => setImageUrl(e.target.value)}
                         required
                     />
                 </label>

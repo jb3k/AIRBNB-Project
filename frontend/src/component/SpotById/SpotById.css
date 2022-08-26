@@ -1,3 +1,58 @@
-.user-review {
+.spot-details-header {
+    display: flex;
+}
+
+.spot-details-reviews {
+    margin-left: 15px;
+    margin-right: 15px;
+    text-decoration: underline;
+}
+
+.spot-header-location {
+    text-decoration: underline;
+
+}
+
+.spot-details-filler {
+    margin-right: 15px;
+}
+
+
+.spot-image-header {
+    height: 350px;
+    width: 500px;
     border: solid black;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.spot-image-header-image {
+    height: 100%;
+    width: 100%
+}
+
+.profile-icon-container {
+    height: 17px;
+    width: 17px;
+    border-radius: 50%;
+    border: solid black;
+    text-align: center;
+    margin-left: 5px;
+    margin-top: 5px;
+
+}
+
+/* .profile-icon {
+    display: flex;
+    justify-content: center;
+} */
+
+.user-review {
+    display: flex;
+    border: solid;
+    margin-bottom: 15px
+}
+
+.actual-review{
+    text-align: justify;
 }
