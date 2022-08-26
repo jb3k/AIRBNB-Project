@@ -32,8 +32,8 @@ body {
 }
 
 .spot-image-header {
-    height: 350px;
-    width: 500px;
+    height: 27em;
+    width: 43em;
     margin-top: 20px;
     margin-bottom: 20px;
 }
@@ -49,20 +49,25 @@ body {
     display: flex;
     margin-top: 45px;
     margin-bottom: 45px;
-    border-bottom: 1px solid rgba(55, 43, 43, 0.3);
+    /* border-bottom: 1px solid rgba(55, 43, 43, 0.3); */
 
 }
 
 .p-description {
-    width: 30em
+    width: 38em
+}
+
+.name-description {
+    width: 45em;
 }
 
 .price-bttn {
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   margin-left: 2rem;
-   
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 2rem;
+    width: 45em;
+
 }
 
 .massive-bttn {
@@ -79,9 +84,14 @@ body {
 }
 
 
+.reviews-container {
+    border-top: 1px solid rgba(55, 43, 43, 0.3);
+
+}
 
 .user-review {
-    margin-bottom: 30px;
+    margin-top: 1em;
+    margin-bottom: 3em;
     margin-left: 50px;
 
 }
@@ -91,13 +101,14 @@ body {
 
 }
 
-.review-user-name{
+.review-user-name {
     font-size: 16px;
     font-weight: bold;
 }
 
 .date {
     color: rgb(144, 135, 135);
+
     font-size: 11px;
 }
 
@@ -145,4 +156,32 @@ li {
 .profile-icon {
     margin-top: 15px;
     margin-left: 10px
+}
+
+.price-text {
+    font-weight: bold;
+    font-size: x-large
+}
+
+.in-price-text-bttn {
+    display: flex
+}
+
+.night-text{
+    margin-left: 0.2em;
+    margin-top: 0.5em;
+}
+
+.star-reviews {
+    display: flex;
+
+}
+
+.dot-text {
+    margin-left: 0.3em;
+    margin-right: 0.3em;
+}
+
+.massive-bttn-review-details {
+    text-decoration: underline;
 }

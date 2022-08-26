@@ -121,7 +121,6 @@ const reviewsReducer = (state = initialState, action) => {
             return newState
         case CURSPOT_REVIEWS:
             newState = {}
-            console.log(action)
             action.payload.Reviews.forEach(review => {
                 newState[review.id] = review;
             })

@@ -67,13 +67,26 @@ function SpotId() {
                     </div>
                     <div className='price-bttn'>
                         <div className='massive-bttn'>
-                            <div className='price-text'>
-                                {`$${Math.floor(spot.price)} night `}
+                            <div className='in-price-text-bttn'>
+                               <div className='price-text'>
+                                {`$${Math.floor(spot.price)}`}
                             </div>
+                            <div className='night-text'>
+                                night
+                            </div> 
+                            </div>
+                            
                             <div className='star-reviews'>
-                                <i class="fa-solid fa-star"></i>
-                                {Math.round(spot.avgRating * 100) / 100}
-                                {` · ${spot.NumReviews} reviews`}
+                                <div className='star-icon-rating'>
+                                    <i class="fa-solid fa-star"></i>
+                                    {Math.round(spot.avgRating * 100) / 100}
+                                </div>
+                                <div className='dot-text'>
+                                    {' · '}
+                                </div>
+                                <div className='massive-bttn-review-details'>
+                                    {`${spot.NumReviews} reviews`}
+                                </div>
                             </div>
                         </div>
                     </div>
