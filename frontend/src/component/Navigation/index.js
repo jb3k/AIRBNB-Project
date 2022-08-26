@@ -33,7 +33,7 @@ function Navigation({ isLoaded }) {
 
   const wordSwitcher = () => {
     if (sessionUser) {
-      return "Switch to Hosting"
+      return "Switch to hosting"
     } else {
       return "Become a host"
     }

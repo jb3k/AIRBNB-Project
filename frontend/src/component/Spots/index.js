@@ -26,20 +26,20 @@ function DisplaySpots() {
             <div className='spot-whole-container'>
                 {properties.map(({ id, city, price, state, avgRating, previewImage }) => (
                     <div key={id} className='location-container'>
-                        <NavLink to={`/spots/${id}`}>
-                            <div>
-                                <div className='location-image'>
-                                    <img src={previewImage} className='image'></img>
-                                </div>
-                                <div className='location-details'>
-                                    <div  className='location'>
-                                        {`${city}, ${state}`}
+                        <NavLink className={'redirect'} to={`/spots/${id}`}>
+                            <div className='location-image'>
+                                <img src={previewImage} className='image'></img>
+                            </div>
+                            <div className='location-details'>
+                                <div className='location'>
+                                    {`${city}, ${state}`}
+                                    <div>
                                         <i class="fa-solid fa-star"></i>
                                         {Math.round(avgRating * 100) / 100}
                                     </div>
-                                    <div className='location-price'>
-                                        {`$${Math.floor(price)} night`}
-                                    </div>
+                                </div>
+                                <div className='location-price'>
+                                    {`$${Math.floor(price)} night`}
                                 </div>
                             </div>
                         </NavLink>
