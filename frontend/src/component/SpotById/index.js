@@ -48,6 +48,7 @@ function SpotId() {
                     </div>
                     <div className='spot-details-filler'>
                         Superhost
+                    <i class="fa-solid fa-circle-small"></i>
                     </div>
                     <div className='spot-header-location'>
                         {`${spot.city}, ${spot.state}, ${spot.country}`}

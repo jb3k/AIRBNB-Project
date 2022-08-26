@@ -1,0 +1,36 @@
+.divider {
+    height: 200px;
+    background-image: linear-gradient(to right, rgb(101, 34, 210), rgb(255, 74, 161));
+    margin-bottom: 50px;
+    padding: 45px 0 20px 100px;
+}
+
+.today-text {
+    color: white;
+}
+
+.p-text {
+    color: white;
+}
+
+.add-spot-bttn {
+    height: 35px;
+    background-color: white;
+    border: none;
+    border-radius: 9px;
+}
+
+.location-image {
+    height: 250px;
+    width: 280px;
+}
+
+.location-details {
+    text-decoration: none;
+}
+
+.my-spot-image {
+    height: 100%;
+    width: 100%;
+    border-radius: 15px;
+}
