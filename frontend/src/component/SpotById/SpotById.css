@@ -12,8 +12,13 @@ body {
 }
 
 .spot-details-reviews {
+    display: flex;
     margin-left: 7px;
     margin-right: 7px;
+    
+}
+
+.top-header-reviews{
     text-decoration: underline;
 }
 
