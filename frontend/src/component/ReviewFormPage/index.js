@@ -28,11 +28,12 @@ function CreateReview() {
     const [submitted, setSubmitted] = useState(false)
 
 
-//if(!sessionUser){alert('You must be logged in to write a review!')}
+    //if(!sessionUser){alert('You must be logged in to write a review!')}
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
 
         if (review.length < 1) errors.push('Need review')
         if (stars < 1 || stars > 5) errors.push('Input Valid Star Rating')
@@ -50,6 +51,12 @@ function CreateReview() {
         history.push(`/spots/${spotId}`)
     };
 
+    const loggedIn = () => {
+        if (!sessionUser) {
+            alert('Need to be logged in to create a Review')
+            return
+        }
+    }
 
     return (
         { sessionUser } && { isLoaded } &&
@@ -75,7 +82,8 @@ function CreateReview() {
                         required
                     />
                 </label>
-                <button className="submit-review-bttn" type="submit" >Create Review</button>
+                
+                    <button className="submit-review-bttn" type="submit" onClick={loggedIn()}>Create Review</button>
             </form>
         </div>
         ));

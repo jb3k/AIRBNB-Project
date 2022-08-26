@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink, useParams } from 'react-router-dom'
+import { NavLink, useParams, useHistory } from 'react-router-dom'
 import { deleteLocation, getCurrentUserSpot } from '../../store/spots'
 import './BecomeHost.css'
 
@@ -8,6 +8,8 @@ function BecomeHost() {
 
     const dispatch = useDispatch()
     const [isLoaded, setIsLoaded] = useState(false)
+    const sessionUser = useSelector((state) => state.session.user);
+    const history = useHistory()
 
 
     // take a look at state and return something from it from the reducer
@@ -21,6 +23,10 @@ function BecomeHost() {
     }, [dispatch])
 
     if (!userSpots) return null
+    if (!sessionUser) {
+        history.push('/')
+    }
+
 
     return isLoaded && (
         <div className='whole-page'>

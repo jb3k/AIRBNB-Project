@@ -146,7 +146,8 @@ function SpotId() {
 
 
 
-    const createReviewBttn = (
+    const createReviewBttn = (        
+        
         <NavLink to={`/spots/${spotId}/review`}>
             <button className='create-review-bttn'>
                 New Review
