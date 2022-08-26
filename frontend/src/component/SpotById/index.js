@@ -48,7 +48,7 @@ function SpotId() {
                     </div>
                     <div className='spot-details-filler'>
                         Superhost
-                    <i class="fa-solid fa-circle-small"></i>
+                        <i class="fa-solid fa-circle-small"></i>
                     </div>
                     <div className='spot-header-location'>
                         {`${spot.city}, ${spot.state}, ${spot.country}`}
@@ -81,19 +81,24 @@ function SpotId() {
 
         return (
             <div className='user-review'>
-                <div className='profile-icon-container'>
-                    <i className={'profile-icon'} class="fa-solid fa-user"></i>
-                </div>
-                <div className='review-author'>
-                    <h5>{`${review.User.firstName}`}</h5>
+                <div className='top-user-container'>
+                    <row className='review-header'>
+                        <div className='profile-icon-container'>
+                            <i className={'profile-icon'} class="fa-solid fa-user"></i>
+                        </div>
+                        <div className='review-author'>
+                            <p className='review-user-name'>{`${review.User.firstName}`}</p>
+                        </div>
+                    </row>
                 </div>
                 <div>
-                    <p></p>
+                    <row className='review-name'>
+                        <div className='actual-review'>
+                            <p>{review.review}</p>
+                        </div>
+                        {button}
+                    </row>
                 </div>
-                <div className='actual-review'>
-                    <p>{review.review}</p>
-                </div>
-                {button}
             </div>
         )
     })

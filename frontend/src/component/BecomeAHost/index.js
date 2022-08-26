@@ -26,7 +26,7 @@ function BecomeHost() {
         <div className='whole-page'>
             <div className='divider'>
                 <h2 className='today-text'>Today</h2>
-                <p className='p-text'> You'll be a Hose soon! Just add that last few details to your listing.</p>
+                <p className='p-text'> You'll be a Host soon! Just add that last few details to your listing.</p>
                 <div>
                     <NavLink to='/spots/create'>
                         <button className='add-spot-bttn'> Complete your listing </button>

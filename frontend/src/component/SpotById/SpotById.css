@@ -17,6 +17,12 @@
     margin-right: 15px;
 }
 
+.top-user-container {
+    display: flex;
+    flex-wrap: row wrap;
+    align-content: space-between;
+    justify-content: space-between;
+}
 
 .spot-image-header {
     height: 350px;
@@ -32,15 +38,17 @@
 }
 
 .profile-icon-container {
-    height: 17px;
-    width: 17px;
+    height: 25px;
+    width: 25px;
     border-radius: 50%;
     border: solid black;
     text-align: center;
-    margin-left: 5px;
+    margin-left: 10px;
     margin-top: 5px;
+    flex-direction: row;
 
 }
+
 
 /* .profile-icon {
     display: flex;
@@ -48,11 +56,16 @@
 } */
 
 .user-review {
-    display: flex;
     border: solid;
     margin-bottom: 15px
 }
 
-.actual-review{
+.review-header {
+    display: flex;
+
+}
+
+
+.actual-review {
     text-align: justify;
 }

@@ -1,3 +1,8 @@
+/* .spot-whole-container {
+    margin-left: 100px;
+} */
+
+
 .divider {
     height: 200px;
     background-image: linear-gradient(to right, rgb(101, 34, 210), rgb(255, 74, 161));
@@ -34,8 +39,4 @@
     height: 100%;
     width: 100%;
     border-radius: 15px;
-}
-
-.location-container {
-    
 }
