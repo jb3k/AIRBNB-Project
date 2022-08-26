@@ -27,10 +27,9 @@ module.exports = (sequelize, DataTypes) => {
   }
   Image.init({
     url: {
-      type: DataTypes.STRING(99),
+      type: DataTypes.STRING(),
       allowNull: false,
       validate: {
-        len: [1, 99],
         isUrl: true
       }
     },

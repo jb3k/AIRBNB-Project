@@ -74,7 +74,7 @@ module.exports = {
         userId: 1
       },
       {
-        url: 'https://www.thespruce.com/thmb/CksWMdX91Ogcd-Wp4YdKEkw78sQ=/941x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/rollingtable-d89ff55575c2487e8cea30d944424717.jpeg',
+        url: 'https://a0.muscache.com/im/pictures/b0c977d9-57ba-4f70-bbb4-8b3cd3ae8dc4.jpg',
         previewImage: true,
         spotId: 10,
         reviewId: null,
