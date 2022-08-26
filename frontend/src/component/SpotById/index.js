@@ -83,8 +83,8 @@ function SpotId() {
             <div className='user-review'>
                 <div className='top-user-container'>
                     <row className='review-header'>
-                        <div className='profile-icon-container'>
-                            <i className={'profile-icon'} class="fa-solid fa-user"></i>
+                        <div className='profile-icon'>
+                            <i class="fas fa-user-circle fa-2xl"></i>
                         </div>
                         <div className='review-author'>
                             <p className='review-user-name'>{`${review.User.firstName}`}</p>
@@ -92,12 +92,10 @@ function SpotId() {
                     </row>
                 </div>
                 <div>
-                    <row className='review-name'>
-                        <div className='actual-review'>
-                            <p>{review.review}</p>
-                        </div>
-                        {button}
-                    </row>
+                    <div className='actual-review'>
+                        <p>{review.review}</p>
+                    </div>
+                    {button}
                 </div>
             </div>
         )

@@ -19,9 +19,7 @@
 
 .top-user-container {
     display: flex;
-    flex-wrap: row wrap;
-    align-content: space-between;
-    justify-content: space-between;
+
 }
 
 .spot-image-header {
@@ -37,23 +35,6 @@
     width: 100%
 }
 
-.profile-icon-container {
-    height: 25px;
-    width: 25px;
-    border-radius: 50%;
-    border: solid black;
-    text-align: center;
-    margin-left: 10px;
-    margin-top: 5px;
-    flex-direction: row;
-
-}
-
-
-/* .profile-icon {
-    display: flex;
-    justify-content: center;
-} */
 
 .user-review {
     border: solid;
@@ -65,7 +46,16 @@
 
 }
 
+.review-author{
+    margin-left: 10px;
+    
+}
 
 .actual-review {
     text-align: justify;
+}
+
+.profile-icon{
+    margin-top: 15px;
+    margin-left: 10px
 }
