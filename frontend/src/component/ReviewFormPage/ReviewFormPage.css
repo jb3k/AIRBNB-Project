@@ -1,0 +1,9 @@
+
+.submit-review-bttn {
+    height: 45px;
+    width: 475px;
+    color: white;
+    background-image: linear-gradient(to right, rgb(233, 28, 72), rgb(236, 38, 108));
+    border: none;
+    border-radius: 10px;
+}

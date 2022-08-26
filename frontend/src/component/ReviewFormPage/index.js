@@ -59,16 +59,15 @@ function CreateReview() {
                     {errors.map((error, idx) => <li key={idx}>{error}</li>)}
                 </ul>
                 <label>
-                    Review:
                     <input
                         type="text"
                         value={review}
                         onChange={(e) => setReview(e.target.value)}
                         required
+                        placeholder="Review"
                     />
                 </label>
                 <label>
-                    Stars:
                     <input
                         type="integer"
                         value={stars}
@@ -76,7 +75,7 @@ function CreateReview() {
                         required
                     />
                 </label>
-                <button type="submit" >Create Review</button>
+                <button className="submit-review-bttn" type="submit" >Create Review</button>
             </form>
         </div>
         ));
