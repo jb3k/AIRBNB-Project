@@ -44,10 +44,10 @@ function SpotId() {
                         {Math.round(spot.avgRating * 100) / 100}
                     </div>
                     <div className='spot-details-reviews'>
-                        {`${spot.NumReviews} reviews`}
+                        {` · ${spot.NumReviews} reviews`}
                     </div>
                     <div className='spot-details-filler'>
-                        Superhost
+                        {'·  Superhost  ·'}
                         <i class="fa-solid fa-circle-small"></i>
                     </div>
                     <div className='spot-header-location'>
@@ -62,7 +62,19 @@ function SpotId() {
                         <h3>{`Entire home hosted by ${spot.Owner.firstName}`}</h3>
                     </div>
                     <div>
-                        <p>{spot.description}</p>
+                        <p className='p-description'>{spot.description}</p>
+                    </div>
+                    <div className='price-bttn'>
+                        <button className='massive-bttn'>
+                            <div className='price-text'>
+                                {`$${Math.floor(spot.price)} night `}
+                            </div>
+                            <div className='star-reviews'>
+                                <i class="fa-solid fa-star"></i>
+                                {Math.round(spot.avgRating * 100) / 100}
+                                {` · ${spot.NumReviews} reviews`}
+                            </div>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -86,8 +98,13 @@ function SpotId() {
                         <div className='profile-icon'>
                             <i class="fas fa-user-circle fa-2xl"></i>
                         </div>
-                        <div className='review-author'>
-                            <p className='review-user-name'>{`${review.User.firstName}`}</p>
+                        <div className='name-date'>
+                            <div className='review-author'>
+                                <p className='review-user-name'>{`${review.User.firstName}`}</p>
+                            </div>
+                            <div className='name-date-date'>
+                                date
+                            </div>
                         </div>
                     </row>
                 </div>

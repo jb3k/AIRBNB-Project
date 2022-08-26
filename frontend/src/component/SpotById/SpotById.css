@@ -1,10 +1,15 @@
+.spot-page {
+    margin-left: 50px;
+    ;
+}
+
 .spot-details-header {
     display: flex;
 }
 
 .spot-details-reviews {
-    margin-left: 15px;
-    margin-right: 15px;
+    margin-left: 7px;
+    margin-right: 7px;
     text-decoration: underline;
 }
 
@@ -14,7 +19,7 @@
 }
 
 .spot-details-filler {
-    margin-right: 15px;
+    margin-right: 5px;
 }
 
 .top-user-container {
@@ -36,9 +41,35 @@
 }
 
 
+.spot-details-bottom {
+    margin-top: 45px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid rgba(55, 43, 43, 0.3);
+}
+
+.p-description {
+    width: 600px;
+}
+
+.massive-bttn {
+    height: 85px;
+    width: 350px;
+    background-color: transparent;
+    border: 1px solid rgba(55, 43, 43, 0.3);
+    border-radius: 12px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 5px 15px;
+}
+
+.price-text {
+    display: flex;
+    flex-direction: column;
+}
+
 .user-review {
     border: solid;
-    margin-bottom: 15px
+    margin-bottom: 15px;
+    margin-left: 50px;
+
 }
 
 .review-header {
@@ -46,16 +77,18 @@
 
 }
 
-.review-author{
-    margin-left: 10px;
-    
+.name-date {
+    display: flex;
+    flex-direction: column;
+    margin-left: 8px;
 }
+
 
 .actual-review {
     text-align: justify;
 }
 
-.profile-icon{
+.profile-icon {
     margin-top: 15px;
     margin-left: 10px
 }
