@@ -54,17 +54,20 @@ body {
 }
 
 .p-description {
-    width: 600px;
+    width: 30em
 }
 
 .price-bttn {
-    margin-left: 150px;
-    margin-top: 50px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   margin-left: 2rem;
+   
 }
 
 .massive-bttn {
     height: 85px;
-    width: 350px;
+    width: 25em;
     background-color: transparent;
     border: 1px solid rgba(55, 43, 43, 0.3);
     border-radius: 12px;

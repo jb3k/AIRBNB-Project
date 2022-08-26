@@ -57,11 +57,11 @@ function SpotId() {
                     <img className={'spot-image-header-image'} src={image}></img>
                 </div>
                 <div className='spot-details-bottom'>
-                    <div>
-                        <div>
+                    <div className='name-description'>
+                        <div className='spot-details-name'>
                             <h3>{`Entire home hosted by ${spot.Owner.firstName}`}</h3>
                         </div>
-                        <div>
+                        <div className='spot-details-description'>
                             <p className='p-description'>{spot.description}</p>
                         </div>
                     </div>

@@ -59,10 +59,10 @@ function Navigation({ isLoaded }) {
   return (
     <div className='topNav-container'>
       <div className='nav-container'>
-        <div>
+        <div className='logo-container'>
           <NavLink exact to="/" className={'company'}
             style={{ textDecoration: 'none' }}>
-            <i class="fa-solid fa-handshake"></i> | FairBnB
+              <i class="fa-solid fa-handshake"> </i> | FairBnB
           </NavLink>
 
         </div>

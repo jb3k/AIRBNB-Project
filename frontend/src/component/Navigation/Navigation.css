@@ -13,24 +13,39 @@
 
 }
 
-.company {
+.logo-container {
     display: flex;
     align-items: center;
-    font-size: 28px;
+    min-width: fit-content;
+
+}
+
+.company {
+    min-width: 4rem;
+    font-size: 1.4em;
     color: red;
 }
 
-/* #search-icon {
-    color: white;
-    background-color: red;
-    border-radius: 40px;
-    height: 25px;
-    width: 22px;
-    text-align: center;
-    padding-top: 8px;
-    padding-left: 5px;
-    padding-right: 5px;
-} */
+.become-host {
+    display: flex;
+    align-items: center;
+    min-width: fit-content;
+
+}
+
+.host-button {
+    display: flex;
+    font-size: 1.2rem;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    height: 40px;
+    border-radius: 20px;
+}
+
+.host-button:hover {
+    background-color: lightgray;
+}
 
 .bar {
     height: 40px;
@@ -53,26 +68,9 @@
 
 }
 
-.become-host {
-    display: flex;
-    align-items: center;
-    margin-left: 550px;
-}
 
-.host-button {
-    display: flex;
-    font-size: 18px;
-    align-items: center;
-    background-color: transparent;
-    border: none;
-    height: 35px;
-    border-radius: 20px;
 
-}
 
-.host-button:hover {
-    background-color: lightgray;
-}
 
 .login-icon {
     padding-right: 20px;
@@ -114,3 +112,17 @@
 .dropdown>.link:focus+.dropdown-menu {
     opacity: 1;
 }
+
+
+
+/* #search-icon {
+    color: white;
+    background-color: red;
+    border-radius: 40px;
+    height: 25px;
+    width: 22px;
+    text-align: center;
+    padding-top: 8px;
+    padding-left: 5px;
+    padding-right: 5px;
+} */
