@@ -25,12 +25,12 @@ function SpotId() {
         dispatch(getSpotId(spotId))
         dispatch(getSpotReviewThunk(spotId))
             .then(() => setIsLoaded(true))
-    }, [dispatch, spotId])
+    }, [dispatch])
 
 
     const spot = allSpots[spotId]
     const displaySpot = () => {
-        const image = spot.Images[0].url
+        const image = spot?.Images[0].url
 
         return (
             <div className='spot-page'>

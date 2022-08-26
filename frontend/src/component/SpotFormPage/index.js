@@ -32,7 +32,7 @@ function SpotFormPage() {
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
     const [errors, setErrors] = useState([]);
-    const [imageUrl, setImageUrl] = useState('')
+    const [previewImage, setPreviewImage] = useState('')
     const [submitted, setSubmitted] = useState(false)
 
 
@@ -52,8 +52,8 @@ function SpotFormPage() {
         // setOwnerId(sessionUser.id)
 
         if (!errors.length) {
-            dispatch(addSpots({ address, city, state, country, lat, lng, name, description, price }))
-                .then(result => addImageSpotThunk(result.id, imageUrl))
+            dispatch(addSpots({ address, city, state, country, lat, lng, name, description, price, previewImage }))
+                // .then(result => addImageSpotThunk(result.id, imageUrl))
         } else {
             setErrors(errors)
         }
@@ -166,8 +166,8 @@ function SpotFormPage() {
                 <label>
                     <input
                         type="text"
-                        value={imageUrl}
-                        onChange={(e) => setImageUrl(e.target.value)}
+                        value={previewImage}
+                        onChange={(e) => setPreviewImage(e.target.value)}
                         required
                         placeholder="Image Url"
                     />

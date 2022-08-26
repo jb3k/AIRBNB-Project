@@ -31,7 +31,7 @@ export function Modal({ onClose, children }) {
       <div id="modal-background" onClick={onClose} />
       <div id="modal-content">
         <div className='header'>
-          <button id='x-button'> X </button>
+          <button id='x-button'>  </button>
           <h3 className='login-text'>Login</h3>
         </div>
         <div className='middlepart'>

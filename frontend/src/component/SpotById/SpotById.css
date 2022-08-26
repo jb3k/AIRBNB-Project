@@ -190,3 +190,7 @@ li {
 .massive-bttn-review-details {
     text-decoration: underline;
 }
+
+.create-review-bttn {
+    margin-top: 2em;
+}
