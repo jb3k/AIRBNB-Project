@@ -29,7 +29,6 @@ function SpotId() {
 
 
     const spot = allSpots[spotId]
-    console.log(spot)
     const displaySpot = () => {
         const image = spot.Images[0].url
 
@@ -44,10 +43,11 @@ function SpotId() {
                         {Math.round(spot.avgRating * 100) / 100}
                     </div>
                     <div className='spot-details-reviews'>
-                        {`${spot.NumReviews} reviews`}
+                        {` · ${spot.NumReviews} reviews`}
                     </div>
                     <div className='spot-details-filler'>
-                        Superhost
+                        {'·  Superhost  ·'}
+                        <i class="fa-solid fa-circle-small"></i>
                     </div>
                     <div className='spot-header-location'>
                         {`${spot.city}, ${spot.state}, ${spot.country}`}
@@ -58,10 +58,24 @@ function SpotId() {
                 </div>
                 <div className='spot-details-bottom'>
                     <div>
-                        <h3>{`Entire home hosted by ${spot.Owner.firstName}`}</h3>
+                        <div>
+                            <h3>{`Entire home hosted by ${spot.Owner.firstName}`}</h3>
+                        </div>
+                        <div>
+                            <p className='p-description'>{spot.description}</p>
+                        </div>
                     </div>
-                    <div>
-                        <p>{spot.description}</p>
+                    <div className='price-bttn'>
+                        <div className='massive-bttn'>
+                            <div className='price-text'>
+                                {`$${Math.floor(spot.price)} night `}
+                            </div>
+                            <div className='star-reviews'>
+                                <i class="fa-solid fa-star"></i>
+                                {Math.round(spot.avgRating * 100) / 100}
+                                {` · ${spot.NumReviews} reviews`}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -69,30 +83,45 @@ function SpotId() {
         )
     }
 
+
+
     const displayReviews = currReviews.map((review) => {
         const userReview = review.User.id
         let button
         if (sessionUser) {
             if (sessionUser.id === userReview) {
-                { button = <button onClick={() => dispatch(deleteReviewThunk(review.id))}> Delete </button> }
+                { button = <button className='delete-review-bttn' onClick={() => dispatch(deleteReviewThunk(review.id))}> Delete </button> }
             }
         }
+        const dateNumbers = spot.createdAt
+        const dateText = new Date(dateNumbers)
+        const dateArr = dateText.toString().split(' ')
+        const month = dateArr[1]
+        const year = dateArr[3]
 
         return (
             <div className='user-review'>
-                <div className='profile-icon-container'>
-                    <i className={'profile-icon'} class="fa-solid fa-user"></i>
-                </div>
-                <div className='review-author'>
-                    <h5>{`${review.User.firstName}`}</h5>
+                <div className='top-user-container'>
+                    <row className='review-header'>
+                        <div className='profile-icon'>
+                            <i class="fas fa-user-circle fa-2xl"></i>
+                        </div>
+                        <div className='name-date'>
+                            <div className='review-author'>
+                                <li className='review-user-name'>{`${review.User.firstName}`}</li>
+                                <li className='date'>{`${month} ${year}`}</li>
+                            </div>
+                        </div>
+                    </row>
                 </div>
                 <div>
-                    <p></p>
+                    <div className='actual-review'>
+                        <p>{review.review}</p>
+                    </div>
+                    <div>
+                        {button}
+                    </div>
                 </div>
-                <div className='actual-review'>
-                    <p>{review.review}</p>
-                </div>
-                {button}
             </div>
         )
     })
@@ -101,7 +130,7 @@ function SpotId() {
 
     const createReviewBttn = (
         <NavLink to={`/spots/${spotId}/review`}>
-            <button>
+            <button className='create-review-bttn'>
                 New Review
             </button>
         </NavLink>

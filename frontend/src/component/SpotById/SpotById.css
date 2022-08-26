@@ -1,10 +1,19 @@
+body {
+    font-family: Graphik Meetup, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+}
+
+.spot-page {
+    margin-left: 50px;
+    ;
+}
+
 .spot-details-header {
     display: flex;
 }
 
 .spot-details-reviews {
-    margin-left: 15px;
-    margin-right: 15px;
+    margin-left: 7px;
+    margin-right: 7px;
     text-decoration: underline;
 }
 
@@ -14,45 +23,123 @@
 }
 
 .spot-details-filler {
-    margin-right: 15px;
+    margin-right: 5px;
 }
 
+.top-user-container {
+    display: flex;
+
+}
 
 .spot-image-header {
     height: 350px;
     width: 500px;
-    border: solid black;
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
 .spot-image-header-image {
+    border-radius: 10px 0 0 10px;
     height: 100%;
     width: 100%
 }
 
-.profile-icon-container {
-    height: 17px;
-    width: 17px;
-    border-radius: 50%;
-    border: solid black;
-    text-align: center;
-    margin-left: 5px;
-    margin-top: 5px;
+
+.spot-details-bottom {
+    display: flex;
+    margin-top: 45px;
+    margin-bottom: 45px;
+    border-bottom: 1px solid rgba(55, 43, 43, 0.3);
 
 }
 
-/* .profile-icon {
+.p-description {
+    width: 600px;
+}
+
+.price-bttn {
+    margin-left: 150px;
+    margin-top: 50px;
+}
+
+.massive-bttn {
+    height: 85px;
+    width: 350px;
+    background-color: transparent;
+    border: 1px solid rgba(55, 43, 43, 0.3);
+    border-radius: 12px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 5px 15px;
     display: flex;
-    justify-content: center;
-} */
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+
 
 .user-review {
-    display: flex;
-    border: solid;
-    margin-bottom: 15px
+    margin-bottom: 30px;
+    margin-left: 50px;
+
 }
 
-.actual-review{
-    text-align: justify;
+.review-header {
+    display: flex;
+
+}
+
+.review-user-name{
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.date {
+    color: rgb(144, 135, 135);
+    font-size: 11px;
+}
+
+.name-date {
+    display: flex;
+    flex-direction: column;
+    margin-left: 8px;
+}
+
+.review-author {
+    margin-top: 6px;
+}
+
+li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.actual-review {
+    margin-left: 10px;
+
+}
+
+.delete-review-bttn {
+    margin-left: 10px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    height: 23px;
+    width: 75px;
+    background-image: linear-gradient(to right, rgb(233, 28, 72), rgb(236, 38, 108));
+}
+
+.create-review-bttn {
+    margin-left: 55px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    height: 30px;
+    width: 100px;
+    background-image: linear-gradient(to right, rgb(233, 28, 72), rgb(236, 38, 108));
+}
+
+.profile-icon {
+    margin-top: 15px;
+    margin-left: 10px
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
 import { getSpotId, spot, updateLocation } from "../../store/spots";
+import './EditSpots.css'
 
 
 function EditSpot() {
@@ -90,12 +91,12 @@ function EditSpot() {
     return (
         { sessionUser } &&
         (<div className="whole-form">
+            <h2>Edit Spot</h2>
             <form onSubmit={handleSubmit}>
                 <ul>
                     {errors.map((error, idx) => <li key={idx}>{error}</li>)}
                 </ul>
                 <label>
-                    Address
                     <input
                         type="text"
                         value={address}
@@ -104,7 +105,6 @@ function EditSpot() {
                     />
                 </label>
                 <label>
-                    City
                     <input
                         type="text"
                         value={city}
@@ -113,7 +113,6 @@ function EditSpot() {
                     />
                 </label>
                 <label>
-                    State
                     <input
                         type="text"
                         value={state}
@@ -122,7 +121,6 @@ function EditSpot() {
                     />
                 </label>
                 <label>
-                    Country
                     <input
                         type="text"
                         value={country}
@@ -131,7 +129,6 @@ function EditSpot() {
                     />
                 </label>
                 <label>
-                    Lattitude
                     <input
                         type="integer"
                         value={lat}
@@ -140,7 +137,6 @@ function EditSpot() {
                     />
                 </label>
                 <label>
-                    Longitude
                     <input
                         type="integer"
                         value={lng}
@@ -149,7 +145,6 @@ function EditSpot() {
                     />
                 </label>
                 <label>
-                    Title
                     <input
                         type="text"
                         value={name}
@@ -158,7 +153,6 @@ function EditSpot() {
                     />
                 </label>
                 <label>
-                    Description
                     <input
                         type="text"
                         value={description}
@@ -167,7 +161,6 @@ function EditSpot() {
                     />
                 </label>
                 <label>
-                    price
                     <input
                         type="integer"
                         value={price}
@@ -175,7 +168,7 @@ function EditSpot() {
                         required
                     />
                 </label>
-                <button type="submit" >Submit Edit</button>
+                <button className="edit-bttn" type="submit" >Submit Edit</button>
             </form>
         </div>
         ));

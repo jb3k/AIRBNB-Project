@@ -26,11 +26,11 @@ function SpotFormPage() {
     const [city, setCity] = useState("")
     const [state, setState] = useState("");
     const [country, setCountry] = useState("");
-    const [lat, setLat] = useState(2);
-    const [lng, setLng] = useState(2);
+    const [lat, setLat] = useState('');
+    const [lng, setLng] = useState('');
     const [name, setName] = useState("");
     const [description, setDescription] = useState('');
-    const [price, setPrice] = useState(1);
+    const [price, setPrice] = useState('');
     const [errors, setErrors] = useState([]);
     const [imageUrl, setImageUrl] = useState('')
     const [submitted, setSubmitted] = useState(false)
@@ -77,101 +77,102 @@ function SpotFormPage() {
 
     return (
         <div className="whole-form">
+            <h2 className="h2-text">Create a Spot</h2>
             <form onSubmit={handleSubmit}>
                 <ul>
                     {errors.map((error, idx) => <li key={idx}>{error}</li>)}
                 </ul>
                 <label>
-                    Address
                     <input
                         type="text"
                         value={address}
                         onChange={(e) => setAddress(e.target.value)}
                         required
+                        placeholder="Address"
                     />
                 </label>
                 <label>
-                    City
                     <input
                         type="text"
                         value={city}
                         onChange={(e) => setCity(e.target.value)}
                         required
+                        placeholder="City"
                     />
                 </label>
                 <label>
-                    State
                     <input
                         type="text"
                         value={state}
                         onChange={(e) => setState(e.target.value)}
                         required
+                        placeholder="State"
                     />
                 </label>
                 <label>
-                    Country
                     <input
                         type="text"
                         value={country}
                         onChange={(e) => setCountry(e.target.value)}
                         required
+                        placeholder="Country"
                     />
                 </label>
                 <label>
-                    Lattitude
                     <input
                         type="integer"
                         value={lat}
                         onChange={(e) => setLat(e.target.value)}
                         required
+                        placeholder="Lattitude"
                     />
                 </label>
                 <label>
-                    Longitude
                     <input
                         type="integer"
                         value={lng}
                         onChange={(e) => setLng(e.target.value)}
                         required
+                        placeholder="Longitude"
                     />
                 </label>
                 <label>
-                    Title
                     <input
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         required
+                        placeholder="Spot Name"
                     />
                 </label>
                 <label>
-                    Description
                     <input
                         type="text"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         required
+                        placeholder="Description"
                     />
                 </label>
                 <label>
-                    price
                     <input
                         type="integer"
                         value={price}
                         onChange={(e) => setPrice(e.target.value)}
                         required
+                        placeholder="Price"
                     />
                 </label>
                 <label>
-                    Image Url
                     <input
                         type="text"
                         value={imageUrl}
                         onChange={(e) => setImageUrl(e.target.value)}
                         required
+                        placeholder="Image Url"
                     />
                 </label>
-                <button type="submit" >Submit Home</button>
+                <button className="create-bttn" type="submit" >Create Spot</button>
             </form>
         </div>
     );
