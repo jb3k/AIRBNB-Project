@@ -36,7 +36,7 @@ function BecomeHost() {
             <div className='spot-whole-container'>
                 {userSpots.map(({ id, city, price, state, previewImage }) => (
                     <div key={id} className='location-container'>
-                        <NavLink to={`/spots/${id}`}>
+                        <NavLink className={'img-link'} to={`/spots/${id}`}>
                             <div className='location-image'>
                                 <img className='my-spot-image' src={`${previewImage}`}></img>
                             </div>
@@ -53,9 +53,9 @@ function BecomeHost() {
                         </NavLink>
                         <div>
                             <NavLink to={`/spots/${id}/edit`}>
-                                <button >Edit</button>
+                                <button className='edit-host-bttn'>Edit</button>
                             </NavLink>
-                            <button onClick={() => { dispatch(deleteLocation(id)) }}>Delete</button>
+                            <button className='delete-host-bttn' onClick={() => { dispatch(deleteLocation(id)) }}>Delete</button>
                         </div>
                     </div>
                 ))}
