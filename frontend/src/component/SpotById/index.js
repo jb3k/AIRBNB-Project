@@ -102,8 +102,10 @@ function SpotId() {
     }
 
 
+    let reviewId = []
 
     const displayReviews = currReviews.map((review) => {
+        reviewId.push(review.User.id)
         const userReview = review.User.id
         let button
         if (sessionUser) {
@@ -144,33 +146,45 @@ function SpotId() {
         )
     })
 
+    
 
+    let createReviewBttn
+    if (sessionUser && (!reviewId.includes(sessionUser.id))) {
+        createReviewBttn = (
+            <NavLink to={`/spots/${spotId}/review`}>
+                <button className='create-review-bttn'>
+                    New Review
+                </button>
+            </NavLink>
+        )
 
-    const createReviewBttn = (        
-        
-        <NavLink to={`/spots/${spotId}/review`}>
-            <button className='create-review-bttn'>
-                New Review
-            </button>
-        </NavLink>
-
-
-    )
-
-
-    return isLoaded && (
-        <div className='whole-page'>
-            <div>
-                {displaySpot()}
+        return isLoaded && (
+            <div className='whole-page'>
+                <div>
+                    {displaySpot()}
+                </div>
+                <div className='reviews-container'>
+                    {displayReviews}
+                </div>
+                <div>
+                    {createReviewBttn}
+                </div>
             </div>
-            <div className='reviews-container'>
-                {displayReviews}
+        )
+
+    } else {
+
+        return isLoaded && (
+            <div className='whole-page'>
+                <div>
+                    {displaySpot()}
+                </div>
+                <div className='reviews-container'>
+                    {displayReviews}
+                </div>
             </div>
-            <div>
-                {createReviewBttn}
-            </div>
-        </div>
-    )
+        )
+    }
 
 
 

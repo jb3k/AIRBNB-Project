@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
-import { createReviewThunk } from "../../store/reviews";
+import { createReviewThunk, getReviewThunk } from "../../store/reviews";
 import { getSpotId, spot, updateLocation } from "../../store/spots";
 import './ReviewFormPage.css'
 
@@ -10,15 +10,19 @@ function CreateReview() {
 
 
     const dispatch = useDispatch();
-    const sessionUser = useSelector((state) =>
-        state.session.user
-    );
+    const sessionUser = useSelector((state) => state.session.user);
     const history = useHistory()
     const { spotId } = useParams()
 
     // useEffect(() => {
     //     dispatch((spotId))
     // }, [dispatch])
+
+
+    useEffect(() => {
+        dispatch(getReviewThunk())
+    }, [dispatch])
+
 
 
     const [review, setReview] = useState('')
@@ -51,42 +55,37 @@ function CreateReview() {
         history.push(`/spots/${spotId}`)
     };
 
-    const loggedIn = () => {
-        if (!sessionUser) {
-            alert('Need to be logged in to create a Review')
-            return
-        }
-    }
 
     return (
-        { sessionUser } && { isLoaded } &&
-        (<div className="whole-form">
-            <form onSubmit={handleSubmit}>
-                <ul>
-                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-                </ul>
-                <label>
-                    <input
-                        type="text"
-                        value={review}
-                        onChange={(e) => setReview(e.target.value)}
-                        required
-                        placeholder="Review"
-                    />
-                </label>
-                <label>
-                    <input
-                        type="integer"
-                        value={stars}
-                        onChange={(e) => setStars(e.target.value)}
-                        required
-                    />
-                </label>
-                
-                    <button className="submit-review-bttn" type="submit" onClick={loggedIn()}>Create Review</button>
-            </form>
-        </div>
-        ));
+
+    { sessionUser } && { isLoaded } &&
+    (<div className="whole-form">
+        <form onSubmit={handleSubmit}>
+            <ul>
+                {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+            </ul>
+            <label>
+                <input
+                    type="text"
+                    value={review}
+                    onChange={(e) => setReview(e.target.value)}
+                    required
+                    placeholder="Review"
+                />
+            </label>
+            <label>
+                <input
+                    type="integer"
+                    value={stars}
+                    onChange={(e) => setStars(e.target.value)}
+                    required
+                />
+            </label>
+
+            <button className="submit-review-bttn" type="submit">Create Review</button>
+        </form>
+    </div>
+    ))
 }
 
 export default CreateReview;
