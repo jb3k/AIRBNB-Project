@@ -64,15 +64,6 @@ const deleteSpot = (deleteCurrentSpot) => {
 }
 
 
-//add an image
-const createImageForSpot = (spotId, payload) => {
-    return {
-        type: CREAT_IMAGE_SPOT,
-        spotId,
-        payload
-    }
-}
-
 
 
 //thunk
@@ -199,27 +190,6 @@ export const deleteLocation = (id) => async (dispatch) => {
 
 }
 
-//add an image to a spot 
-export const addImageSpotThunk = (spotId, url) => async (dispatch) => {
-    const response = await csrfFetch(`/api/spots/${spotId}/images`, {
-        method: 'POST',
-        header: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            url,
-            previewImage: true
-        })
-    })
-
-    if (response.ok) {
-        dispatch(createImageForSpot(spotId, url))
-        return response
-    }
-
-}
-
-
 
 //reducer
 const initialState = {};
@@ -250,13 +220,7 @@ const spotsReducer = (state = initialState, action) => {
             newState = { ...state }
             newState.allSpots.Spots = action.addSpot
             return newState
-        case CREAT_IMAGE_SPOT:
-            newState = {
-                ...state, [action.spotId]: {
-                    ...state[action.spotId], previewImage: action.url
-                }
-            }
-            return newState
+
         case UPDATE_SPOT:
             newState = { ...state }
             newState.allSpots = action.updateCurrentSpot

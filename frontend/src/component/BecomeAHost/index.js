@@ -49,7 +49,7 @@ function BecomeHost() {
                             <div className='location-details'>
                                 <div className='location'>
                                     {`${city}, ${state}`}
-                                    <i class="fa-solid fa-star"></i>
+                                    {/* <i class="fa-solid fa-star"></i> */}
                                 </div>
                                 <div className='location-price'>
                                     {`$${Math.floor(price)} night`}
