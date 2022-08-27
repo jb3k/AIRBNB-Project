@@ -64,15 +64,6 @@ const deleteSpot = (deleteCurrentSpot) => {
 }
 
 
-//add an image
-const createImageForSpot = (spotId, payload) => {
-    return {
-        type: CREAT_IMAGE_SPOT,
-        spotId,
-        payload
-    }
-}
-
 
 
 //thunk
@@ -114,7 +105,7 @@ export const getCurrentUserSpot = () => async (dispatch) => {
 
 //create thunk
 export const addSpots = (addSpot) => async (dispatch) => {
-    const { address, city, state, lat, lng, country, name, description, price } = addSpot;
+    const { address, city, state, lat, lng, country, name, description, price, previewImage } = addSpot;
     const response = await csrfFetch('/api/spots', {
         method: 'POST',
         headers: {
@@ -129,13 +120,31 @@ export const addSpots = (addSpot) => async (dispatch) => {
             country,
             name,
             description,
-            price
+            price,
+            previewImage
         })
     })
     if (response.ok) {
-        const data = await response.json();
-        dispatch(createSpot(data))
-        return data
+        const newSpot = await response.json();
+
+        const newImg = await csrfFetch(`/api/spots/${newSpot.id}/images`, {
+            method: 'POST',
+            header: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                url: previewImage,
+                previewImage: true
+            })
+        })
+
+        if (newImg.ok) {
+            newSpot.previewImage = newImg.url
+            dispatch(createSpot(newSpot))
+            return newSpot
+        }
+
+
     }
 
 }
@@ -181,27 +190,6 @@ export const deleteLocation = (id) => async (dispatch) => {
 
 }
 
-//add an image to a spot 
-export const addImageSpotThunk = (spotId, url) => async (dispatch) => {
-    const response = await csrfFetch(`/api/spots/${spotId}/images`, {
-        method: 'POST',
-        header: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            url,
-            previewImage: true
-        })
-    })
-
-    if (response.ok) {
-        dispatch(createImageForSpot(spotId, url))
-        return response
-    }
-
-}
-
-
 
 //reducer
 const initialState = {};
@@ -232,13 +220,7 @@ const spotsReducer = (state = initialState, action) => {
             newState = { ...state }
             newState.allSpots.Spots = action.addSpot
             return newState
-        case CREAT_IMAGE_SPOT:
-            newState = {
-                ...state, [action.spotId]: {
-                    ...state[action.spotId], previewImage: action.url
-                }
-            }
-            return newState
+
         case UPDATE_SPOT:
             newState = { ...state }
             newState.allSpots = action.updateCurrentSpot

@@ -39,6 +39,11 @@
 
 }
 
+.icon-font {
+    font-size: medium;
+    font-family: Graphik Meetup, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+}
+
 .location-price {
     bottom: 100px;
 

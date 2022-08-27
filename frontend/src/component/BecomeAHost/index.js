@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink, useParams } from 'react-router-dom'
+import { NavLink, useParams, useHistory } from 'react-router-dom'
 import { deleteLocation, getCurrentUserSpot } from '../../store/spots'
 import './BecomeHost.css'
 
@@ -8,6 +8,8 @@ function BecomeHost() {
 
     const dispatch = useDispatch()
     const [isLoaded, setIsLoaded] = useState(false)
+    const sessionUser = useSelector((state) => state.session.user);
+    const history = useHistory()
 
 
     // take a look at state and return something from it from the reducer
@@ -21,6 +23,10 @@ function BecomeHost() {
     }, [dispatch])
 
     if (!userSpots) return null
+    if (!sessionUser) {
+        history.push('/')
+    }
+
 
     return isLoaded && (
         <div className='whole-page'>
@@ -36,14 +42,14 @@ function BecomeHost() {
             <div className='spot-whole-container'>
                 {userSpots.map(({ id, city, price, state, previewImage }) => (
                     <div key={id} className='location-container'>
-                        <NavLink className={'img-link'} to={`/spots/${id}`}>
+                        <NavLink className={'img-link'} to={`/spots/${id}`} style={{ color: 'black', fontWeight: 'normal' }}>
                             <div className='location-image'>
                                 <img className='my-spot-image' src={`${previewImage}`}></img>
                             </div>
                             <div className='location-details'>
                                 <div className='location'>
                                     {`${city}, ${state}`}
-                                    <i class="fa-solid fa-star"></i>
+                                    {/* <i class="fa-solid fa-star"></i> */}
                                 </div>
                                 <div className='location-price'>
                                     {`$${Math.floor(price)} night`}

@@ -31,33 +31,44 @@ function SpotFormPage() {
     const [name, setName] = useState("");
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
-    const [errors, setErrors] = useState([]);
-    const [imageUrl, setImageUrl] = useState('')
+    const [previewImage, setPreviewImage] = useState('')
+    const [errorValidation, setErrorValidation] = useState([])
     const [submitted, setSubmitted] = useState(false)
+
+
+    useEffect(() => {
+        let errors = []
+        if (address.length < 1) errors.push('Need valid address')
+        if (city.length < 1) errors.push('Need valid city')
+        if (state.length < 1) errors.push('Need valid state')
+        if (country.length < 1) errors.push('Need valid country')
+        if (lat < 1 ) errors.push('Need valid lat')
+        if (lng < 1 ) errors.push('Need valid lng')
+        if (name.length < 1) errors.push('Need valid title')
+        if (description.length < 1) errors.push('Need valid description')
+        if (price < 1 || price > 1000) errors.push('Need valid price between 1 and 1000')
+        let arr = ['.jpg', '.jpeg']
+        let url = previewImage.slice(-5)
+        if ((!url.includes(arr))) errors.push('image needs to end in .jpg or .jpeg')
+
+        setErrorValidation(errors)
+
+    })
 
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (address.length < 1) errors.push('Need valid address')
-        if (city.length < 1) errors.push('Need valid city')
-        if (state.length < 1) errors.push('Need valid state')
-        if (country.length < 1) errors.push('Need valid country')
-        if (lat < 1) errors.push('Need valid lat')
-        if (lng < 1) errors.push('Need valid lng')
-        if (name.length < 1) errors.push('Need valid title')
-        if (description.length < 1) errors.push('Need valid description')
-        if (price < 1) errors.push('Need valid price')
-        // setOwnerId(sessionUser.id)
 
-        if (!errors.length) {
-            dispatch(addSpots({ address, city, state, country, lat, lng, name, description, price }))
-                .then(result => addImageSpotThunk(result.id, imageUrl))
-        } else {
-            setErrors(errors)
+        if (!errorValidation.length) {
+            setErrorValidation([]);
+            return dispatch(addSpots({ address, city, state, country, lat, lng, name, description, price, previewImage }))
+                .catch(async (res) => {
+                    const data = await res.json();
+                    if (data && data.errors) setErrorValidation(data.errors);
+                });
         }
-
 
         setSubmitted(true)
         alert('Home has been submitted')
@@ -80,7 +91,7 @@ function SpotFormPage() {
             <h2 className="h2-text">Create a Spot</h2>
             <form onSubmit={handleSubmit}>
                 <ul>
-                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                    {errorValidation.map((error, idx) => <li key={idx}>{error}</li>)}
                 </ul>
                 <label>
                     <input
@@ -166,8 +177,8 @@ function SpotFormPage() {
                 <label>
                     <input
                         type="text"
-                        value={imageUrl}
-                        onChange={(e) => setImageUrl(e.target.value)}
+                        value={previewImage}
+                        onChange={(e) => setPreviewImage(e.target.value)}
                         required
                         placeholder="Image Url"
                     />

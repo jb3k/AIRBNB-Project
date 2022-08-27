@@ -58,8 +58,7 @@
 
 import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
-import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from 'react-router-dom';
+import { useDispatch} from "react-redux";
 import './LoginForm.css'
 
 function LoginForm() {
@@ -76,13 +75,16 @@ function LoginForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
-    return dispatch(sessionActions.login({ credential, password })).catch(
-      async (res) => {
+
+    return dispatch(sessionActions.login({ credential, password }))
+      .catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) setErrors(data.errors);
       }
-    );
+      );
   };
+
+  
 
   return (
     <div className="entry-boxes">
@@ -92,7 +94,6 @@ function LoginForm() {
             <li key={idx}>{error}</li>
           ))}
         </ul>
-
         <label>
           <input
             type="text"
@@ -118,9 +119,7 @@ function LoginForm() {
         >
           Continue
         </button>
-        <div>
-          or
-        </div>
+
         <button type="submit"
           className="demo-bttn"
           onClick={() => { setPassword('password'); setCredential('JimBob') }}
