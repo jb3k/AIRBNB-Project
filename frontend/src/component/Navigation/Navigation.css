@@ -84,7 +84,7 @@
     background-color: white;
     height: 45px;
     width: 90px;
-    border-color: lightgray;
+    border: 1px solid rgba(55, 43, 43, 0.3);
     padding: 5px;
 
 
