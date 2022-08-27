@@ -41,6 +41,7 @@
     border: none;
     height: 40px;
     border-radius: 20px;
+    margin-left: 24em;
 }
 
 .host-button:hover {
