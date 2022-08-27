@@ -21,6 +21,12 @@ function DisplaySpots() {
 
     if (!properties) return null
 
+    const decimal = (num) => {
+        if (num <= 0) return
+        return Number.parseFloat(num).toFixed(2)
+    }
+
+
     return (
         <div className='allSpot-container'>
             <div className='spot-whole-container'>
@@ -36,8 +42,8 @@ function DisplaySpots() {
                                         {`${city}, ${state}`}
                                     </div>
                                     <div>
-                                        <i className='icon-font' class="fa-solid fa-star fa-s">{Math.round(avgRating * 100) / 100}</i>
-                                        
+                                        <i className='icon-font' class="fa-solid fa-star fa-s">{decimal(avgRating)}</i>
+
                                     </div>
                                 </div>
                                 <div className='location-price'>
