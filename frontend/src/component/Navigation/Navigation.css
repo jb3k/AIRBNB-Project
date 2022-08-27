@@ -90,6 +90,9 @@
 
 }
 
+.menu-bttn:hover {
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 5px;
+}
 
 .dropdown {
     position: relative;
@@ -113,7 +116,7 @@
 
 }
 
-.dropdown-signup{
+.dropdown-signup {
     font-size: medium;
     color: rgb(125, 120, 120);
 
