@@ -45,7 +45,7 @@ function Navigation({ isLoaded }) {
     if (sessionUser) {
       return "Switch to hosting"
     } else {
-      return "Become a host"
+      return "Become a Host"
     }
   }
 

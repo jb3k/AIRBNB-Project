@@ -35,13 +35,13 @@
 
 .host-button {
     display: flex;
-    font-size: 1.2rem;
+    font-size: 1rem;
     align-items: center;
     background-color: transparent;
     border: none;
     height: 40px;
     border-radius: 20px;
-    margin-left: 24em;
+    margin-left: 25em;
 }
 
 .host-button:hover {
