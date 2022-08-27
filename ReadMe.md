@@ -22,10 +22,15 @@ FairBnb Users View properties that they own and around the community by navigati
 
 # Key Features
 • Create / Read / Update / Delete Properties
+
 • Login / Logout functionality
+
 • User database that keeps track of user properties
+
 • Create Reviews on specific properties
+
 • Read all the reviews on a specific property
+
 • Delete reviews left by the current user
 
 
