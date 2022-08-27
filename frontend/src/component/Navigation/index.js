@@ -10,24 +10,32 @@ import { useState, useEffect } from 'react'
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
 
-  const [click, setClick] = useState(false)
-  const handleClick = () => setClick(!click)
+  const [open, setOpen] = useState(false)
+
 
   const history = useHistory()
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
-      <ProfileButton user={sessionUser} />
+      <div className='.dropdown-menu'>
+        <ProfileButton user={sessionUser} />
+      </div>
     );
   } else {
     sessionLinks = (
-      <>
-        <NavLink to="/signup"
-          style={{ textDecoration: 'none', color: 'black' }} >
-          Sign up
-        </NavLink>
-        <LoginFormModal />
-      </>
+      <div className='dropdown-menu'>
+        <div className='flex-dropdown-menu'>
+          <div className='dropdown-signup'>
+            <NavLink to="/signup"
+              style={{ textDecoration: 'none', color: 'black' }} >
+              Sign up
+            </NavLink>
+          </div>
+          <div className='dropdown-login'>
+            <LoginFormModal />
+          </div>
+        </div>
+      </div>
     );
   }
 
@@ -62,7 +70,7 @@ function Navigation({ isLoaded }) {
         <div className='logo-container'>
           <NavLink exact to="/" className={'company'}
             style={{ textDecoration: 'none' }}>
-              <i class="fa-solid fa-handshake"> </i> | FairBnB
+            <i class="fa-solid fa-handshake"> </i> | FairBnB
           </NavLink>
 
         </div>
@@ -82,20 +90,22 @@ function Navigation({ isLoaded }) {
           </label>
         </div> */}
 
-        <div className='dropdown'>
-          <button className='menu-bttn'>
-            <div className='login-icon'>
-              <i class="fa fa-bars fa-lg"></i>
-            </div>
-            <div className={'signup-icon'}>
-              <i class="fa-solid fa-user"> </i>
-            </div>
-          </button>
-
-          <div className='dropdown-menu'>
-            {isLoaded && sessionLinks}
+        <div>
+          <div className='dropdown'>
+            <button className='menu-bttn' onClick={() => setOpen(!open)}>
+              <div className='login-icon'>
+                <i class="fa fa-bars fa-lg"></i>
+              </div>
+              <div className={'signup-icon'}>
+                <i class="fa-solid fa-user"> </i>
+              </div>
+            </button>
           </div>
+          {open && sessionLinks}
+
         </div>
+
+
       </div>
     </div>
 

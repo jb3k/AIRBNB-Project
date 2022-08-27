@@ -126,8 +126,8 @@ const reviewsReducer = (state = initialState, action) => {
             })
             return newState
         case CREATE_REVIEWS:
-            newState = { ...state }
-            newState.reviews[action.payload.id] = action.payload
+            newState = { ...state}
+            newState[action.payload.id] = action.payload
             return newState
         case DELETE_REVIEWS:
             newState = { ...state };

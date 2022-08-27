@@ -32,10 +32,12 @@ function DisplaySpots() {
                             </div>
                             <div className='location-details'>
                                 <div className='location'>
-                                    {`${city}, ${state}`}
                                     <div>
-                                        <i class="fa-solid fa-star"></i>
-                                        {Math.round(avgRating * 100) / 100}
+                                        {`${city}, ${state}`}
+                                    </div>
+                                    <div>
+                                        <i className='icon-font' class="fa-solid fa-star fa-s">{Math.round(avgRating * 100) / 100}</i>
+                                        
                                     </div>
                                 </div>
                                 <div className='location-price'>
