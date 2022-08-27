@@ -1,15 +1,18 @@
 import React from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import LoginFormModal from '../LoginFormModal/index';
 import './Navigation.css';
 import { useState, useEffect } from 'react'
+import * as sessionActions from '../../store/session';
+
 
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
-
+  const dispatch = useDispatch();
+  const [showMenu, setShowMenu] = useState(false);
   const [open, setOpen] = useState(false)
 
 
@@ -25,14 +28,14 @@ function Navigation({ isLoaded }) {
     sessionLinks = (
       <div className='dropdown-menu'>
         <div className='flex-dropdown-menu'>
+          <div className='dropdown-login'>
+            <LoginFormModal />
+          </div>
           <div className='dropdown-signup'>
             <NavLink to="/signup"
               style={{ textDecoration: 'none', color: 'black' }} >
               Sign up
             </NavLink>
-          </div>
-          <div className='dropdown-login'>
-            <LoginFormModal />
           </div>
         </div>
       </div>
@@ -64,6 +67,61 @@ function Navigation({ isLoaded }) {
     return login
   }
 
+
+
+  const logout = (e) => {
+    e.preventDefault();
+    dispatch(sessionActions.logout());
+  };
+
+  let logoutDropdown
+  const dropdownMenu = () => {
+
+    logoutDropdown = (
+      <div className='logout-dropdown-menu'>
+        <div className='logout-dropdown-menu-flex'>
+          <button className='logout-bttn' onClick={logout}>Log Out</button>
+        </div>
+      </div>
+    )
+
+    if (!sessionUser) {
+      return (
+        <div>
+          <div className='dropdown'>
+            <button className='menu-bttn' onClick={() => setOpen(!open)}>
+              <div className='login-icon'>
+                <i class="fa fa-bars fa-lg"></i>
+              </div>
+              <div className={'signup-icon'}>
+                <i class="fa-solid fa-user"> </i>
+              </div>
+            </button>
+          </div>
+          {open && sessionLinks}
+        </div>
+      )
+    } else {
+
+      return (
+        <div>
+          <div className='dropdown'>
+            <button className='menu-bttn' onClick={() => setOpen(!open)}>
+              <div className='login-icon'>
+                <i class="fa fa-bars fa-lg"></i>
+              </div>
+              <div className={'signup-icon'}>
+                <i class="fa-solid fa-user"> </i>
+              </div>
+            </button>
+          </div>
+          {open && logoutDropdown}
+        </div>
+
+      )
+    }
+  }
+
   return (
     <div className='topNav-container'>
       <div className='nav-container'>
@@ -79,6 +137,8 @@ function Navigation({ isLoaded }) {
           <button className='host-button' onClick={loginAlert}>{wordSwitcher()}</button>
           {/* </NavLink> */}
         </div>
+
+        {dropdownMenu()}
         {/* <div>
           <label className='search-bar'>
             <input
@@ -90,7 +150,7 @@ function Navigation({ isLoaded }) {
           </label>
         </div> */}
 
-        <div>
+        {/* <div>
           <div className='dropdown'>
             <button className='menu-bttn' onClick={() => setOpen(!open)}>
               <div className='login-icon'>
@@ -100,10 +160,10 @@ function Navigation({ isLoaded }) {
                 <i class="fa-solid fa-user"> </i>
               </div>
             </button>
-          </div>
-          {open && sessionLinks}
+          </div> */}
 
-        </div>
+
+        {/* </div> */}
 
 
       </div>

@@ -32,7 +32,7 @@ function DisplaySpots() {
             <div className='spot-whole-container'>
                 {properties.map(({ id, city, price, state, avgRating, previewImage }) => (
                     <div key={id} className='location-container'>
-                        <NavLink className={'redirect'} to={`/spots/${id}`}>
+                        <NavLink className={'redirect'} to={`/spots/${id}`} style={{color: 'black', fontWeight: 'normal'}}>
                             <div className='location-image'>
                                 <img src={previewImage} className='image'></img>
                             </div>

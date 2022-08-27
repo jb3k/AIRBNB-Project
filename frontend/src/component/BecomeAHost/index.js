@@ -42,7 +42,7 @@ function BecomeHost() {
             <div className='spot-whole-container'>
                 {userSpots.map(({ id, city, price, state, previewImage }) => (
                     <div key={id} className='location-container'>
-                        <NavLink className={'img-link'} to={`/spots/${id}`}>
+                        <NavLink className={'img-link'} to={`/spots/${id}`} style={{ color: 'black', fontWeight: 'normal' }}>
                             <div className='location-image'>
                                 <img className='my-spot-image' src={`${previewImage}`}></img>
                             </div>
