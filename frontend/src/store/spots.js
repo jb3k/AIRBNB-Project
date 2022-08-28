@@ -139,7 +139,7 @@ export const addSpots = (addSpot) => async (dispatch) => {
         })
 
         if (newImg.ok) {
-            newSpot.previewImage = newImg.url
+            newSpot.previewImage = newImg?.url
             dispatch(createSpot(newSpot))
             return newSpot
         }
