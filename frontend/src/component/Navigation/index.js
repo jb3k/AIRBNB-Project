@@ -6,6 +6,7 @@ import LoginFormModal from '../LoginFormModal/index';
 import './Navigation.css';
 import { useState, useEffect } from 'react'
 import * as sessionActions from '../../store/session';
+import { spot } from "../../store/spots";
 
 
 
@@ -13,6 +14,7 @@ function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false)
+
 
 
   const history = useHistory()
@@ -121,7 +123,7 @@ function Navigation({ isLoaded }) {
     }
   }
 
-  return (
+  return isLoaded && (
     <div className='topNav-container'>
       <div className='nav-container'>
         <div className='logo-container'>

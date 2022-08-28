@@ -26,33 +26,43 @@ function DisplaySpots() {
         return Number.parseFloat(num).toFixed(2)
     }
 
+    console.log(properties)
+
+    const mainPage = properties.map((spot) => {
+        if (!spot) return null
+        const { id, city, price, state, avgRating, previewImage } = spot
+
+        return (
+            <div key={spot?.id} className='location-container'>
+                <NavLink className={'redirect'} to={`/spots/${id}`} style={{ color: 'black', fontWeight: 'normal' }}>
+                    <div className='location-image'>
+                        <img src={previewImage} className='image'></img>
+                    </div>
+                    <div className='location-details'>
+                        <div className='location'>
+                            <div>
+                                {`${city}, ${state}`}
+                            </div>
+                            <div>
+                                <i className='icon-font' class="fa-solid fa-star fa-s">{decimal(avgRating)}</i>
+
+                            </div>
+                        </div>
+                        <div className='location-price'>
+                            {`$${Math.floor(price)} night`}
+                        </div>
+                    </div>
+                </NavLink>
+            </div>
+        )
+    })
+
+
 
     return (
         <div className='allSpot-container'>
             <div className='spot-whole-container'>
-                {properties.map(({ id, city, price, state, avgRating, previewImage }) => (
-                    <div key={id} className='location-container'>
-                        <NavLink className={'redirect'} to={`/spots/${id}`} style={{color: 'black', fontWeight: 'normal'}}>
-                            <div className='location-image'>
-                                <img src={previewImage} className='image'></img>
-                            </div>
-                            <div className='location-details'>
-                                <div className='location'>
-                                    <div>
-                                        {`${city}, ${state}`}
-                                    </div>
-                                    <div>
-                                        <i className='icon-font' class="fa-solid fa-star fa-s">{decimal(avgRating)}</i>
-
-                                    </div>
-                                </div>
-                                <div className='location-price'>
-                                    {`$${Math.floor(price)} night`}
-                                </div>
-                            </div>
-                        </NavLink>
-                    </div>
-                ))}
+                {mainPage}
             </div>
 
         </div>

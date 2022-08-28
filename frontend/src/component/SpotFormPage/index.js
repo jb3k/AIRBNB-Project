@@ -70,8 +70,8 @@ function SpotFormPage() {
                 });
         }
 
-        if(errorValidation >= 1){
-            
+        if (errorValidation >= 1) {
+
         }
 
         setSubmitted(true)
@@ -126,7 +126,7 @@ function SpotFormPage() {
                 </label>
                 <label>
                     <input
-                        type="integer"
+                        type="number"
                         value={lat}
                         onChange={(e) => setLat(e.target.value)}
                         required
@@ -135,7 +135,7 @@ function SpotFormPage() {
                 </label>
                 <label>
                     <input
-                        type="integer"
+                        type="number"
                         value={lng}
                         onChange={(e) => setLng(e.target.value)}
                         required
@@ -162,11 +162,13 @@ function SpotFormPage() {
                 </label>
                 <label>
                     <input
-                        type="integer"
+                        type="number"
                         value={price}
                         onChange={(e) => setPrice(e.target.value)}
                         required
                         placeholder="Price"
+                        min={1}
+                        max={1000}
                     />
                 </label>
                 <label>

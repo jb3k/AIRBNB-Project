@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
-import { getSpotId, spot, updateLocation } from "../../store/spots";
+import { getSpotId, updateLocation } from "../../store/spots";
 import './EditSpots.css'
 
 
@@ -66,6 +66,7 @@ function EditSpot() {
 
         if (!errors.length) {
             dispatch(updateLocation(spotId, { address, city, state, country, lat, lng, name, description, price }))
+            .then(() => dispatch(getSpotId(spotId)))
         } else {
             setErrors(errors)
         }
@@ -83,7 +84,7 @@ function EditSpot() {
             <h2>Edit Spot</h2>
             <form onSubmit={handleSubmit}>
                 <ul>
-                    { submitted && errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                    {submitted && errors.map((error, idx) => <li key={idx}>{error}</li>)}
                 </ul>
                 <label>
                     <input
@@ -119,7 +120,7 @@ function EditSpot() {
                 </label>
                 <label>
                     <input
-                        type="integer"
+                        type="number"
                         value={lat}
                         onChange={(e) => setLat(e.target.value)}
                         required
@@ -127,7 +128,7 @@ function EditSpot() {
                 </label>
                 <label>
                     <input
-                        type="integer"
+                        type="number"
                         value={lng}
                         onChange={(e) => setLng(e.target.value)}
                         required
@@ -151,10 +152,12 @@ function EditSpot() {
                 </label>
                 <label>
                     <input
-                        type="integer"
+                        type="number"
                         value={price}
                         onChange={(e) => setPrice(e.target.value)}
                         required
+                        max={1000}
+                        min={1}
                     />
                 </label>
                 <button className="edit-bttn" type="submit" >Submit Edit</button>
