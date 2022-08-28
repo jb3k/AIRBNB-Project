@@ -58,7 +58,7 @@
 
 import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import './LoginForm.css'
 
 function LoginForm() {
@@ -67,6 +67,7 @@ function LoginForm() {
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
+  const [submitted, setSubmitted] = useState(false)
 
   // if (sessionUser) return (
   //   <Redirect to="/" />
@@ -76,22 +77,27 @@ function LoginForm() {
     e.preventDefault();
     setErrors([]);
 
-    return dispatch(sessionActions.login({ credential, password }))
-      .catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) setErrors(data.errors);
-      }
-      );
+    if (!errors.length) {
+      setSubmitted(true)
+      return dispatch(sessionActions.login({ credential, password }))
+        .catch(async (res) => {
+          const data = await res.json();
+          if (data && data.errors) setErrors(data.errors);
+        }
+        );
+    }
+
   };
 
-  
+
 
   return (
     <div className="entry-boxes">
       <form onSubmit={handleSubmit} className='form'>
         <ul>
-          {errors.map((error, idx) => (
-            <li key={idx}>{error}</li>
+          {submitted && errors.map((error, idx) => (
+            // <li key={idx}>{error}</li>
+            alert(error)
           ))}
         </ul>
         <label>
