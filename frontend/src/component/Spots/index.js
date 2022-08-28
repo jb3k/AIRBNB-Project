@@ -26,7 +26,6 @@ function DisplaySpots() {
         return Number.parseFloat(num).toFixed(2)
     }
 
-    console.log(properties)
 
     const mainPage = properties.map((spot) => {
         if (!spot) return null
