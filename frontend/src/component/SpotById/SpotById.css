@@ -15,10 +15,10 @@ body {
     display: flex;
     margin-left: 7px;
     margin-right: 7px;
-    
+
 }
 
-.top-header-reviews{
+.top-header-reviews {
     text-decoration: underline;
 }
 
@@ -59,11 +59,14 @@ body {
 }
 
 .p-description {
-    width: 38em
+    width: 100%
 }
 
 .name-description {
-    width: 45em;
+    width: 60%
+}
+.spot-details-description {
+    width: 100%;
 }
 
 .price-bttn {
@@ -172,7 +175,7 @@ li {
     display: flex
 }
 
-.night-text{
+.night-text {
     margin-left: 0.2em;
     margin-top: 0.5em;
 }
