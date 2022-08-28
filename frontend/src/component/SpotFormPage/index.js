@@ -71,7 +71,6 @@ function SpotFormPage() {
                     const data = await res.json();
                     if (data && data.errors) setErrorValidation(data.errors);
                 })
-                .then(() => dispatch(spot()))
         }
 
         if (errorValidation.length >= 1) {
