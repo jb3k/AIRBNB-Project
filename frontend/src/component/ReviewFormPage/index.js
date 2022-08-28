@@ -58,34 +58,38 @@ function CreateReview() {
 
     return (
 
-    { sessionUser } && { isLoaded } &&
-    (<div className="whole-form">
-        <form onSubmit={handleSubmit}>
-            <ul>
-                {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-            </ul>
-            <label>
-                <input
-                    type="text"
-                    value={review}
-                    onChange={(e) => setReview(e.target.value)}
-                    required
-                    placeholder="Review"
-                />
-            </label>
-            <label>
-                <input
-                    type="integer"
-                    value={stars}
-                    onChange={(e) => setStars(e.target.value)}
-                    required
-                />
-            </label>
+        { sessionUser } && { isLoaded } &&
+        (<div className="whole-form">
+            <form onSubmit={handleSubmit}>
+                <ul>
+                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                </ul>
+                <label>
+                    <input
+                        type="text"
+                        value={review}
+                        onChange={(e) => setReview(e.target.value)}
+                        required
+                        minLength={1}
+                        maxLength={1000}
+                        placeholder="Review"
+                    />
+                </label>
+                <label>
+                    <input
+                        type="number"
+                        value={stars}
+                        onChange={(e) => setStars(e.target.value)}
+                        required
+                        min={1}
+                        max={5}
+                    />
+                </label>
 
-            <button className="submit-review-bttn" type="submit">Create Review</button>
-        </form>
-    </div>
-    ))
+                <button className="submit-review-bttn" type="submit">Create Review</button>
+            </form>
+        </div>
+        ))
 }
 
 export default CreateReview;

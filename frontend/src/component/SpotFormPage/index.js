@@ -42,8 +42,8 @@ function SpotFormPage() {
         if (city.length < 1) errors.push('Need valid city')
         if (state.length < 1) errors.push('Need valid state')
         if (country.length < 1) errors.push('Need valid country')
-        if (lat < 1 ) errors.push('Need valid lat')
-        if (lng < 1 ) errors.push('Need valid lng')
+        if (lat < 1) errors.push('Need valid lat')
+        if (lng < 1) errors.push('Need valid lng')
         if (name.length < 1) errors.push('Need valid title')
         if (description.length < 1) errors.push('Need valid description')
         if (price < 1 || price > 1000) errors.push('Need valid price between 1 and 1000')
@@ -91,7 +91,7 @@ function SpotFormPage() {
             <h2 className="h2-text">Create a Spot</h2>
             <form onSubmit={handleSubmit}>
                 <ul>
-                    {errorValidation.map((error, idx) => <li key={idx}>{error}</li>)}
+                    {submitted && errorValidation.map((error, idx) => <li key={idx}>{error}</li>)}
                 </ul>
                 <label>
                     <input
