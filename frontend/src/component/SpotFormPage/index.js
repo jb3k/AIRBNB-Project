@@ -37,7 +37,7 @@ function SpotFormPage() {
 
 
     useEffect(() => {
-        let errors = []
+        const errors = []
         if (address.length < 1) errors.push('Need valid address')
         if (city.length < 1) errors.push('Need valid city')
         if (state.length < 1) errors.push('Need valid state')
@@ -47,15 +47,15 @@ function SpotFormPage() {
         if (name.length < 1) errors.push('Need valid title')
         if (description.length < 1) errors.push('Need valid description')
         if (price < 1 || price > 1000) errors.push('Need valid price between 1 and 1000')
-        let arr = ['.jpg', '.jpeg']
-        let url = previewImage.slice(-5)
-        if ((!url.includes(arr))) errors.push('image needs to end in .jpg or .jpeg')
+        if (validImage(previewImage)) errors.push('Need Valid image url')
 
-        setErrorValidation(errors)
+        // setErrorValidation(errors)
 
     })
 
-
+    const validImage = (img) => {
+        return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(img)
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -70,21 +70,16 @@ function SpotFormPage() {
                 });
         }
 
+        if(errorValidation >= 1){
+            
+        }
+
         setSubmitted(true)
         alert('Home has been submitted')
         history.push(`/`)
-        // reset()
     };
 
-    // const reset = () => {
-    //     setAddress('')
-    //     setCity('')
-    //     setState('')
-    //     setCountry('')
-    //     setName('')
-    //     setDescription('')
-    //     setPrice(1)
-    // }
+
 
     return (
         <div className="whole-form">

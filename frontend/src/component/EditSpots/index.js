@@ -62,7 +62,7 @@ function EditSpot() {
         if (name.length < 1) errors.push('Need valid title')
         if (description.length < 1) errors.push('Need valid description')
         if (price < 1) errors.push('Need valid price')
-        if (price > 500) errors.push('This is too expensive')
+        if (price > 1000) errors.push('This is too expensive')
 
         if (!errors.length) {
             dispatch(updateLocation(spotId, { address, city, state, country, lat, lng, name, description, price }))
@@ -73,20 +73,9 @@ function EditSpot() {
 
         setSubmitted(true)
         alert('Home has been submitted')
-        reset()
         history.push(`/spots/${spotId}`)
     };
 
-
-    const reset = () => {
-        setAddress('')
-        setCity('')
-        setState('')
-        setCountry('')
-        setName('')
-        setDescription('')
-        setPrice(1)
-    }
 
     return (
         { sessionUser } &&
@@ -94,7 +83,7 @@ function EditSpot() {
             <h2>Edit Spot</h2>
             <form onSubmit={handleSubmit}>
                 <ul>
-                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                    { submitted && errors.map((error, idx) => <li key={idx}>{error}</li>)}
                 </ul>
                 <label>
                     <input
