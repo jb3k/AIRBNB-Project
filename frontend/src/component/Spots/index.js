@@ -15,7 +15,6 @@ function DisplaySpots() {
     )
     // console.log(properties)
 
-    console.log(spotId)
     useEffect(() => {
         dispatch(spot())
         // dispatch(getSpotById())
