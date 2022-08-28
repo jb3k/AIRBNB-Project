@@ -16,6 +16,7 @@ function SpotFormPage() {
     const history = useHistory()
     useEffect(() => {
         dispatch(spot())
+            .then(() => setSubmitted(true))
     }, [dispatch])
 
 
@@ -63,7 +64,6 @@ function SpotFormPage() {
 
         if (!errorValidation.length) {
             setErrorValidation([]);
-            setSubmitted(true)
             alert('Home has been submitted')
             history.push(`/`)
             return dispatch(addSpots({ address, city, state, country, lat, lng, name, description, price, previewImage }))
@@ -89,9 +89,9 @@ function SpotFormPage() {
         <div className="whole-form">
             <h2 className="h2-text">Create a Spot</h2>
             <form onSubmit={handleSubmit}>
-                <ul>
+                {/* <ul>
                     {submitted && errorValidation.map((error, idx) => <li key={idx}>{error}</li>)}
-                </ul>
+                </ul> */}
                 <label>
                     <input
                         type="text"
