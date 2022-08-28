@@ -33,7 +33,6 @@ If you only want to view, you can naviage to the home page or click on a specifi
 • Heroku
 • Sequelize
 • Express
-• JSON API
 • PostgreSQL
 
 
