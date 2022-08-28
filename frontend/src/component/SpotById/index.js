@@ -30,7 +30,7 @@ function SpotId() {
 
     const spot = allSpots[spotId]
     const displaySpot = () => {
-        if(!spot?.Images) return null
+        if (!spot?.Images) return null
         const image = spot?.Images[0].url
         return isLoaded && (
             <div className='spot-page'>
@@ -150,9 +150,8 @@ function SpotId() {
     })
 
 
-
     let createReviewBttn
-    if (sessionUser && (!reviewId.includes(sessionUser?.id))) {
+    if (sessionUser && (!reviewId.includes(sessionUser?.id) && (sessionUser?.id !== spot?.Owner?.id))) {
         createReviewBttn = (
             <NavLink to={`/spots/${spotId}/review`}>
                 <button className='create-review-bttn'>
