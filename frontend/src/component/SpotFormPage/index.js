@@ -40,9 +40,9 @@ function SpotFormPage() {
     useEffect(() => {
         const errors = []
         if (address.length < 3) errors.push('Need valid address to be at least 3 characters')
-        if (city.length < 1) errors.push('Need valid city')
-        if (state.length < 1) errors.push('Need valid state')
-        if (country.length < 1) errors.push('Need valid country')
+        if (city.length < 1 && city.length > 30) errors.push('Need valid city')
+        if (state.length < 1 && state.length > 30) errors.push('Need valid state')
+        if (country.length < 1 && country.length > 30) errors.push('Need valid country')
         if (lat < 1) errors.push('Need valid lat')
         if (lng < 1) errors.push('Need valid lng')
         if (name.length < 1) errors.push('Need valid title, cannot be longer than 50 characters')
