@@ -13,7 +13,7 @@ function DisplaySpots() {
         // console.log(state.spotsReducer)
         Object.values(state.spots)
     )
-    // console.log(properties)
+    console.log(properties)
 
     useEffect(() => {
         dispatch(spot())

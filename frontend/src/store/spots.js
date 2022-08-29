@@ -121,7 +121,7 @@ export const addSpots = (addSpot) => async (dispatch) => {
             name,
             description,
             price,
-            previewImage
+            previewImage: previewImage
         })
     })
     if (response.ok) {
@@ -218,7 +218,7 @@ const spotsReducer = (state = initialState, action) => {
             return newState
         case CREATE_SPOT:
             newState = { ...state }
-            newState.allSpots.Spots = action.addSpot
+            newState[action.addSpot.id] = action.addSpot
             return newState
 
         case UPDATE_SPOT:
