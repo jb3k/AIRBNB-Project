@@ -45,7 +45,7 @@ function SpotFormPage() {
         if (country.length < 1 && country.length > 30) errors.push('Need valid country')
         if (lat < 1) errors.push('Need valid lat')
         if (lng < 1) errors.push('Need valid lng')
-        if (name.length < 1) errors.push('Need valid title, cannot be longer than 50 characters')
+        if (name.length < 1 && name.length > 50) errors.push('Need valid title, cannot be longer than 50 characters')
         if (description.length < 1) errors.push('Need valid description')
         if (price < 1 || price > 1000) errors.push('Need valid price between 1 and 1000')
         // if (!validImage(previewImage)) errors.push('Need Valid image url')
