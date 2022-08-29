@@ -43,6 +43,7 @@ If you only want to view, you can naviage to the home page or click on a specifi
 
 # To-do's / future features
 • To round out this app I would add the feature to create, read, update, and delete bookings to the property the user specifies.
+
 • Also include the ability to update reviews
 
 
