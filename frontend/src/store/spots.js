@@ -121,7 +121,7 @@ export const addSpots = (addSpot) => async (dispatch) => {
             name,
             description,
             price,
-            previewImage: previewImage
+            
         })
     })
     if (response.ok) {
