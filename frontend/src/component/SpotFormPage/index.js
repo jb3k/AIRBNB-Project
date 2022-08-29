@@ -48,7 +48,8 @@ function SpotFormPage() {
         if (name.length < 1) errors.push('Need valid title')
         if (description.length < 1) errors.push('Need valid description')
         if (price < 1 || price > 1000) errors.push('Need valid price between 1 and 1000')
-        if (!validImage(previewImage)) errors.push('Need Valid image url')
+        // if (!validImage(previewImage)) errors.push('Need Valid image url')
+        if (!previewImage.endsWith('.jpg') && !previewImage.endsWith('.jpeg') && !previewImage.endsWith('.png')) errors.push('Need Valid image url')
 
         return setErrorValidation(errors)
 
@@ -64,6 +65,7 @@ function SpotFormPage() {
             errorValidation.map(err => {
                 return alert(err)
             })
+            return
         }
 
         let newSpot
