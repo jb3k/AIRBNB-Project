@@ -135,6 +135,8 @@ function SpotFormPage() {
                         onChange={(e) => setLat(e.target.value)}
                         required
                         placeholder="Lattitude"
+                        min={-90}
+                        max={90}
                     />
                 </label>
                 <label>
@@ -144,6 +146,8 @@ function SpotFormPage() {
                         onChange={(e) => setLng(e.target.value)}
                         required
                         placeholder="Longitude"
+                        min={-90}
+                        max={90}
                     />
                 </label>
                 <label>
