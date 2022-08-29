@@ -120,7 +120,7 @@ export const addSpots = (addSpot) => async (dispatch) => {
             country,
             name,
             description,
-            price,
+            price
             
         })
     })

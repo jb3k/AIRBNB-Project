@@ -58,26 +58,30 @@ function SpotFormPage() {
         return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(img)
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
-
-        if (!errorValidation.length) {
-            setErrorValidation([]);
-            alert('Home has been submitted')
-            history.push(`/`)
-            return dispatch(addSpots({ address, city, state, country, lat, lng, name, description, price, previewImage }))
-                .catch(async (res) => {
-                    const data = await res.json();
-                    if (data && data.errors) setErrorValidation(data.errors);
-                })
-        }
 
         if (errorValidation.length >= 1) {
             errorValidation.map(err => {
                 return alert(err)
             })
         }
+
+        let newSpot
+        if (!errorValidation.length) {
+            setErrorValidation([]);
+            alert('Home has been submitted')
+            history.push(`/`)
+            newSpot = await dispatch(addSpots({ address, city, state, country, lat, lng, name, description, price, previewImage }))
+                .catch(async (res) => {
+                    const data = await res.json();
+                    if (data && data.errors) setErrorValidation(data.errors);
+                })
+
+        }
+
+        return newSpot
+
 
 
 
