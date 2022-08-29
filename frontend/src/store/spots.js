@@ -121,12 +121,11 @@ export const addSpots = (addSpot) => async (dispatch) => {
             name,
             description,
             price
-            
+
         })
     })
     if (response.ok) {
         const newSpot = await response.json();
-
         const newImg = await csrfFetch(`/api/spots/${newSpot.id}/images`, {
             method: 'POST',
             header: {
@@ -137,9 +136,8 @@ export const addSpots = (addSpot) => async (dispatch) => {
                 previewImage: true
             })
         })
-
         if (newImg.ok) {
-            newSpot.previewImage = newImg.url
+            newSpot.previewImage = previewImage
             dispatch(createSpot(newSpot))
             return newSpot
         }

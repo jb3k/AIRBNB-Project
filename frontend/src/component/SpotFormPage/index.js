@@ -60,7 +60,6 @@ function SpotFormPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         if (errorValidation.length >= 1) {
             errorValidation.map(err => {
                 return alert(err)
