@@ -19,7 +19,7 @@ body {
 }
 
 .top-header-reviews {
-    text-decoration: underline;
+    /* text-decoration: underline; */
 }
 
 .spot-header-location {
@@ -65,6 +65,7 @@ body {
 .name-description {
     width: 60%
 }
+
 .spot-details-description {
     width: 100%;
 }
@@ -138,7 +139,11 @@ li {
 
 .actual-review {
     margin-left: 10px;
+    word-break: break-word
+}
 
+.review-p-tag {
+    word-break: break-word
 }
 
 .delete-review-bttn {
@@ -191,7 +196,7 @@ li {
 }
 
 .massive-bttn-review-details {
-    text-decoration: underline;
+    /* text-decoration: underline; */
 }
 
 .create-review-bttn {

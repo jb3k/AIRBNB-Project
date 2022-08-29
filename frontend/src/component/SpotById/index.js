@@ -139,7 +139,7 @@ function SpotId() {
                 </div>
                 <div>
                     <div className='actual-review'>
-                        <p>{review.review}</p>
+                        <p className='review-p-tag'>{review.review}</p>
                     </div>
                     <div>
                         {button}
