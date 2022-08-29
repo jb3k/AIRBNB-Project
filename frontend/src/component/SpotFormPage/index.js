@@ -45,7 +45,7 @@ function SpotFormPage() {
         if (country.length < 1) errors.push('Need valid country')
         if (lat < 1) errors.push('Need valid lat')
         if (lng < 1) errors.push('Need valid lng')
-        if (name.length < 1) errors.push('Need valid title')
+        if (name.length < 1) errors.push('Need valid title, cannot be longer than 50 characters')
         if (description.length < 1) errors.push('Need valid description')
         if (price < 1 || price > 1000) errors.push('Need valid price between 1 and 1000')
         // if (!validImage(previewImage)) errors.push('Need Valid image url')
@@ -112,6 +112,7 @@ function SpotFormPage() {
                         onChange={(e) => setCity(e.target.value)}
                         required
                         placeholder="City"
+                        maxLength={30}
                     />
                 </label>
                 <label>
@@ -121,6 +122,7 @@ function SpotFormPage() {
                         onChange={(e) => setState(e.target.value)}
                         required
                         placeholder="State"
+                        maxLength={30}
                     />
                 </label>
                 <label>
@@ -130,6 +132,7 @@ function SpotFormPage() {
                         onChange={(e) => setCountry(e.target.value)}
                         required
                         placeholder="Country"
+                        maxLength={30}
                     />
                 </label>
                 <label>
@@ -161,6 +164,7 @@ function SpotFormPage() {
                         onChange={(e) => setName(e.target.value)}
                         required
                         placeholder="Spot Name"
+                        maxLength={50}
                     />
                 </label>
                 <label>
