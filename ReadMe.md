@@ -50,4 +50,54 @@ If you only want to view, you can naviage to the home page or click on a specifi
 # Technical Details
 FairBnb Users View properties that they own and around the community by navigating thru the home or spot page. 
 
-The Home page required grabbing data of each property from the back end to display. 
+Creating a spot with an image required some extra work because our original form for creating an image did not include images, it was a feature that would be later added. To deal with this, I nested fetches, one fetch for the creation of the spot and the other for detials of the image. I also had to await dispatches because, I needed to wait for the information from the first dispatch in order to provide information to the second dispatch. 
+
+```
+export const addSpots = (addSpot) => async (dispatch) => {
+    const { address, city, state, lat, lng, country, name, description, price, previewImage } = addSpot;
+    const response = await csrfFetch('/api/spots', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            address,
+            city,
+            state,
+            lat,
+            lng,
+            country,
+            name,
+            description,
+            price
+
+        })
+    })
+    if (response.ok) {
+        const newSpot = await response.json();
+        const newImg = await csrfFetch(`/api/spots/${newSpot.id}/images`, {
+            method: 'POST',
+            header: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                url: previewImage,
+                previewImage: true
+            })
+        })
+        if (newImg.ok) {
+            newSpot.previewImage = previewImage
+            dispatch(createSpot(newSpot))
+            return newSpot
+        }
+
+
+    }
+
+}
+
+
+```
+
+
+
