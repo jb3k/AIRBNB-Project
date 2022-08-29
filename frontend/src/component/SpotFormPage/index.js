@@ -49,7 +49,7 @@ function SpotFormPage() {
         if (description.length < 1) errors.push('Need valid description')
         if (price < 1 || price > 1000) errors.push('Need valid price between 1 and 1000')
         // if (!validImage(previewImage)) errors.push('Need Valid image url')
-        if (!previewImage.endsWith('.jpg') && !previewImage.endsWith('.jpeg') && !previewImage.endsWith('.png')) errors.push('Need Valid image url')
+        if (!previewImage.includes('.jpg') && !previewImage.includes('.jpeg') && !previewImage.includes('.png')) errors.push('Need Valid image url')
 
         return setErrorValidation(errors)
 
