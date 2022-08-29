@@ -22,6 +22,7 @@ if (process.env.NODE_ENV !== 'production') {
   window.sessionActions = sessionActions;
 
 }
+window.store = store
 
 
 function Root() {

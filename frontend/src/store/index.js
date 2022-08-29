@@ -5,7 +5,6 @@ import sessionReducer from './session';
 import spotsReducer from "./spots";
 
 
-
 const rootReducer = combineReducers({
   session: sessionReducer,
   spots: spotsReducer,
@@ -22,6 +21,7 @@ if (process.env.NODE_ENV === "production") {
   const composeEnhancers =
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   enhancer = composeEnhancers(applyMiddleware(thunk, logger));
+  
 }
 
 
