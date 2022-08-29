@@ -39,7 +39,7 @@ function SpotFormPage() {
 
     useEffect(() => {
         const errors = []
-        if (address.length < 1) errors.push('Need valid address')
+        if (address.length < 3) errors.push('Need valid address to be at least 3 characters')
         if (city.length < 1) errors.push('Need valid city')
         if (state.length < 1) errors.push('Need valid state')
         if (country.length < 1) errors.push('Need valid country')
@@ -49,7 +49,7 @@ function SpotFormPage() {
         if (description.length < 1) errors.push('Need valid description')
         if (price < 1 || price > 1000) errors.push('Need valid price between 1 and 1000')
         // if (!validImage(previewImage)) errors.push('Need Valid image url')
-        if (!previewImage.includes('.jpg') && !previewImage.includes('.jpeg') && !previewImage.includes('.png')) errors.push('Need Valid image url')
+        if (!previewImage.includes('.jpg') && !previewImage.includes('.jpeg') && !previewImage.includes('.png')) errors.push('Need image url to include .jpg, .jpeg, or .png')
 
         return setErrorValidation(errors)
 
@@ -101,6 +101,8 @@ function SpotFormPage() {
                         onChange={(e) => setAddress(e.target.value)}
                         required
                         placeholder="Address"
+                        minLength={3}
+
                     />
                 </label>
                 <label>
