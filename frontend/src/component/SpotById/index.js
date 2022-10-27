@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useParams, useHistory } from 'react-router-dom'
 import { deleteReviewThunk, getSpotReviewThunk } from '../../store/reviews'
-import { deleteSpot, getSpotId, spot } from '../../store/spots'
+import { getSpotId } from '../../store/spots'
+import EditReview from '../editReviews'
 import './SpotById.css'
 
 
@@ -11,6 +12,7 @@ function SpotId() {
     const dispatch = useDispatch()
     const { spotId } = useParams()
     const [isLoaded, setIsLoaded] = useState(false)
+    const [editForm, setEditForm] = useState(false)
     const history = useHistory()
     const sessionUser = useSelector((state) => state.session.user);
     // take a look at state and return something from it from the reducer
@@ -107,12 +109,17 @@ function SpotId() {
     const displayReviews = currReviews.map((review) => {
         reviewId.push(review?.userId)
         const userReview = review?.User?.id
-        let button
+        let deleteButton
+        let editButton
         if (sessionUser) {
             if (sessionUser?.id === userReview) {
                 {
-                    button = <button className='delete-review-bttn'
+                    deleteButton = <button className='delete-review-bttn'
                         onClick={() => { dispatch(deleteReviewThunk(review?.id)).then(() => dispatch(getSpotId(spotId))) }}> Delete </button>
+                }
+                {
+                    editButton = <button className='delete-review-bttn'
+                        onClick={() => { setEditForm(!editForm) }}> Edit </button>
                 }
             }
         }
@@ -142,7 +149,11 @@ function SpotId() {
                         <p className='review-p-tag'>{review.review}</p>
                     </div>
                     <div>
-                        {button}
+                        <div>
+                            {editForm && <EditReview review={review} setEditForm={setEditForm} spotId={spotId} />}
+                        </div>
+                        {editButton}
+                        {deleteButton}
                     </div>
                 </div>
             </div>

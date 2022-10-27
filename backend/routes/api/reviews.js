@@ -117,23 +117,51 @@ router.put('/:reviewId', restoreUser, async (req, res, next) => {
     let reviewInfo = await Review.findOne({ where: { id }, raw: true })
     // console.log(updatedReview)
 
-
-    if (id) {
-        const newReview = await updatedReview.set(
-            {
-                userId: user.dataValues.id,
-                spotId: reviewInfo.spotId,
-                review,
-                stars
-            }
-        )
-        await newReview.save()
-        res.json(newReview)
-
-    }
-
+    const newReview = await updatedReview.set(
+        {
+            userId: user.dataValues.id,
+            spotId: reviewInfo.spotId,
+            review,
+            stars
+        }
+    )
+    await newReview.save()
+    res.json(newReview)
 
 })
+
+
+// router.put('/:reviewId', restoreUser, async (req, res) => {
+//     const id = req.params.reviewId;
+//     let userId = req.user.id
+//     let updatedReview = await Review.findByPk(id)
+//     if (!updatedReview) return res.status(404).json({ "message": "Review couldn't be found", "statusCode": 404 })
+//     const editReview = await Review.findOne({
+//         where: {
+//             userId,
+//             id
+//         }
+//     })
+//     if (!editReview) return res.status(403).json({ "message": "Forbidden" })
+
+//     const { review, stars } = req.body;
+
+//     editReview.review = review
+//     editReview.stars = stars
+
+//     await editReview.save()
+//     res.json(editReview)
+
+
+
+// })
+
+
+
+
+
+
+
 
 
 router.delete('/:reviewId', restoreUser, async (req, res, next) => {

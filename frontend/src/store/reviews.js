@@ -5,6 +5,7 @@ import { csrfFetch } from "./csrf"
 const LOAD_REVIEWS = 'review/getReview'
 const CURSPOT_REVIEWS = 'review/currentSpotReview'
 const CREATE_REVIEWS = 'review/createReview'
+const UPDATE_REVIEWS = 'review/updateReview'
 const DELETE_REVIEWS = 'review/deleteReview'
 
 
@@ -28,6 +29,13 @@ const getSpotReviewAction = (payload) => {
 const createReviewAction = (payload) => {
     return {
         type: CREATE_REVIEWS,
+        payload
+    }
+}
+
+const update = (payload) => {
+    return {
+        type: UPDATE_REVIEWS,
         payload
     }
 }
@@ -93,6 +101,33 @@ export const createReviewThunk = (id, data) => async (dispatch) => {
 
 }
 
+
+//update a review
+export const editReviewThunk = (id, payload) => async dispatch => {
+    const { userId, review, stars } = payload
+    const response = await csrfFetch(`/api/reviews/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            id, 
+            userId,
+            review,
+            stars
+        })
+    })
+
+    if (response.ok) {
+        const updateReview = await response.json()
+        // console.log(updateReview)
+        dispatch(update(updateReview))
+        return updateReview
+    }
+}
+
+
+
+
+
 //delete a review
 export const deleteReviewThunk = (id) => async (dispatch) => {
     const response = await csrfFetch(`/api/reviews/${id}`, {
@@ -126,9 +161,14 @@ const reviewsReducer = (state = initialState, action) => {
             })
             return newState
         case CREATE_REVIEWS:
-            newState = { ...state}
+            newState = { ...state }
             newState[action.payload.id] = action.payload
             return newState
+        case UPDATE_REVIEWS: {
+            newState = { ...state }
+            newState[action.payload.id] = action.payload
+            return newState
+        }
         case DELETE_REVIEWS:
             newState = { ...state };
             delete newState[action.payload];

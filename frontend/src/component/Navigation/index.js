@@ -6,7 +6,8 @@ import LoginFormModal from '../LoginFormModal/index';
 import './Navigation.css';
 import { useState, useEffect } from 'react'
 import * as sessionActions from '../../store/session';
-import { spot } from "../../store/spots";
+import { Modal } from '../../context/Modal';
+import LoginForm from '../LoginFormModal/LoginForm';
 
 
 
@@ -14,7 +15,7 @@ function Navigation({ isLoaded }) {
   const sessionUser = useSelector(state => state.session.user);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false)
-
+  const [showModal, setShowModal] = useState(false);
 
 
   const history = useHistory()
@@ -43,24 +44,17 @@ function Navigation({ isLoaded }) {
     );
   }
 
-  const wordSwitcher = () => {
-    if (sessionUser) {
-      return "Switch to hosting"
-    } else {
-      return "Become a Host"
-    }
-  }
-
-  useEffect(() => {
-    wordSwitcher()
-  }, [wordSwitcher])
-
-
   const loginAlert = () => {
     let login = false;
+    // setShowModal(true)
     if (!sessionUser) {
-      alert('Need to login to become a host');
-      history.push('/')
+      {
+        showModal && (
+          <Modal onClose={() => setShowModal(false)}>
+            <LoginForm />
+          </Modal>
+        )
+      }
     } else {
       login = true;
       history.push('/spots/current')
@@ -133,7 +127,7 @@ function Navigation({ isLoaded }) {
           </NavLink>
         </div>
         <div className='become-host'>
-          <button className='host-button' onClick={loginAlert}>{wordSwitcher()}</button>
+          <button className='host-button' onClick={loginAlert}>{sessionUser?"Switch to Hosting" : 'Become a Host'}</button>
         </div>
 
         {dropdownMenu()}

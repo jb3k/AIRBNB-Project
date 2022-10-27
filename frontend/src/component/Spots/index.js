@@ -28,6 +28,9 @@ function DisplaySpots() {
     }
 
 
+
+
+
     const mainPage = properties.map((spot) => {
         if (!spot) return null
         const { id, city, price, state, avgRating, previewImage } = spot
@@ -43,9 +46,8 @@ function DisplaySpots() {
                             <div>
                                 {`${city}, ${state}`}
                             </div>
-                            <div>
-                                <i className='icon-font' class="fa-solid fa-star fa-s">{decimal(avgRating)}</i>
-
+                            <div className='mainpage-icon-ratings'>
+                                {avgRating > 0 ? <i className='icon-font' class="fa-solid fa-star">{decimal(avgRating)}</i> : <i className='icon-font' class="fa-solid fa-star">0.00</i>}
                             </div>
                         </div>
                         <div className='location-price'>
