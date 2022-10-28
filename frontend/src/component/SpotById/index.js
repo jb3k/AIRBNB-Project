@@ -161,7 +161,7 @@ function SpotId() {
     })
 
 
-    
+
 
 
 
@@ -187,13 +187,8 @@ function SpotId() {
                 <div>
                     {displaySpot()}
                 </div>
-                <div className='bottom-page-reviews-bookings'>
-                    <div className='reviews-container'>
-                        {displayReviews}
-                    </div>
-                    <div>
-                        This will be where the bookings are!!!
-                    </div>
+                <div className='reviews-container'>
+                    {displayReviews}
                 </div>
                 <div>
                     {createReviewBttn}
@@ -208,13 +203,8 @@ function SpotId() {
                 <div>
                     {displaySpot()}
                 </div>
-                <div className='bottom-page-reviews-bookings'>
-                    <div className='reviews-container'>
-                        {displayReviews}
-                    </div>
-                    <div>
-                        This will be where the bookings are!!!
-                    </div>
+                <div className='reviews-container'>
+                    {displayReviews}
                 </div>
             </div>
         )
