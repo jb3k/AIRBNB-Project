@@ -95,12 +95,13 @@ body {
 
 .bottom-page-reviews-bookings {
     display: flex;
+    min-height: 400px;
 }
 
 
 .reviews-container {
     max-width: 55%;
-
+    min-width: 54%;
 }
 
 .user-review {

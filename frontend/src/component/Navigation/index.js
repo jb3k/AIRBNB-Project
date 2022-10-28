@@ -45,23 +45,30 @@ function Navigation({ isLoaded }) {
   }
 
   const loginAlert = () => {
-    let login = false;
-    // setShowModal(true)
-    if (!sessionUser) {
-      {
-        showModal && (
-          <Modal onClose={() => setShowModal(false)}>
-            <LoginForm />
-          </Modal>
-        )
-      }
-    } else {
-      login = true;
-      history.push('/spots/current')
-    }
-    return login
-  }
 
+    if (!sessionUser) {
+      return (
+        <>
+          <button style={{ backgroundColor: 'transparent', border: 'none', fontSize: '16px' }} onClick={() => setShowModal(true)}>Become a Host</button>
+          {showModal && (
+            <Modal onClose={() => setShowModal(false)}>
+              <LoginForm />
+            </Modal>
+          )}
+        </>
+      )
+    } else {
+      return (
+        <>
+          <NavLink to={'/spots/current'}>
+            <button style={{ backgroundColor: 'transparent', border: 'none', fontSize: '16px' }}>Switch to Hosting</button>
+          </NavLink>
+        </>
+      )
+
+    }
+
+  }
 
 
   const logout = (e) => {
@@ -127,7 +134,8 @@ function Navigation({ isLoaded }) {
           </NavLink>
         </div>
         <div className='become-host'>
-          <button className='host-button' onClick={loginAlert}>{sessionUser?"Switch to Hosting" : 'Become a Host'}</button>
+          {/* <button className='host-button' onClick={loginAlert}>{sessionUser ? "Switch to Hosting" : 'Become a Host'}</button> */}
+          <button className='host-button'>{loginAlert()}</button>
         </div>
 
         {dropdownMenu()}
