@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useParams } from 'react-router-dom'
-import { getSpotById, spot } from '../../store/spots'
+import { spot } from '../../store/spots'
 import './Spots.css'
+import Footer from '../Footer/footer'
 
 function DisplaySpots() {
 
@@ -62,12 +63,14 @@ function DisplaySpots() {
 
 
     return (
-        <div className='allSpot-container'>
-            <div className='spot-whole-container'>
-                {mainPage}
+        <>
+            <div className='allSpot-container'>
+                <div className='spot-whole-container'>
+                    {mainPage}
+                </div>
             </div>
-
-        </div>
+            <Footer />
+        </>
 
     )
 }

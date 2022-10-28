@@ -161,6 +161,17 @@ function SpotId() {
     })
 
 
+    
+
+
+
+
+
+
+
+
+
+
     let createReviewBttn
     if (sessionUser && (!reviewId.includes(sessionUser?.id) && (sessionUser?.id !== spot?.Owner?.id))) {
         createReviewBttn = (
@@ -176,8 +187,13 @@ function SpotId() {
                 <div>
                     {displaySpot()}
                 </div>
-                <div className='reviews-container'>
-                    {displayReviews}
+                <div className='bottom-page-reviews-bookings'>
+                    <div className='reviews-container'>
+                        {displayReviews}
+                    </div>
+                    <div>
+                        This will be where the bookings are!!!
+                    </div>
                 </div>
                 <div>
                     {createReviewBttn}
@@ -192,8 +208,13 @@ function SpotId() {
                 <div>
                     {displaySpot()}
                 </div>
-                <div className='reviews-container'>
-                    {displayReviews}
+                <div className='bottom-page-reviews-bookings'>
+                    <div className='reviews-container'>
+                        {displayReviews}
+                    </div>
+                    <div>
+                        This will be where the bookings are!!!
+                    </div>
                 </div>
             </div>
         )
