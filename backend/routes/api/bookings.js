@@ -14,7 +14,7 @@ router.get('/current', restoreUser, async (req, res, next) => {
     const { user } = req
     if (!user) return res.status(401).json({ "message": "You're not logged in", "statusCode": 401 })
     //lazyloading
-    const tester = 3
+    // const tester = 3
     const currUser = user.dataValues.id
     const Bookings = await Booking.findAll({
         where: { id: currUser }, raw: true

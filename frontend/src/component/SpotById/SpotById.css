@@ -77,17 +77,34 @@ body {
 }
 
 .massive-bttn {
-    height: 85px;
+    height: 450px;
     width: 25em;
     background-color: transparent;
     border: 1px solid rgba(55, 43, 43, 0.3);
     border-radius: 12px;
     box-shadow: rgba(0, 0, 0, 0.12) 0px 5px 15px;
-    display: flex;
-    flex-direction: row;
+    /* display: flex;
+    flex-direction: row; */
     align-items: center;
     justify-content: space-around;
 }
+
+.upper-massive-bttn {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.lower-massive-bttn {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
 
 .spot-information-section {
     border-bottom: 1px solid rgba(55, 43, 43, 0.3);
@@ -203,7 +220,9 @@ li {
 
 .massive-bttn-review-details {
     /* text-decoration: underline; */
+    background-color: white;
 }
+
 
 .create-review-bttn {
     margin-top: 2em;
