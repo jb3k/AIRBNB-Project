@@ -111,15 +111,15 @@ const bookingsReducer = (state = initialState, action) => {
             return newState
         case ADD:
             newState = { ...state }
-            bookings[action.payload.id] = action.payload
+            newState[action.payload.id] = action.payload
             return newState
         case UPDATE:
             newState = { ...state }
-            bookings[action.payload.id] = action.payload
+            newState[action.payload.id] = action.payload
             return newState
         case DELETE:
             newState = { ...state }
-            delete bookings[action.payload]
+            delete newState[action.payload]
             return newState
 
         default:

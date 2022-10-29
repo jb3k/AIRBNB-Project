@@ -3,14 +3,17 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom'
 import './bookings.css'
 import { addBookingThunk } from '../../store/bookings';
+import { Modal } from '../../context/Modal';
+import LoginForm from '../LoginFormModal/LoginForm';
+
 
 
 const Bookings = ({ spotId }) => {
-
+    const sessionUser = useSelector(state => state.session.user);
     const dispatch = useDispatch()
     const history = useHistory()
 
-
+    const [showModal, setShowModal] = useState(false);
     const [errorValidation, setErrorValidation] = useState([])
     const [isSubmitted, setIsSubmitted] = useState(false)
     const [addStart, setAddStart] = useState('')
@@ -20,7 +23,7 @@ const Bookings = ({ spotId }) => {
 
     useEffect(() => {
         const errors = []
-
+        if (addStart === "" || addEnd === "") errors.push("Please select a start and end date")
 
         return setErrorValidation(errors)
 
@@ -30,6 +33,9 @@ const Bookings = ({ spotId }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsSubmitted(true)
+
+
         if (errorValidation.length >= 1) {
             errorValidation.map(err => {
                 return err
@@ -37,17 +43,43 @@ const Bookings = ({ spotId }) => {
             return
         }
 
-        const payload = { startDate: addStart, endDate: addEnd }
+        const payload = { "startDate": addStart, "endDate": addEnd }
+
+        console.log(addStart, addEnd)
         dispatch(addBookingThunk(spotId, payload))
 
+        alert('Booking Submitted')
         //push to user bookings page that I will create...
-        history.push(`/`)
-
+        // history.push(`/`)
+        setAddStart('')
+        setAddEnd('')
         setErrorValidation([]);
 
 
 
     };
+
+    let userAuth;
+    if (sessionUser) {
+        userAuth = (
+            <>
+                <button className='booking-reserve-bttn' type='submit'> Reserve </button>
+            </>
+        )
+    } else {
+        userAuth = (
+            <>
+                <button className='booking-reserve-bttn' onClick={() => setShowModal(true)}> Reserve </button>
+                {showModal && (
+                    <Modal onClose={() => setShowModal(false)}>
+                        <LoginForm />
+                    </Modal>
+                )}
+            </>
+        )
+
+    }
+
 
 
     const today = new Date();
@@ -68,7 +100,6 @@ const Bookings = ({ spotId }) => {
                         <label className='booking-input-label'> CHECK-IN</label>
                         <input
                             className='booking-input'
-                            onKeyDown={(e) => e.preventDefault()}
                             type="date"
                             value={addStart}
                             onChange={(e) => setAddStart(e.target.value)}
@@ -80,18 +111,17 @@ const Bookings = ({ spotId }) => {
                     <div className='booking-checkin-input'>
                         <label className='booking-input-label'> CHECKOUT</label>
                         <input
-                            onKeyDown={(e) => e.preventDefault()}
-                            required={true}
-                            min={min}
                             className='booking-input'
                             type="date"
                             value={addEnd}
                             onChange={(e) => setAddEnd(e.target.value)}
+                            min={min}
+                            required={true}
                         />
                     </div>
                 </div>
+                {userAuth}
             </form>
-            <button className='booking-reserve-bttn' onClick={handleSubmit}> Reserve </button>
         </div >
     )
 
