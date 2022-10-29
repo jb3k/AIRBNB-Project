@@ -2,9 +2,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom'
 import './bookings.css'
+import { addBookingThunk } from '../../store/bookings';
 
 
-const Bookings = () => {
+const Bookings = ({ spotId }) => {
 
     const dispatch = useDispatch()
     const history = useHistory()
@@ -36,18 +37,13 @@ const Bookings = () => {
             return
         }
 
-        let newSpot
-        // if (!errorValidation.length) {
-        setErrorValidation([]);
-        alert('Home has been submitted')
-        newSpot = await dispatch()
-            .catch(async (res) => {
-                const data = await res.json();
-                if (data && data.errors) setErrorValidation(data.errors);
-            })
-        history.push(`/`)
-        return newSpot
+        const payload = { startDate: addStart, endDate: addEnd }
+        dispatch(addBookingThunk(spotId, payload))
 
+        //push to user bookings page that I will create...
+        history.push(`/`)
+
+        setErrorValidation([]);
 
 
 

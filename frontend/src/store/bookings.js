@@ -96,33 +96,31 @@ export const deleteBookingThunk = (id) => async (dispatch) => {
 
 //reducer
 
-const initialState = { userBookings: {} };
+const initialState = {};
 
 const bookingsReducer = (state = initialState, action) => {
 
-    let bookings;
+    let newState
 
     switch (action.type) {
         case GET_USER_BOOKINGS:
-            bookings = { ...state, userBookings: { ...state.userBookings } }
-            let book = {}
-            for (let books of action.payload.Bookings) {
-                book[books.id] = books
-            }
-            bookings.userBookings = book
-            return bookings
+            newState = {}
+            action.payload.Bookings.forEach(booking => {
+                newState[booking.id] = booking
+            })
+            return newState
         case ADD:
-            bookings = { ...state, userBookings: { ...state.userBookings } }
-            bookings.userBookings[action.payload.id] = action.payload
-            return bookings
+            newState = { ...state }
+            bookings[action.payload.id] = action.payload
+            return newState
         case UPDATE:
-            bookings = { ...state, userBookings: { ...state.userBookings } }
-            bookings.userBookings[action.payload.id] = action.payload
-            return bookings
+            newState = { ...state }
+            bookings[action.payload.id] = action.payload
+            return newState
         case DELETE:
-            bookings = { ...state, userBookings: { ...state.userBookings } }
-            delete bookings.userBookings[action.payload]
-            return bookings
+            newState = { ...state }
+            delete bookings[action.payload]
+            return newState
 
         default:
             return state;

@@ -98,7 +98,7 @@ function SpotId() {
                                 </div>
                             </div>
                             <div className='lower-massive-bttn'>
-                                <Bookings />
+                                <Bookings spotId={spotId} />
                             </div>
                         </div>
                     </div>
