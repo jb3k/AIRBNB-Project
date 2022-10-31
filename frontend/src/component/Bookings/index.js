@@ -20,14 +20,13 @@ const Bookings = ({ spotId }) => {
     const [addEnd, setAddEnd] = useState('')
 
 
-
     useEffect(() => {
         const errors = []
-        if (addStart === "" || addEnd === "") errors.push("Please select a start and end date")
+        if (addStart === "" || addEnd === "") errors.push("Please select valid start and end dates")
 
         return setErrorValidation(errors)
 
-    }, [])
+    }, [addStart, addEnd])
 
 
 
@@ -90,7 +89,7 @@ const Bookings = ({ spotId }) => {
     return (
         <div className='whole-bookings-input'>
             <form onSubmit={handleSubmit}>
-                <div>
+                <div className='bookings-error-handling'>
                     {isSubmitted && errorValidation.map((error, ind) => (
                         <div key={ind}>{error}</div>
                     ))}
@@ -104,7 +103,6 @@ const Bookings = ({ spotId }) => {
                             value={addStart}
                             onChange={(e) => setAddStart(e.target.value)}
                             min={min}
-                            required={true}
                         />
                     </div>
                     <div className='booking-divider'></div>
@@ -116,7 +114,6 @@ const Bookings = ({ spotId }) => {
                             value={addEnd}
                             onChange={(e) => setAddEnd(e.target.value)}
                             min={min}
-                            required={true}
                         />
                     </div>
                 </div>

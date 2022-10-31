@@ -52,3 +52,10 @@
     border-radius: 10px;
     font-size: 14px;
 }
+
+.bookings-error-handling {
+    display: flex;
+    justify-content: center;
+    color: red;
+    margin-bottom: 15px;
+}
