@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink, useParams, useHistory } from 'react-router-dom'
+import { NavLink, useHistory } from 'react-router-dom'
 import { deleteLocation, getCurrentUserSpot } from '../../store/spots'
 import './BecomeHost.css'
 
