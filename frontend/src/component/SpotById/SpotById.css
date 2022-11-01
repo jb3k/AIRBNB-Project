@@ -77,7 +77,7 @@ body {
 }
 
 .massive-bttn {
-    min-height: 240px;
+    min-height: 255px;
     width: 25em;
     background-color: transparent;
     border: 1px solid rgba(55, 43, 43, 0.3);

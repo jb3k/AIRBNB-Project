@@ -19,10 +19,14 @@ const Bookings = ({ spotId }) => {
     const [addStart, setAddStart] = useState('')
     const [addEnd, setAddEnd] = useState('')
 
+    const date = new Date().toISOString().slice(0, 10)
 
     useEffect(() => {
         const errors = []
         if (addStart === "" || addEnd === "") errors.push("Please select valid start and end dates")
+        if (date >= addEnd || date > addStart) errors.push("You can't enter a booking that has already passed")
+        if (addEnd <= addStart) errors.push("You can't enter a checkout date earlier than checkin date")
+        if (addStart === addEnd) errors.push("Must stay 1 night")
 
         return setErrorValidation(errors)
 
@@ -103,6 +107,7 @@ const Bookings = ({ spotId }) => {
                             value={addStart}
                             onChange={(e) => setAddStart(e.target.value)}
                             min={min}
+                            required={true}
                         />
                     </div>
                     <div className='booking-divider'></div>
@@ -114,6 +119,7 @@ const Bookings = ({ spotId }) => {
                             value={addEnd}
                             onChange={(e) => setAddEnd(e.target.value)}
                             min={min}
+                            required={true}
                         />
                     </div>
                 </div>

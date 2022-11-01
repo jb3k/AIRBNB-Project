@@ -27,7 +27,9 @@ const EditBookings = ({ bookingId, checkin, checkout, setEditBooking, thunk }) =
     useEffect(() => {
         const errors = []
         if (addStart === "" || addEnd === "") errors.push("Please select valid start and end dates")
-        if (date >= checkout || date > checkin) errors.push("You cannot edit a booking that has already passed")
+        if (date >= addStart || date > addEnd) errors.push("Enter valid dates")
+        if (addEnd <= addStart) errors.push("Enter a Valid checkout date")
+        if (addStart === addEnd) errors.push("Must stay 1 night")
 
         return setErrorValidation(errors)
 
