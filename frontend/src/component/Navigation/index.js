@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import LoginFormModal from '../LoginFormModal/index';
 import './Navigation.css';
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import * as sessionActions from '../../store/session';
 import { Modal } from '../../context/Modal';
 import LoginForm from '../LoginFormModal/LoginForm';
@@ -81,6 +81,13 @@ function Navigation({ isLoaded }) {
 
     logoutDropdown = (
       <div className='logout-dropdown-menu'>
+        <NavLink to={'/spots/bookings'} style={{ textDecoration: 'none', color: 'black', marginTop: '2px ' }}>
+          <div className='logout-dropdown-menu-flex'>
+            <div className='dropdown-bookings-bttn' >
+              My Bookings
+            </div>
+          </div>
+        </NavLink>
         <div className='logout-dropdown-menu-flex'>
           <button className='logout-bttn' onClick={logout}>Log Out</button>
         </div>
@@ -132,6 +139,14 @@ function Navigation({ isLoaded }) {
             style={{ textDecoration: 'none' }}>
             <i class="fa-solid fa-handshake"> </i> | FairBnB
           </NavLink>
+        </div>
+        <div className='search-bar'>
+          <div>
+            This is the search bars
+          </div>
+          <div className='search-bar-icon'>
+            <i class="fa-solid fa-magnifying-glass" style={{ color: 'white', fontSize: '13px ' }}></i>
+          </div>
         </div>
         <div className='become-host'>
           {/* <button className='host-button' onClick={loginAlert}>{sessionUser ? "Switch to Hosting" : 'Become a Host'}</button> */}
