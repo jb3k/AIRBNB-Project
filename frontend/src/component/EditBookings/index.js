@@ -87,7 +87,7 @@ const EditBookings = ({ bookingId, checkin, checkout, setEditBooking, thunk }) =
                         />
                     </div>
                 </div>
-                <button className='edit-host-bttn' type="submit"> Save </button>
+                <button className='edit-booking-bttn' type="submit"> Save Reservation </button>
             </form>
         </div >
     )

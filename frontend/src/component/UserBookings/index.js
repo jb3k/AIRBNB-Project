@@ -40,18 +40,20 @@ function UserBookings() {
                     </div>
                     <div className='user-bookings-spot-text-container'>
                         <div>
-                            <div>
-                                Address: {address}
-                            </div>
-                            <div>
-                                {city}, {state}
-                            </div>
-                            <div>
-                                <div>
-                                    Check-In: {startDate}
+                            <div className='user-bookings-spot-text-address-container'>
+                                <div className='user-bookings-spot-text-address'>
+                                    Address: {address}
                                 </div>
-                                <div>
-                                    Checkout: {endDate}
+                                <div className='user-bookings-spot-text-address'>
+                                    {city}, {state}
+                                </div>
+                            </div>
+                            <div className='user-bookings-spot-text-dates-container'>
+                                <div className='user-bookings-spot-text-dates'>
+                                    Check-In Date: <strong> {startDate} </strong>
+                                </div>
+                                <div className='user-bookings-spot-text-dates'>
+                                    Checkout Date : <strong> {endDate} </strong>
                                 </div>
                             </div>
 
