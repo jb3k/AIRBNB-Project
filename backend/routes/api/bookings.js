@@ -57,7 +57,7 @@ router.get('/current', restoreUser, async (req, res, next) => {
             updatedAt: booking.updatedAt
 
         }
-        
+
         bookArr.push(realBooking)
     }
 
@@ -72,6 +72,7 @@ router.get('/current', restoreUser, async (req, res, next) => {
 router.put('/:bookingId', restoreUser, async (req, res, next) => {
     const bookingId = req.params.bookingId;
     const { user } = req
+    const userId = req.user.id
     if (!user) return res.status(401).json({ "message": "You're not logged in", "statusCode": 401 })
 
     const { startDate, endDate } = req.body;
@@ -104,37 +105,38 @@ router.put('/:bookingId', restoreUser, async (req, res, next) => {
         let start = dates.startDate
         let end = dates.endDate
 
-        if (startDate >= start && startDate <= end || endDate <= end && endDate >= start || startDate <= end && endDate >= start) {
-            return res.status(403).json({
-                "message": "Sorry, this spot is already booked for the specified dates",
-                "statusCode": 403,
-                "errors": {
-                    "startDate": "Start date conflicts with an existing booking",
-                    "endDate": "End date conflicts with an existing booking"
-                }
-            })
+        if ((startDate >= start) && (startDate <= end) && (userId !== dates.userId)) {
+            const error = new Error(`Sorry, this spot is already booked for the specified dates`)
+            error.status = "403"
+            error.errors = {
+                startDate: "Start date conflicts with an existing booking",
+            }
+            throw error;
+        }
+
+
+        if ((endDate >= start) && (endDate <= end) && (userId !== dates.userId)) {
+            const error = new Error(`Sorry, this spot is already booked for the specified dates`)
+            error.status = "403"
+            error.errors = {
+                endDate: "End date conflicts with an existing booking",
+            }
+            throw error;
         }
     }
 
     // cant modify past booking
     if (checkBooking.startDate <= new Date()) {
         return res.status(403).json({
-            "message": "Past bookings can't be modified",
-            "statusCode": 403
+            "message": "Past bookings can't be modified"
         })
     }
 
+    currentBooking.startDate = startDate
+    currentBooking.endDate = endDate
 
-    const newBooking = await currentBooking.set(
-        {
-            id: user.dataValues.id,
-            spotId: currentBooking.spotId,
-            startDate,
-            endDate
-        }
-    )
-    await newBooking.save()
-    res.json(newBooking)
+    const updatedBooking = await currentBooking.save()
+    res.json(updatedBooking)
 
 
 })

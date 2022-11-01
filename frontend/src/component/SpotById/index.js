@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useParams, useHistory } from 'react-router-dom'
 import { deleteReviewThunk, getSpotReviewThunk } from '../../store/reviews'
 import { getSpotId } from '../../store/spots'
-import EditReview from '../editReviews'
+import EditReview from '../EditReviews'
 import './SpotById.css'
 import Bookings from '../Bookings'
 

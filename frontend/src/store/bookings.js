@@ -75,6 +75,7 @@ export const updateBookingThunk = (id, payload) => async (dispatch) => {
         },
         body: JSON.stringify(payload)
     });
+
     const newBooking = await response.json();
 
     dispatch(updateBooking(newBooking));

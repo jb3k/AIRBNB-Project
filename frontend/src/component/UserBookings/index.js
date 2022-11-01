@@ -1,19 +1,20 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { deleteBookingThunk, getUserBookingsThunk } from '../../store/bookings'
+import EditBookings from '../EditBookings'
 import './UserBookings.css'
 
 function UserBookings() {
 
     const dispatch = useDispatch()
     const [isLoaded, setIsLoaded] = useState(false)
+    const [editBooking, setEditBooking] = useState(false)
+    const [showEditInputListingId, setShowEditInputListingId] = useState(0);
     const sessionUser = useSelector((state) => state.session.user);
     const history = useHistory()
 
     const userBookings = useSelector((state) => Object.values(state.bookings))
-    console.log("HELLOOOOOOOO", userBookings)
-
 
     useEffect(() => {
         dispatch(getUserBookingsThunk())
@@ -24,15 +25,16 @@ function UserBookings() {
         history.push('/')
     }
 
+    if (!userBookings) return null
     let bookings = userBookings.map((booked) => {
 
         const { id, startDate, endDate, Spot } = booked
+        if (Spot === undefined) return null
         const { previewImage, address, city, state } = Spot
-
 
         return (
             <>
-                <div className='user-bookings-container'>
+                <div className='user-bookings-container' key={id}>
                     <div className='user-bookings-spot-image-container'>
                         <img src={previewImage} alt='spot picture' className='user-bookings-spot-image'></img>
                     </div>
@@ -55,8 +57,12 @@ function UserBookings() {
 
                         </div>
                         <div>
-                            <button className='edit-host-bttn'>Edit</button>
+                            <button className='edit-host-bttn' onClick={() => {
+                                setEditBooking(!editBooking)
+                                setShowEditInputListingId(id)
+                            }}>Edit</button>
                             <button className='delete-host-bttn' onClick={() => { dispatch(deleteBookingThunk(id)) }}>Delete</button>
+                            {editBooking && showEditInputListingId === id && <EditBookings bookingId={id} checkin={startDate} checkout={endDate} setEditBooking={setEditBooking} thunk={getUserBookingsThunk} />}
                         </div>
                     </div>
                 </div>

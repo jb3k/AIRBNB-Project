@@ -44,12 +44,12 @@ const Bookings = ({ spotId }) => {
 
         const payload = { "startDate": addStart, "endDate": addEnd }
 
-        console.log(addStart, addEnd)
+        // console.log(addStart, addEnd)
         dispatch(addBookingThunk(spotId, payload))
 
         alert('Booking Submitted')
         //push to user bookings page that I will create...
-        // history.push(`/`)
+        history.push(`/spots/bookings`)
         setAddStart('')
         setAddEnd('')
         setErrorValidation([]);
