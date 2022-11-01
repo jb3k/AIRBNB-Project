@@ -16,7 +16,7 @@
 .logo-container {
     display: flex;
     align-items: center;
-    min-width: fit-content;
+    width: 250px;
 
 }
 
@@ -31,14 +31,10 @@
     justify-content: center;
     align-items: center;
     border: 1px solid rgba(55, 43, 43, 0.3);
-    /* border-radius: 12px; */
-    border-top-left-radius: 25px;
-    border-bottom-left-radius: 25px;
-    border-top-right-radius: 25px;
-    border-bottom-right-radius: 25px;
+    border-radius: 25px;
     box-shadow: rgba(0, 0, 0, 0.12) 0px 5px 15px;
     width: 300px;
-    margin-left: 250px;
+    margin-left: 35px;
 
 }
 
@@ -50,12 +46,13 @@
     height: 28px;
     width: 28px;
     border-radius: 50%;
-    margin-left: 10px;
+    margin-left: -35px;
 }
 
 .become-host {
     display: flex;
     align-items: center;
+    width: 250px;
 
 }
 

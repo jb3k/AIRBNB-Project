@@ -1,0 +1,63 @@
+.search-bar-container {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    width: 95%;
+}
+
+.search-bar-input-container {
+    width: 80%;
+}
+
+.search-bar-input {
+    height: 28px;
+    width: 100%;
+    border: none;
+    outline: none;
+    background-color: white;
+}
+
+.clear-button {
+    background-color: white;
+    border: transparent;
+}
+
+
+/* .shoe-search-results-container {
+    border: 1px solid black;
+    width: 500px;
+} */
+
+
+.spot-search-results {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    top: 64px;
+    left: 32%;
+    background-color: rgb(252, 241, 241);
+    width: 500px;
+}
+
+.dropdown-searchbar-results {
+    margin-left: 5px;
+    display: flex;
+}
+
+.searchbar-image-container {
+    height: 60px;
+    width: 60px;
+    margin-right: 10px;
+}
+
+.searchbar-image {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
+.searchbar-text-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

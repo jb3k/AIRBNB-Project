@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import ProfileButton from './ProfileButton';
@@ -8,6 +8,8 @@ import { useState } from 'react'
 import * as sessionActions from '../../store/session';
 import { Modal } from '../../context/Modal';
 import LoginForm from '../LoginFormModal/LoginForm';
+import SearchBar from '../SeachBar';
+import { searchAllThunk } from '../../store/search';
 
 
 
@@ -16,9 +18,15 @@ function Navigation({ isLoaded }) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false)
   const [showModal, setShowModal] = useState(false);
-
-
   const history = useHistory()
+
+
+  useEffect(() => {
+    dispatch(searchAllThunk())
+  })
+
+
+
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
@@ -141,9 +149,7 @@ function Navigation({ isLoaded }) {
           </NavLink>
         </div>
         <div className='search-bar'>
-          <div>
-            This is the search bars
-          </div>
+          <SearchBar />
           <div className='search-bar-icon'>
             <i class="fa-solid fa-magnifying-glass" style={{ color: 'white', fontSize: '13px ' }}></i>
           </div>
@@ -151,9 +157,9 @@ function Navigation({ isLoaded }) {
         <div className='become-host'>
           {/* <button className='host-button' onClick={loginAlert}>{sessionUser ? "Switch to Hosting" : 'Become a Host'}</button> */}
           <button className='host-button'>{loginAlert()}</button>
+          {dropdownMenu()}
         </div>
 
-        {dropdownMenu()}
 
       </div>
     </div>
