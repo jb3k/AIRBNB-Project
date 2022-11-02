@@ -94,10 +94,10 @@ function LoginForm() {
   return (
     <div className="entry-boxes">
       <form onSubmit={handleSubmit} className='form'>
-        <ul>
+        <ul className='bookings-error-handling'>
           {submitted && errors.map((error, idx) => (
-            // <li key={idx}>{error}</li>
-            alert(error)
+            <li key={idx}>{error}</li>
+            // alert(error)
           ))}
         </ul>
         <label>

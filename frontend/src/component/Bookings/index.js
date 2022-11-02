@@ -83,7 +83,7 @@ const Bookings = ({ spotId, spotBookings }) => {
     } else {
         userAuth = (
             <>
-                <button className='booking-reserve-bttn' onClick={() => setShowModal(true)}> Reserve </button>
+                <div className='booking-reserve-div' onClick={() => setShowModal(true)}> Reserve </div>
                 {showModal && (
                     <Modal onClose={() => setShowModal(false)}>
                         <LoginForm />

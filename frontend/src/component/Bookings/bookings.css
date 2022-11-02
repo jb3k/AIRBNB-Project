@@ -53,6 +53,21 @@
     font-size: 14px;
 }
 
+.booking-reserve-div {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 42px;
+    width: 100%;
+    color: white;
+    background-image: linear-gradient(to right, rgb(233, 28, 72), rgb(236, 38, 108));
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
 .bookings-error-handling {
     display: flex;
     flex-direction: column;
