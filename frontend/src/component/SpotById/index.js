@@ -178,32 +178,35 @@ function SpotId() {
         )
 
         return isLoaded && (
-            <div className='whole-page'>
-                <div>
-                    {displaySpot()}
+            <>
+                <div className='navbar-spacer'> </div>
+                <div className='whole-page'>
+                    <div>
+                        {displaySpot()}
+                    </div>
+                    <div className='reviews-container'>
+                        {displayReviews}
+                    </div>
+                    <div>
+                        {createReviewBttn}
+                    </div>
                 </div>
-                <div className='reviews-container'>
-                    {displayReviews}
-                </div>
-                <div>
-                    {createReviewBttn}
-                </div>
-            </div>
+            </>
         )
 
     } else {
 
         return isLoaded && (
             <>
-            <div className='navbar-spacer'> </div>
-            <div className='whole-page'>
-                <div>
-                    {displaySpot()}
+                <div className='navbar-spacer'> </div>
+                <div className='whole-page'>
+                    <div>
+                        {displaySpot()}
+                    </div>
+                    <div className='reviews-container'>
+                        {displayReviews}
+                    </div>
                 </div>
-                <div className='reviews-container'>
-                    {displayReviews}
-                </div>
-            </div>
             </>
         )
     }

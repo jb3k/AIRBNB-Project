@@ -16,7 +16,6 @@ import UserBookings from "./component/UserBookings";
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
-  const [openModal, setOpenModal] = useState(false)
 
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
