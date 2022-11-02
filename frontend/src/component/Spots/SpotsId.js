@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { spot } from '../../store/spots'
 
 
@@ -14,10 +14,10 @@ function SpotId() {
         // console.log(state.spotsReducer)
         Object.values(state.spotsReducer)
     )
-    console.log(properties)
+    // console.log(properties)
     //giving me the list of IDs of each property in an array
     const propertyId = properties.find((ele) => ele.id === spotId)
-    console.log(propertyId)
+    // console.log(propertyId)
 
 
     useEffect(() => {

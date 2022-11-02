@@ -17,7 +17,7 @@ const EditReview = ({ review, setEditForm, spotId }) => {
     const editSubmitted = (e) => {
         e.preventDefault()
         const reviewObj = { "userId": review.User.id, "review": commentContent, "stars": review.stars }
-        console.log(reviewObj)
+        // console.log(reviewObj)
         dispatch(editReviewThunk(review.id, reviewObj))
             .then(() => dispatch(getSpotReviewThunk(spotId)))
         setEditForm(false)

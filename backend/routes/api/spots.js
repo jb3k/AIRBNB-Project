@@ -142,7 +142,7 @@ router.get('/:spotId', async (req, res, next) => {
     // console.log(imagesInfo) // return an object of images at the specified spotId
     spotInfo.NumReviews = reviews
     spotInfo.Images = imagesInfo
-    console.log(spotInfo)
+    // console.log(spotInfo)
 
     let owner = await User.findOne({
         where: { id: spotInfo.ownerId },
@@ -372,7 +372,7 @@ router.post('/:spotId/reviews', restoreUser, async (req, res, next) => {
 
     // if the current user already has a review at this spot... user overlap error
     const findReviews = await Review.findOne({ where: { spotId, userId: currUser }, raw: true })
-    console.log(findReviews)
+    // console.log(findReviews)
     if (findReviews) return res.status(403).json({ "message": "User already has a review for this spot", "statusCode": 403 })
 
 
