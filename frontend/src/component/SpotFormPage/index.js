@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from 'react-router-dom'
 import './SpotFormPage.css';
 import { spot, addSpots, addImageSpotThunk } from '../../store/spots'
@@ -9,9 +9,6 @@ import { spot, addSpots, addImageSpotThunk } from '../../store/spots'
 function SpotFormPage() {
 
     const dispatch = useDispatch();
-    const sessionUser = useSelector((state) =>
-        state.session.user
-    );
     const history = useHistory()
     useEffect(() => {
         dispatch(spot())

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink, useParams, useHistory } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
 import { deleteReviewThunk, getSpotReviewThunk } from '../../store/reviews'
 import { getSpotId } from '../../store/spots'
 import EditReview from '../EditReviews'

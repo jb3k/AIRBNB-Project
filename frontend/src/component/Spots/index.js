@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink, useParams } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { spot } from '../../store/spots'
 import './Spots.css'
 import Footer from '../Footer/footer'
@@ -8,7 +8,7 @@ import Footer from '../Footer/footer'
 function DisplaySpots() {
 
     const dispatch = useDispatch()
-    const { spotId } = useParams()
+    // const { spotId } = useParams()
 
     const properties = useSelector(state =>
         // console.log(state.spotsReducer)
