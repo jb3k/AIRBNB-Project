@@ -415,7 +415,7 @@ router.get('/:spotId/bookings', restoreUser, async (req, res, next) => {
     if (currOwner[0].ownerId !== currentUser) {
         const obj = {}
         const nonOwnerBooking = await Booking.findAll({
-            attributes: ['spotId', 'startDate', 'endDate'],
+            attributes: ['id', 'spotId', 'startDate', 'endDate'],
             where: { spotId },
             raw: true
         })

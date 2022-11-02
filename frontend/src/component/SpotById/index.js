@@ -6,6 +6,7 @@ import { getSpotId } from '../../store/spots'
 import EditReview from '../EditReviews'
 import './SpotById.css'
 import Bookings from '../Bookings'
+import { getSpotBookingsThunk } from '../../store/bookings'
 
 
 function SpotId() {
@@ -18,15 +19,16 @@ function SpotId() {
     const sessionUser = useSelector((state) => state.session.user);
     // take a look at state and return something from it from the reducer
     const allSpots = useSelector((state) => state.spots)
-
+    const spotBookings = useSelector((state) => Object.values(state.bookings))
     const currReviews = useSelector((state) => Object.values(state.reviews))
     // console.log(currReviews)
-
+    // console.log(spotBookings)
     // return value of the reducer
 
     useEffect(() => {
         dispatch(getSpotId(spotId))
         dispatch(getSpotReviewThunk(spotId))
+        dispatch(getSpotBookingsThunk(spotId))
             .then(() => setIsLoaded(true))
     }, [dispatch])
 
@@ -98,7 +100,7 @@ function SpotId() {
                                 </div>
                             </div>
                             <div className='lower-massive-bttn'>
-                                <Bookings spotId={spotId} />
+                                <Bookings spotId={spotId} spotBookings={spotBookings} />
                             </div>
                         </div>
                     </div>

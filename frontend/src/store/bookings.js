@@ -1,7 +1,7 @@
 import { csrfFetch } from './csrf';
 
 //types
-
+const GET_SPOT_BOOKINGS = 'bookings/spotID'
 const GET_USER_BOOKINGS = 'bookings/userID';
 const UPDATE = 'bookings/update'
 const DELETE = 'bookings/delete'
@@ -9,6 +9,15 @@ const ADD = 'bookings/add'
 
 //actions
 
+
+const spotBooking = (payload) => {
+    return {
+        type: GET_SPOT_BOOKINGS,
+        payload
+    }
+
+
+}
 
 const getBookings = (userBookings) => {
     return {
@@ -49,6 +58,19 @@ export const getUserBookingsThunk = () => async (dispatch) => {
     dispatch(getBookings(userBookings));
     return response;
 };
+
+export const getSpotBookingsThunk = (id) => async (dispatch) => {
+
+    const response = await csrfFetch(`/api/spots/${id}/bookings`);
+    if (response.ok) {
+        const booking = await response.json()
+        dispatch(spotBooking(booking));
+        return booking
+    }
+
+    return response
+}
+
 
 export const addBookingThunk = (spotId, payload) => async (dispatch) => {
 
@@ -105,6 +127,12 @@ const bookingsReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case GET_USER_BOOKINGS:
+            newState = {}
+            action.payload.Bookings.forEach(booking => {
+                newState[booking.id] = booking
+            })
+            return newState
+        case GET_SPOT_BOOKINGS:
             newState = {}
             action.payload.Bookings.forEach(booking => {
                 newState[booking.id] = booking

@@ -8,7 +8,7 @@ import LoginForm from '../LoginFormModal/LoginForm';
 
 
 
-const Bookings = ({ spotId }) => {
+const Bookings = ({ spotId, spotBookings }) => {
     const sessionUser = useSelector(state => state.session.user);
     const dispatch = useDispatch()
     const history = useHistory()
@@ -23,12 +23,23 @@ const Bookings = ({ spotId }) => {
 
     useEffect(() => {
         const errors = []
-        if (addStart === "" || addEnd === "") errors.push("Please select valid start and end dates")
-        if (date >= addEnd || date > addStart) errors.push("You can't enter a booking that has already passed")
-        if (addEnd <= addStart) errors.push("You can't enter a checkout date earlier than checkin date")
+        if (addStart === "" || addEnd === "") errors.push("Select valid start and end dates")
+        if (date >= addEnd || date >= addStart) errors.push("Enter valid booking dates")
+        if (addEnd <= addStart) errors.push("Enter valid checkout date")
         if (addStart === addEnd) errors.push("Must stay 1 night")
+        let start
+        let okay = true
+        for (let i = 0; i < spotBookings.length; i++) {
+            start = spotBookings[i]
+            if ((addStart >= start.startDate && addStart <= start.endDate) || (addEnd >= start.startDate && addEnd <= start.endDate)) {
+                okay = false
+            }
+        }
+        if (okay === false) errors.push(`Spot Booked from ${start.startDate} to ${start.endDate}`)
 
         return setErrorValidation(errors)
+
+
 
     }, [addStart, addEnd])
 
