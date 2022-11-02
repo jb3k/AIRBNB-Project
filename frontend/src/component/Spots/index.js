@@ -14,7 +14,7 @@ function DisplaySpots() {
         // console.log(state.spotsReducer)
         Object.values(state.spots)
     )
-    console.log(properties)
+    // console.log(properties)
 
     useEffect(() => {
         dispatch(spot())
@@ -27,9 +27,6 @@ function DisplaySpots() {
         if (num <= 0) return
         return Number.parseFloat(num).toFixed(2)
     }
-
-
-
 
 
     const mainPage = properties.map((spot) => {
@@ -64,12 +61,14 @@ function DisplaySpots() {
 
     return (
         <>
+            <div className='navbar-spacer'> </div>
             <div className='allSpot-container'>
                 <div className='spot-whole-container'>
                     {mainPage}
                 </div>
             </div>
             <Footer />
+
         </>
 
     )

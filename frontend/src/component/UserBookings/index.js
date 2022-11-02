@@ -75,14 +75,17 @@ function UserBookings() {
 
 
     return isLoaded && (
-        <div className='whole-page'>
-            <div className='user-bookings-divider'>
-                <h2 className='today-text'>Your Current Bookings</h2>
-            </div>
-            <div className='all-user-bookings'>
-                {bookings}
-            </div>
-        </div >
+        <>
+            <div className='navbar-spacer'> </div>
+            <div className='whole-page'>
+                <div className='user-bookings-divider'>
+                    <h2 className='today-text'>Your Current Bookings</h2>
+                </div>
+                <div className='all-user-bookings'>
+                    {bookings}
+                </div>
+            </div >
+        </>
     )
 }
 

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom'
 import './SpotFormPage.css';
-import LoginFormModal from "../LoginFormModal";
 import { spot, addSpots, addImageSpotThunk } from '../../store/spots'
 
 
@@ -88,117 +87,120 @@ function SpotFormPage() {
 
 
     return (
-        <div className="whole-form">
-            <h2 className="h2-text">Create a Spot</h2>
-            <form onSubmit={handleSubmit}>
-                {/* <ul>
+        <>
+            <div className='navbar-spacer'> </div>
+            <div className="whole-form">
+                <h2 className="h2-text">Create a Spot</h2>
+                <form onSubmit={handleSubmit}>
+                    {/* <ul>
                     {submitted && errorValidation.map((error, idx) => <li key={idx}>{error}</li>)}
                 </ul> */}
-                <label>
-                    <input
-                        type="text"
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                        required
-                        placeholder="Address"
-                        minLength={3}
+                    <label>
+                        <input
+                            type="text"
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                            required
+                            placeholder="Address"
+                            minLength={3}
 
-                    />
-                </label>
-                <label>
-                    <input
-                        type="text"
-                        value={city}
-                        onChange={(e) => setCity(e.target.value)}
-                        required
-                        placeholder="City"
-                        maxLength={30}
-                    />
-                </label>
-                <label>
-                    <input
-                        type="text"
-                        value={state}
-                        onChange={(e) => setState(e.target.value)}
-                        required
-                        placeholder="State"
-                        maxLength={30}
-                    />
-                </label>
-                <label>
-                    <input
-                        type="text"
-                        value={country}
-                        onChange={(e) => setCountry(e.target.value)}
-                        required
-                        placeholder="Country"
-                        maxLength={30}
-                    />
-                </label>
-                <label>
-                    <input
-                        type="number"
-                        value={lat}
-                        onChange={(e) => setLat(e.target.value)}
-                        required
-                        placeholder="Lattitude"
-                        min={-90}
-                        max={90}
-                    />
-                </label>
-                <label>
-                    <input
-                        type="number"
-                        value={lng}
-                        onChange={(e) => setLng(e.target.value)}
-                        required
-                        placeholder="Longitude"
-                        min={-90}
-                        max={90}
-                    />
-                </label>
-                <label>
-                    <input
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                        placeholder="Spot Name"
-                        maxLength={50}
-                    />
-                </label>
-                <label>
-                    <input
-                        type="text"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        required
-                        placeholder="Description"
-                    />
-                </label>
-                <label>
-                    <input
-                        type="number"
-                        value={price}
-                        onChange={(e) => setPrice(e.target.value)}
-                        required
-                        placeholder="Price"
-                        min={1}
-                        max={1000}
-                    />
-                </label>
-                <label>
-                    <input
-                        type="text"
-                        value={previewImage}
-                        onChange={(e) => setPreviewImage(e.target.value)}
-                        required
-                        placeholder="Image Url"
-                    />
-                </label>
-                <button className="create-bttn" type="submit" >Create Spot</button>
-            </form>
-        </div>
+                        />
+                    </label>
+                    <label>
+                        <input
+                            type="text"
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                            required
+                            placeholder="City"
+                            maxLength={30}
+                        />
+                    </label>
+                    <label>
+                        <input
+                            type="text"
+                            value={state}
+                            onChange={(e) => setState(e.target.value)}
+                            required
+                            placeholder="State"
+                            maxLength={30}
+                        />
+                    </label>
+                    <label>
+                        <input
+                            type="text"
+                            value={country}
+                            onChange={(e) => setCountry(e.target.value)}
+                            required
+                            placeholder="Country"
+                            maxLength={30}
+                        />
+                    </label>
+                    <label>
+                        <input
+                            type="number"
+                            value={lat}
+                            onChange={(e) => setLat(e.target.value)}
+                            required
+                            placeholder="Lattitude"
+                            min={-90}
+                            max={90}
+                        />
+                    </label>
+                    <label>
+                        <input
+                            type="number"
+                            value={lng}
+                            onChange={(e) => setLng(e.target.value)}
+                            required
+                            placeholder="Longitude"
+                            min={-90}
+                            max={90}
+                        />
+                    </label>
+                    <label>
+                        <input
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            required
+                            placeholder="Spot Name"
+                            maxLength={50}
+                        />
+                    </label>
+                    <label>
+                        <input
+                            type="text"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            required
+                            placeholder="Description"
+                        />
+                    </label>
+                    <label>
+                        <input
+                            type="number"
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
+                            required
+                            placeholder="Price"
+                            min={1}
+                            max={1000}
+                        />
+                    </label>
+                    <label>
+                        <input
+                            type="text"
+                            value={previewImage}
+                            onChange={(e) => setPreviewImage(e.target.value)}
+                            required
+                            placeholder="Image Url"
+                        />
+                    </label>
+                    <button className="create-bttn" type="submit" >Create Spot</button>
+                </form>
+            </div>
+        </>
     );
 }
 

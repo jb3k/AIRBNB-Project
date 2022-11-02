@@ -15,15 +15,13 @@ function SpotId() {
     const { spotId } = useParams()
     const [isLoaded, setIsLoaded] = useState(false)
     const [editForm, setEditForm] = useState(false)
-    const history = useHistory()
+    // const history = useHistory()
     const sessionUser = useSelector((state) => state.session.user);
-    // take a look at state and return something from it from the reducer
     const allSpots = useSelector((state) => state.spots)
     const spotBookings = useSelector((state) => Object.values(state.bookings))
     const currReviews = useSelector((state) => Object.values(state.reviews))
     // console.log(currReviews)
     // console.log(spotBookings)
-    // return value of the reducer
 
     useEffect(() => {
         dispatch(getSpotId(spotId))
@@ -169,16 +167,6 @@ function SpotId() {
 
 
 
-
-
-
-
-
-
-
-
-
-
     let createReviewBttn
     if (sessionUser && (!reviewId.includes(sessionUser?.id) && (sessionUser?.id !== spot?.Owner?.id))) {
         createReviewBttn = (
@@ -206,6 +194,8 @@ function SpotId() {
     } else {
 
         return isLoaded && (
+            <>
+            <div className='navbar-spacer'> </div>
             <div className='whole-page'>
                 <div>
                     {displaySpot()}
@@ -214,6 +204,7 @@ function SpotId() {
                     {displayReviews}
                 </div>
             </div>
+            </>
         )
     }
 
