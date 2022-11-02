@@ -35,6 +35,7 @@ function SignupFormPage() {
 
     return (
         <>
+            <div className='navbar-spacer'> </div>
             <div className="whole-form">
                 <h2> Sign Up</h2>
                 <form onSubmit={handleSubmit}>
