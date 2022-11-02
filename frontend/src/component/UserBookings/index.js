@@ -32,6 +32,27 @@ function UserBookings() {
         if (Spot === undefined) return null
         const { previewImage, address, city, state } = Spot
 
+        let buttons
+        const today = new Date().toISOString().slice(0, 10)
+        if (endDate < today) {
+            buttons = (
+                <>
+                    <div> Hope you enjoyed your trip!</div>
+                </>
+            )
+        } else {
+            buttons = (
+                <div>
+                    <button className='edit-host-bttn' onClick={() => {
+                        setEditBooking(!editBooking)
+                        setShowEditInputListingId(id)
+                    }}>Edit</button>
+                    <button className='delete-host-bttn' onClick={() => { dispatch(deleteBookingThunk(id)) }}>Delete</button>
+                    {editBooking && showEditInputListingId === id && <EditBookings bookingId={id} checkin={startDate} checkout={endDate} setEditBooking={setEditBooking} thunk={getUserBookingsThunk} bookingsArr={userBookings} />}
+                </div>
+            )
+        }
+
         return (
             <>
                 <div className='user-bookings-container' key={id}>
@@ -58,14 +79,7 @@ function UserBookings() {
                             </div>
 
                         </div>
-                        <div>
-                            <button className='edit-host-bttn' onClick={() => {
-                                setEditBooking(!editBooking)
-                                setShowEditInputListingId(id)
-                            }}>Edit</button>
-                            <button className='delete-host-bttn' onClick={() => { dispatch(deleteBookingThunk(id)) }}>Delete</button>
-                            {editBooking && showEditInputListingId === id && <EditBookings bookingId={id} checkin={startDate} checkout={endDate} setEditBooking={setEditBooking} thunk={getUserBookingsThunk} />}
-                        </div>
+                        {buttons}
                     </div>
                 </div>
             </>

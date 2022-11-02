@@ -404,7 +404,7 @@ router.get('/:spotId/bookings', restoreUser, async (req, res, next) => {
     if (!findSpot) return res.status(404).json({ "message": "Spot couldn't be found", "statusCode": 404 })
 
     const { user } = req;
-    if (!user) return res.status(401).json({ "message": "You're not logged in", "statusCode": 401 })
+    // if (!user) return res.status(401).json({ "message": "You're not logged in", "statusCode": 401 })
     //find the owner of the spot
     const currOwner = await Spot.findAll({ attributes: ['ownerId'], where: { id: spotId }, raw: true })
     // console.log(currOwner[0].ownerId)
@@ -450,13 +450,13 @@ router.post('/:spotId/bookings', restoreUser, async (req, res, next) => {
     if (!findSpot) return res.status(404).json({ "message": "Spot couldn't be found", "statusCode": 404 })
 
     const { user } = req;
-    if (!user) return res.status(401).json({ "message": "You're not logged in", "statusCode": 401 })
+    // if (!user) return res.status(401).json({ "message": "You're not logged in", "statusCode": 401 })
 
 
     const { startDate, endDate } = req.body
     //check if the startDate overlaps with any other date
     const spotBookedDates = await Booking.findAll({ where: { spotId }, raw: true })
-    console.log(spotBookedDates)
+    // console.log(spotBookedDates)
 
     if (endDate < startDate) {
         return res.status(400).json({

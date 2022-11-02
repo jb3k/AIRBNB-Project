@@ -5,10 +5,9 @@ import { updateBookingThunk } from "../../store/bookings";
 
 
 
-const EditBookings = ({ bookingId, checkin, checkout, setEditBooking, thunk }) => {
+const EditBookings = ({ bookingId, checkin, checkout, setEditBooking, thunk, bookingsArr }) => {
 
 
-    // const [commentContent, setCommentContent] = useState(review.review)
     const dispatch = useDispatch();
     const [isSubmitted, setIsSubmitted] = useState(false)
     const [addStart, setAddStart] = useState(checkin)
@@ -23,13 +22,20 @@ const EditBookings = ({ bookingId, checkin, checkout, setEditBooking, thunk }) =
     min = min + last
 
     const date = new Date().toISOString().slice(0, 10)
-    // console.log(date < checkout)
+
+    // console.log(bookingsArr)
+    // const trip = bookingsArr.filter(booking => booking.id === bookingId)
+    // console.log(trip)
+
     useEffect(() => {
         const errors = []
         if (addStart === "" || addEnd === "") errors.push("Please select valid start and end dates")
         if (date >= addStart || date >= addEnd) errors.push("Enter valid dates")
         if (addEnd <= addStart) errors.push("Enter a Valid checkout date")
         if (addStart === addEnd) errors.push("Must stay 1 night")
+
+
+
 
         return setErrorValidation(errors)
 
