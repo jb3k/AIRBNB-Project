@@ -1,6 +1,6 @@
 const express = require('express')
 
-const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
+const { restoreUser } = require('../../utils/auth');
 const { Spot, User, Booking, Image, Review, sequelize } = require('../../db/models');
 
 const { check } = require('express-validator');
@@ -11,70 +11,59 @@ const router = express.Router();
 
 //get all current user's bookings
 router.get('/current', restoreUser, async (req, res, next) => {
-    const { user } = req
-    if (!user) return res.status(401).json({ "message": "You're not logged in", "statusCode": 401 })
-    //lazyloading
-    const tester = 3
-    const currUser = user.dataValues.id
-    const Bookings = await Booking.findAll({
-        where: { id: currUser }, raw: true
+
+    const userId = req.user.id
+
+    let Bookings = await Booking.findAll({
+        where: {
+            userId: userId
+        },
+
+        raw: true,
     })
-    for (let image of Bookings) {
-        console.log(image)
-        const img = await Image.findOne({
-            attributes: ['url'],
+
+    let bookArr = []
+
+    for (let booking of Bookings) {
+
+        let Spotty = await Spot.findOne({
+            where: { id: booking.spotId },
+            raw: true,
+            attributes: ["id", "ownerId", "address", "city", "state", "country", "name", "price"]
+        })
+
+        let prev = await Image.findOne({
             where: {
-                previewImage: true,
-                spotId: image.id
-            },
-            raw: true
+                spotId: booking.spotId,
+                previewImage: true
+            }
+
+
         })
-        img ? image.previewImage = img.url : null
+        if (prev) {
+            Spotty.previewImage = prev.url
+        }
+        if (!prev) { Spotty.previewImage = null }
+
+
+        let realBooking = {
+            id: booking.id,
+            spotId: booking.spotId,
+            Spot: Spotty,
+            userId: booking.userId,
+            startDate: booking.startDate,
+            endDate: booking.endDate,
+            createdAt: booking.createdAt,
+            updatedAt: booking.updatedAt
+
+        }
+
+        bookArr.push(realBooking)
     }
-    for (let spot of Bookings) {
-        console.log(spot)
-        const spotInfo = await Spot.findOne({
-            where: { id: spot.spotId }, raw: true
-        })
-        spotInfo ? spot.Spot = spotInfo : null
-    }
+
+    res.json({ Bookings: bookArr })
 
 
-    // const previewImg = await Spot.findAll({ raw: true })
-    // for (let image of previewImg) {
-    //     console.log(image)
-    //     const img = await Image.findOne({
-    //         attributes: ['url'],
-    //         where: {
-    //             previewImage: true,
-    //             spotId: image.id
-    //         },
-    //         raw: true
-    //     })
-    //     img ? image.previewImage = img.url : null
-    // }
-
-    // const obj = {}
-    // obj.Bookings = Bookings
-    // for (let img of obj.Bookings) {
-    // const spotPreviewImage = await Spot.findAll({ raw: true })
-    // for (let image of spotPreviewImage) {
-    //     console.log(image)
-    //     const img = await Image.findOne({
-    //         attributes: ['url'],
-    //         where: {
-    //             previewImage: true,
-    //             spotId: image.id
-    //         },
-    //         raw: true
-    //     })
-    //     img ? Bookings.Spot.previewImage = img.url : null
-    // }
-    // img.Spot.previewImage = previewImg.previewImage
-    // console.log(img.Spot)
-
-
-    res.json({ Bookings })
 })
 
 
@@ -83,6 +72,7 @@ router.get('/current', restoreUser, async (req, res, next) => {
 router.put('/:bookingId', restoreUser, async (req, res, next) => {
     const bookingId = req.params.bookingId;
     const { user } = req
+    const userId = req.user.id
     if (!user) return res.status(401).json({ "message": "You're not logged in", "statusCode": 401 })
 
     const { startDate, endDate } = req.body;
@@ -115,37 +105,38 @@ router.put('/:bookingId', restoreUser, async (req, res, next) => {
         let start = dates.startDate
         let end = dates.endDate
 
-        if (startDate >= start && startDate <= end || endDate <= end && endDate >= start || startDate <= end && endDate >= start) {
-            return res.status(403).json({
-                "message": "Sorry, this spot is already booked for the specified dates",
-                "statusCode": 403,
-                "errors": {
-                    "startDate": "Start date conflicts with an existing booking",
-                    "endDate": "End date conflicts with an existing booking"
-                }
-            })
+        if ((startDate >= start) && (startDate <= end) && (userId !== dates.userId)) {
+            const error = new Error(`Sorry, this spot is already booked for the specified dates`)
+            error.status = "403"
+            error.errors = {
+                startDate: "Start date conflicts with an existing booking",
+            }
+            throw error;
+        }
+
+
+        if ((endDate >= start) && (endDate <= end) && (userId !== dates.userId)) {
+            const error = new Error(`Sorry, this spot is already booked for the specified dates`)
+            error.status = "403"
+            error.errors = {
+                endDate: "End date conflicts with an existing booking",
+            }
+            throw error;
         }
     }
 
     // cant modify past booking
     if (checkBooking.startDate <= new Date()) {
         return res.status(403).json({
-            "message": "Past bookings can't be modified",
-            "statusCode": 403
+            "message": "Past bookings can't be modified"
         })
     }
 
+    currentBooking.startDate = startDate
+    currentBooking.endDate = endDate
 
-    const newBooking = await currentBooking.set(
-        {
-            id: user.dataValues.id,
-            spotId: currentBooking.spotId,
-            startDate,
-            endDate
-        }
-    )
-    await newBooking.save()
-    res.json(newBooking)
+    const updatedBooking = await currentBooking.save()
+    res.json(updatedBooking)
 
 
 })

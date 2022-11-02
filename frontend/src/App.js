@@ -10,6 +10,7 @@ import SpotId from "./component/SpotById/index";
 import EditSpot from "./component/EditSpots";
 import BecomeHost from "./component/BecomeAHost";
 import CreateReview from "./component/ReviewFormPage";
+import UserBookings from "./component/UserBookings";
 
 
 function App() {
@@ -35,6 +36,9 @@ function App() {
           <Route path="/spots/current">
             <BecomeHost />
           </Route>
+          <Route path='/spots/bookings'>
+            <UserBookings />
+          </Route>
           <Route path='/spots/create'>
             <SpotFormPage />
           </Route>
@@ -44,6 +48,7 @@ function App() {
           <Route path='/spots/:spotId/edit'>
             <EditSpot />
           </Route>
+
           <Route path="/signup">
             <SignupFormPage />
           </Route>

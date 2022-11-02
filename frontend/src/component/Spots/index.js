@@ -1,19 +1,20 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink, useParams } from 'react-router-dom'
-import { getSpotById, spot } from '../../store/spots'
+import { NavLink } from 'react-router-dom'
+import { spot } from '../../store/spots'
 import './Spots.css'
+import Footer from '../Footer/footer'
 
 function DisplaySpots() {
 
     const dispatch = useDispatch()
-    const { spotId } = useParams()
+    // const { spotId } = useParams()
 
     const properties = useSelector(state =>
         // console.log(state.spotsReducer)
         Object.values(state.spots)
     )
-    console.log(properties)
+    // console.log(properties)
 
     useEffect(() => {
         dispatch(spot())
@@ -26,9 +27,6 @@ function DisplaySpots() {
         if (num <= 0) return
         return Number.parseFloat(num).toFixed(2)
     }
-
-
-
 
 
     const mainPage = properties.map((spot) => {
@@ -62,12 +60,16 @@ function DisplaySpots() {
 
 
     return (
-        <div className='allSpot-container'>
-            <div className='spot-whole-container'>
-                {mainPage}
+        <>
+            <div className='navbar-spacer'> </div>
+            <div className='allSpot-container'>
+                <div className='spot-whole-container'>
+                    {mainPage}
+                </div>
             </div>
+            <Footer />
 
-        </div>
+        </>
 
     )
 }

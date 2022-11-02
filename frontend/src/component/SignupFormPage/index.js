@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import * as sessionActions from "../../store/session";
 import './SignupForm.css';
+import Footer from "../Footer/footer";
 
 function SignupFormPage() {
     const dispatch = useDispatch();
@@ -33,70 +34,73 @@ function SignupFormPage() {
     };
 
     return (
-        <div className="whole-form">
-            <h2> Sign Up</h2>
-            <form onSubmit={handleSubmit}>
-                <ul>
-                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-                </ul>
-                <label>
+        <>
+            <div className="whole-form">
+                <h2> Sign Up</h2>
+                <form onSubmit={handleSubmit}>
+                    <ul>
+                        {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                    </ul>
+                    <label>
 
-                    <input
-                        type="text"
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                        required
-                        placeholder="First Name"
-                    />
-                </label>
-                <label>
-                    <input
-                        type="text"
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                        required
-                        placeholder="Last Name"
-                    />
-                </label>
-                <label>
-                    <input
-                        type="text"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                        placeholder="Email"
-                    />
-                </label>
-                <label>
-                    <input
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                        placeholder="Username"
-                    />
-                </label>
-                <label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                        placeholder="Password"
-                    />
-                </label>
-                <label>
-                    <input
-                        type="password"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        required
-                        placeholder="Confirm Password"
-                    />
-                </label>
-                <button className="signup-bttn" type="submit">Sign Up</button>
-            </form>
-        </div>
+                        <input
+                            type="text"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                            required
+                            placeholder="First Name"
+                        />
+                    </label>
+                    <label>
+                        <input
+                            type="text"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                            required
+                            placeholder="Last Name"
+                        />
+                    </label>
+                    <label>
+                        <input
+                            type="text"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                            placeholder="Email"
+                        />
+                    </label>
+                    <label>
+                        <input
+                            type="text"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            required
+                            placeholder="Username"
+                        />
+                    </label>
+                    <label>
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            placeholder="Password"
+                        />
+                    </label>
+                    <label>
+                        <input
+                            type="password"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            required
+                            placeholder="Confirm Password"
+                        />
+                    </label>
+                    <button className="signup-bttn" type="submit">Sign Up</button>
+                </form>
+            </div>
+            <Footer />
+        </>
     );
 }
 

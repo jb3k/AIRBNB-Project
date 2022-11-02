@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink, useParams, useHistory } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
 import { deleteReviewThunk, getSpotReviewThunk } from '../../store/reviews'
 import { getSpotId } from '../../store/spots'
-import EditReview from '../editReviews'
+import EditReview from '../EditReviews'
 import './SpotById.css'
+import Bookings from '../Bookings'
+import { getSpotBookingsThunk } from '../../store/bookings'
 
 
 function SpotId() {
@@ -13,19 +15,18 @@ function SpotId() {
     const { spotId } = useParams()
     const [isLoaded, setIsLoaded] = useState(false)
     const [editForm, setEditForm] = useState(false)
-    const history = useHistory()
+    // const history = useHistory()
     const sessionUser = useSelector((state) => state.session.user);
-    // take a look at state and return something from it from the reducer
     const allSpots = useSelector((state) => state.spots)
-
+    const spotBookings = useSelector((state) => Object.values(state.bookings))
     const currReviews = useSelector((state) => Object.values(state.reviews))
     // console.log(currReviews)
-
-    // return value of the reducer
+    // console.log(spotBookings)
 
     useEffect(() => {
         dispatch(getSpotId(spotId))
         dispatch(getSpotReviewThunk(spotId))
+        dispatch(getSpotBookingsThunk(spotId))
             .then(() => setIsLoaded(true))
     }, [dispatch])
 
@@ -74,26 +75,30 @@ function SpotId() {
                     </div>
                     <div className='price-bttn'>
                         <div className='massive-bttn'>
-                            <div className='in-price-text-bttn'>
-                                <div className='price-text'>
-                                    {`$${Math.floor(spot?.price)}`}
+                            <div className='upper-massive-bttn'>
+                                <div className='in-price-text-bttn'>
+                                    <div className='price-text'>
+                                        {`$${Math.floor(spot?.price)}`}
+                                    </div>
+                                    <div className='night-text'>
+                                        night
+                                    </div>
                                 </div>
-                                <div className='night-text'>
-                                    night
+                                <div className='star-reviews'>
+                                    <div className='star-icon-rating'>
+                                        <i class="fa-solid fa-star"></i>
+                                        {Math.round(spot?.avgRating * 100) / 100}
+                                    </div>
+                                    <div className='dot-text'>
+                                        {' · '}
+                                    </div>
+                                    <div className='massive-bttn-review-details'>
+                                        {`${spot?.NumReviews} reviews`}
+                                    </div>
                                 </div>
                             </div>
-
-                            <div className='star-reviews'>
-                                <div className='star-icon-rating'>
-                                    <i class="fa-solid fa-star"></i>
-                                    {Math.round(spot?.avgRating * 100) / 100}
-                                </div>
-                                <div className='dot-text'>
-                                    {' · '}
-                                </div>
-                                <div className='massive-bttn-review-details'>
-                                    {`${spot?.NumReviews} reviews`}
-                                </div>
+                            <div className='lower-massive-bttn'>
+                                <Bookings spotId={spotId} spotBookings={spotBookings} />
                             </div>
                         </div>
                     </div>
@@ -161,6 +166,7 @@ function SpotId() {
     })
 
 
+
     let createReviewBttn
     if (sessionUser && (!reviewId.includes(sessionUser?.id) && (sessionUser?.id !== spot?.Owner?.id))) {
         createReviewBttn = (
@@ -188,6 +194,8 @@ function SpotId() {
     } else {
 
         return isLoaded && (
+            <>
+            <div className='navbar-spacer'> </div>
             <div className='whole-page'>
                 <div>
                     {displaySpot()}
@@ -196,6 +204,7 @@ function SpotId() {
                     {displayReviews}
                 </div>
             </div>
+            </>
         )
     }
 

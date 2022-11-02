@@ -93,7 +93,7 @@ export const createReviewThunk = (id, data) => async (dispatch) => {
 
     if (response.ok) {
         const reviews = await response.json()
-        console.log(reviews)
+        // console.log(reviews)
         dispatch(createReviewAction(reviews));
         return reviews
     }
