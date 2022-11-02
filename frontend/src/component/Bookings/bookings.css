@@ -1,0 +1,63 @@
+.whole-bookings-input {
+    height: 120px;
+    /* border: 1px solid black; */
+    width: 85%;
+    margin-top: 10px;
+}
+
+
+
+.booking-reservation-date {
+    height: 50px;
+    width: 100%;
+    border: 1px solid rgba(55, 43, 43, 0.3);
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-evenly;
+
+}
+
+.booking-checkin-input {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 40%;
+}
+
+.booking-input {
+    height: 80%;
+    width: 80%;
+    border: transparent;
+}
+
+.booking-input-label {
+    margin-left: 22px;
+    margin-top: 8px;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.booking-divider {
+    border: 1px solid rgba(55, 43, 43, 0.3);
+}
+
+.booking-reserve-bttn {
+    margin-top: 20px;
+    align-items: center;
+    height: 42px;
+    width: 100%;
+    color: white;
+    background-image: linear-gradient(to right, rgb(233, 28, 72), rgb(236, 38, 108));
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+.bookings-error-handling {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: red;
+    margin-bottom: 15px;
+}

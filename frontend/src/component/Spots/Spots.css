@@ -1,0 +1,65 @@
+.navbar-spacer {
+    margin-top: 100px;
+}
+
+.allSpot-container {
+    margin-top: 30px;
+}
+
+.spot-whole-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+}
+
+.redirect {
+    text-decoration: none
+}
+
+.location-container {
+
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    width: 280px;
+    border-radius: 10px;
+
+}
+
+.location-image {
+    height: 200px;
+
+}
+
+.location-details {
+    height: 50px;
+}
+
+.location {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    margin-top: 0.7em;
+
+}
+
+.icon-font {
+    font-size: medium;
+    font-family: Graphik Meetup, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+}
+
+.location-price {
+    bottom: 100px;
+
+}
+
+.image {
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.mainpage-icon-ratings {
+    width: 60px;
+}

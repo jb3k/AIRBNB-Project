@@ -54,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
         email,
         hashedPassword
       });
-      console.log(user)
+      // console.log(user)
       //returns creaeted user using the currentUser scope
       return await User.scope('currentUser').findByPk(user.id);
     }

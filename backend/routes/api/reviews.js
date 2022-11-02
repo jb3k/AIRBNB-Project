@@ -26,7 +26,7 @@ router.get('/current', restoreUser, async (req, res, next) => {
     for (let userId of review) {
         const user = await User.findOne({
             attributes: ['id', 'firstName', 'lastName'],
-            where: { id: currUser },
+            where: { id: userId.id },
             raw: true
         })
         user ? userId.User = user : null
@@ -40,10 +40,10 @@ router.get('/current', restoreUser, async (req, res, next) => {
         })
         spotInfo ? spot.Spot = spotInfo : null
     }
-    console.log(review)
+    // console.log(review)
     //find images of that review
     for (let images of review) {
-        console.log(images)
+        // console.log(images)
         const img = await Image.findOne({
             attributes: ['id', ['reviewId', 'imageableId'], 'url'],
             where: { reviewId: images.id }, raw: true
@@ -90,7 +90,7 @@ router.post('/:reviewId/images', restoreUser, async (req, res, next) => {
 
     //add error handler that requires max of 10 images per review
     const imgNum = await Image.findAndCountAll({ where: { reviewId: id }, raw: true })
-    console.log(imgNum)
+    // console.log(imgNum)
     if (imgNum > 10) {
         res.status(403).json({
             "message": "Maximum number of images for this resource was reached",
@@ -117,23 +117,51 @@ router.put('/:reviewId', restoreUser, async (req, res, next) => {
     let reviewInfo = await Review.findOne({ where: { id }, raw: true })
     // console.log(updatedReview)
 
-
-    if (id) {
-        const newReview = await updatedReview.set(
-            {
-                userId: user.dataValues.id,
-                spotId: reviewInfo.spotId,
-                review,
-                stars
-            }
-        )
-        await newReview.save()
-        res.json(newReview)
-
-    }
-
+    const newReview = await updatedReview.set(
+        {
+            userId: user.dataValues.id,
+            spotId: reviewInfo.spotId,
+            review,
+            stars
+        }
+    )
+    await newReview.save()
+    res.json(newReview)
 
 })
+
+
+// router.put('/:reviewId', restoreUser, async (req, res) => {
+//     const id = req.params.reviewId;
+//     let userId = req.user.id
+//     let updatedReview = await Review.findByPk(id)
+//     if (!updatedReview) return res.status(404).json({ "message": "Review couldn't be found", "statusCode": 404 })
+//     const editReview = await Review.findOne({
+//         where: {
+//             userId,
+//             id
+//         }
+//     })
+//     if (!editReview) return res.status(403).json({ "message": "Forbidden" })
+
+//     const { review, stars } = req.body;
+
+//     editReview.review = review
+//     editReview.stars = stars
+
+//     await editReview.save()
+//     res.json(editReview)
+
+
+
+// })
+
+
+
+
+
+
+
 
 
 router.delete('/:reviewId', restoreUser, async (req, res, next) => {

@@ -21,47 +21,46 @@ const validateLogin = [
 
 
 //return session user as JSON under key of user
-router.get('/', restoreUser, (req, res) => {
-    const { user } = req;
-    if (user) {
-        return res.json(user.toSafeObject());
-        //if there is no session, it will return nothing
-    } else return res.json();
-}
+router.get(
+    '/', restoreUser,
+    (req, res) => {
+        const { user } = req;
+        if (user) {
+            return res.json({
+                user: user.toSafeObject()
+            });
+        } else return res.json({});
+    }
 );
 
 
 
 //post
-router.post(
-    '/',
-    //added validate login arr
-    validateLogin,
-    //aysnc route handler
-    async (req, res, next) => {
-        const { credential, password } = req.body;
+router.post('/', validateLogin, async (req, res, next) => {
+    const { credential, password } = req.body;
 
-        //calling the login static method
-        let user = await User.login({ credential, password });
+    //calling the login static method
+    let user = await User.login({ credential, password });
 
-        //if user doesn't exist, throw this error below
-        if (!user) {
-            const err = new Error('Login failed');
-            err.status = 400;
-            err.errors = {
-                "credential": "Email or username is required",
-                "password": "Password is required"
-            };
-            return next(err);
-        }
-
-        //if theres a user from login method, call setTokenCookie method
-        const token = await setTokenCookie(res, user);
-        user = user.toJSON()
-        user.token = token
-        //and return res w/ user info
-        return res.json(user)
+    //if user doesn't exist, throw this error below
+    if (!user) {
+        const err = new Error('Login failed');
+        err.status = 400;
+        err.errors = ['The provided credentials were invalid']
+        // {
+        //     "credential": "Email or username is required",
+        //     "password": "Password is required"
+        // };
+        return next(err);
     }
+
+    //if theres a user from login method, call setTokenCookie method
+    const token = await setTokenCookie(res, user);
+    user = user.toJSON()
+    user.token = token
+    //and return res w/ user info
+    return res.json(user)
+}
 );
 
 //this deletes the token in the cookie

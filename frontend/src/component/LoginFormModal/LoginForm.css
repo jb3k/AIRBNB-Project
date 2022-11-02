@@ -1,0 +1,45 @@
+.menuBar-bttn {
+    background-color: white;
+    border: none;
+    font-family: sans-serif;
+    font-size: medium;
+    padding: 0;
+   
+
+}
+
+.entry-boxes {
+    display: flex;
+    text-align: center;
+    height: 150px;
+    margin: auto;
+    flex-direction: column;
+}
+
+.modal-input {
+    width: 400px;
+    height: 40px;
+    border-radius: 10px;
+
+
+}
+
+.modal-continue-bttn {
+    margin-top: 15px;
+    height: 45px;
+    width: 420px;
+    color: white;
+    background-image: linear-gradient(to right, rgb(233, 28, 72), rgb(236, 38, 108));
+    border: none;
+    border-radius: 10px;
+}
+
+.demo-bttn {
+    margin-top: 10px;
+    height: 45px;
+    width: 420px;
+    color: white;
+    background-image: linear-gradient(to right, rgb(233, 28, 72), rgb(236, 38, 108));
+    border: none;
+    border-radius: 10px;
+}

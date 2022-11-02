@@ -1,0 +1,36 @@
+.h2-text {
+    text-align: center;
+}
+
+.whole-form {
+    text-align: center;
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+
+input {
+    text-align: left;
+    height: 40px;
+    width: 450px;
+    border-radius: 5px;
+    padding-left: 20px;
+    border: 1px solid rgba(55, 43, 43, 0.3);
+}
+
+.create-bttn {
+    margin-top: 20px;
+    align-items: center;
+    height: 45px;
+    width: 475px;
+    color: white;
+    background-image: linear-gradient(to right, rgb(233, 28, 72), rgb(236, 38, 108));
+    border: none;
+    border-radius: 10px;
+}
+

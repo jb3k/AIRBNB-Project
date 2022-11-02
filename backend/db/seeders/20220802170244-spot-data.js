@@ -4,7 +4,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     return queryInterface.bulkInsert('Spots', [
       {
-        ownerId: 1,
+        ownerId: 2,
         address: '123 Main Street',
         city: 'Irvine',
         state: 'California',
@@ -16,7 +16,7 @@ module.exports = {
         price: 123.32
       },
       {
-        ownerId: 2,
+        ownerId: 3,
         address: '23 Main Street',
         city: 'Irvine',
         state: 'California',
@@ -28,7 +28,7 @@ module.exports = {
         price: 128.32
       },
       {
-        ownerId: 3,
+        ownerId: 4,
         address: '12 Main Street',
         city: 'Irvine',
         state: 'California',
@@ -40,7 +40,7 @@ module.exports = {
         price: 323.32
       },
       {
-        ownerId: 4,
+        ownerId: 5,
         address: '13 Main Street',
         city: 'Irvine',
         state: 'California',
@@ -52,7 +52,7 @@ module.exports = {
         price: 423.32
       },
       {
-        ownerId: 5,
+        ownerId: 6,
         address: '132 Main Street',
         city: 'Irvine',
         state: 'California',
@@ -64,7 +64,7 @@ module.exports = {
         price: 133.32
       },
       {
-        ownerId: 6,
+        ownerId: 7,
         address: '312 Main Street',
         city: 'Irvine',
         state: 'California',
@@ -76,7 +76,7 @@ module.exports = {
         price: 103.32
       },
       {
-        ownerId: 7,
+        ownerId: 8,
         address: '321 Main Street',
         city: 'Irvine',
         state: 'California',
@@ -88,7 +88,7 @@ module.exports = {
         price: 353.32
       },
       {
-        ownerId: 8,
+        ownerId: 9,
         address: '32 Main Street',
         city: 'Irvine',
         state: 'California',
@@ -100,7 +100,7 @@ module.exports = {
         price: 453.32
       },
       {
-        ownerId: 9,
+        ownerId: 10,
         address: '31 Main Street',
         city: 'Irvine',
         state: 'California',
@@ -112,7 +112,7 @@ module.exports = {
         price: 100.32
       },
       {
-        ownerId: 10,
+        ownerId: 1,
         address: '21 Main Street',
         city: 'Irvine',
         state: 'California',

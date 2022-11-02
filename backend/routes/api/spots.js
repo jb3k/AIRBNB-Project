@@ -11,25 +11,46 @@ const router = express.Router();
 
 //get all spots
 router.get('/', async (req, res, next) => {
+
+    let { page, size } = req.query
+
+    page = parseInt(page);
+    size = parseInt(size);
+
+    if (Number.isNaN(page) || page < 1) page = 1;
+    if (Number.isNaN(size) || size < 1) size = 20;
+
     const Spots = await Spot.findAll({
-        attributes: {
-            include: [
-                //adding in a column of avgRating using a built in sequelize function in the column stars
-                [sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]
-            ]
-        },
-        //giving access to these models thru the associations created
-        include: [
-            { model: Review, attributes: [] }
-        ],
-        //making sure to find All Spots
-        group: ['Spot.id'],
-        raw: true
+        // attributes: {
+        //     include: [
+        //         //adding in a column of avgRating using a built in sequelize function in the column stars
+        //         [sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]
+        //     ]
+        // },
+        // //giving access to these models thru the associations created
+        // include: [
+        //     { model: Review, attributes: [] }
+        // ],
+        // //making sure to find All Spots
+        // group: ['Spot.id'],
+        raw: true,
+
+        //setting the limit to the size and setting offset to size
+        limit: size,
+        offset: size * (page - 1)
     })
     // console.log(Spots) returns an arr of obj
 
     //because spot is referencing Spots, I dont have to add it into Spots
     for (let spot of Spots) { //spot is checking every single spot in Spots table
+        const averageStars = await Review.findOne({
+            where: { spotId: spot.id },
+            attributes: [[sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]],
+            raw: true
+        })
+        // console.log(typeof averageStars, averageStars)
+        averageStars ? spot.avgRating = averageStars.avgRating : spot.avgRating = null
+
         const img = await Image.findOne({
             attributes: ['url'],
             where: {
@@ -40,10 +61,11 @@ router.get('/', async (req, res, next) => {
         })
 
         // console.log(img) returning an object : { url: 'www.home8.com' } || null depending on the value of previewImage
-        img ? spot.previewImage = img.url : null
+        img ? spot.previewImage = img.url : spot.previewImage = null
     }
 
-    res.json({ Spots })
+
+    res.json({ Spots, page, size })
 })
 
 
@@ -120,7 +142,7 @@ router.get('/:spotId', async (req, res, next) => {
     // console.log(imagesInfo) // return an object of images at the specified spotId
     spotInfo.NumReviews = reviews
     spotInfo.Images = imagesInfo
-    console.log(spotInfo)
+    // console.log(spotInfo)
 
     let owner = await User.findOne({
         where: { id: spotInfo.ownerId },
@@ -297,7 +319,6 @@ router.get('/:spotId/reviews', restoreUser, async (req, res, next) => {
     const findSpot = await Spot.findByPk(id)
 
     // const tester = 3
-    const currUser = user.dataValues.id;
     //return all reviews that belong to a spot
     const review = await Review.findAll({
         // include: { model: User, attributes: ['id', 'firstName', 'lastName'] },
@@ -307,19 +328,18 @@ router.get('/:spotId/reviews', restoreUser, async (req, res, next) => {
     for (let userId of review) {
         const user = await User.findOne({
             attributes: ['id', 'firstName', 'lastName'],
-            where: { id: currUser },
+            where: { id: userId.userId },
             raw: true
         })
         user ? userId.User = user : null
     }
     //what are the images referring to? 
-    for (let images of review) {
-        const img = await Image.findOne({
-            attributes: ['id', ['reviewId', 'imageableId'], 'url'],
-            where: { spotId: currUser }, raw: true
-        })
-        img ? images.Images = [img] : null
-    }
+    // for (let images of review) {
+    //     const img = await Image.findOne({
+    //         attributes: ['id', ['reviewId', 'imageableId'], 'url'],
+    //     })
+    //     img ? images.Images = [img] : null
+    // }
 
     let obj = {}
     obj.Reviews = review
@@ -344,7 +364,7 @@ router.post('/:spotId/reviews', restoreUser, async (req, res, next) => {
     const currUser = user.dataValues.id
 
     if (!user) return res.status(401).json({ "message": "You're not logged in", "statusCode": 401 })
-    
+
     //spots error
     let spotId = req.params.spotId
     const findSpots = await Spot.findByPk(spotId)
@@ -352,7 +372,7 @@ router.post('/:spotId/reviews', restoreUser, async (req, res, next) => {
 
     // if the current user already has a review at this spot... user overlap error
     const findReviews = await Review.findOne({ where: { spotId, userId: currUser }, raw: true })
-    console.log(findReviews)
+    // console.log(findReviews)
     if (findReviews) return res.status(403).json({ "message": "User already has a review for this spot", "statusCode": 403 })
 
 
@@ -395,7 +415,7 @@ router.get('/:spotId/bookings', restoreUser, async (req, res, next) => {
     if (currOwner[0].ownerId !== currentUser) {
         const obj = {}
         const nonOwnerBooking = await Booking.findAll({
-            attributes: ['spotId', 'startDate', 'endDate'],
+            attributes: ['id', 'spotId', 'startDate', 'endDate'],
             where: { spotId },
             raw: true
         })
@@ -427,17 +447,17 @@ router.get('/:spotId/bookings', restoreUser, async (req, res, next) => {
 router.post('/:spotId/bookings', restoreUser, async (req, res, next) => {
     const spotId = req.params.spotId
     const findSpot = await Spot.findByPk(spotId)
-    if (!findSpot) return res.status(404).json({ "message": "Booking couldn't be found", "statusCode": 404 })
+    if (!findSpot) return res.status(404).json({ "message": "Spot couldn't be found", "statusCode": 404 })
 
     const { user } = req;
     if (!user) return res.status(401).json({ "message": "You're not logged in", "statusCode": 401 })
 
-    
+
     const { startDate, endDate } = req.body
     //check if the startDate overlaps with any other date
     const spotBookedDates = await Booking.findAll({ where: { spotId }, raw: true })
     console.log(spotBookedDates)
-    
+
     if (endDate < startDate) {
         return res.status(400).json({
             "message": "Validation error",
